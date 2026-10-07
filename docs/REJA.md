@@ -31,7 +31,7 @@ Alohida prompt yozish shart bo'lmaydi. Reja bo'yicha desktop eng oxirgi bosqichd
 |---|---|---|
 | Interfeys | React + TypeScript + Vite | Keng tarqalgan. TypeScript xatolarni yozish paytida ushlaydi, bu keyin funksiya qo'shishda xavfsizlik beradi |
 | Saqlash | IndexedDB (Dexie) | Telefonning o'zida saqlanadi, versiyalash va migratsiyani qo'llaydi |
-| Holat | Zustand | Sodda va yengil |
+| Holat | `dexie-react-hooks` (`useLiveQuery`) | Baza o'zgarsa ekran o'zi yangilanadi, alohida holat kutubxonasi shart emas |
 | Sanalar | date-fns | Haftalar, oylar va takrorlanishni hisoblash uchun |
 | Android | Capacitor + `@capacitor/local-notifications`, `filesystem`, `share` | Serversiz eslatmalar va fayl almashish |
 | Reklama | `@capacitor-community/admob` | Ilova ichida Google AdMob reklamasi |
@@ -97,11 +97,12 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Ishlab chiqish davrida APK repozitoriyadagi ochiq `bloknot-dev.keystore` kaliti bilan imzolanadi. Shunda har yangi APK eskisining ustiga o'rnatiladi. Google Play uchun maxfiy kalit 8-bosqichda GitHub Secrets'ga qo'shiladi.
    - Natija: telefonga o'rnatiladigan bo'sh ilova.
 1. **Ma'lumotlar qatlami.** ✅ bajarildi. Modellar, Dexie sxemasi, migratsiya va takrorlanish mantig'i, hammasi testlar bilan (`src/core/`).
-2. **Topshiriqlar interfeysi.**
+2. **Topshiriqlar interfeysi.** ✅ bajarildi
    - Pastki menyu: Bugun | Reja | Bloknot | Statistika | Sozlamalar.
    - "Reja" ichida tablar: Kun / Hafta / Oy / Muddatli / Umumiy.
-   - Topshiriq qo'shish, tahrirlash, holatini o'zgartirish va surish bilan bajarildi deb belgilash.
-   - Yorug' va tungi mavzu.
+   - Topshiriq qo'shish, tahrirlash, holatini o'zgartirish, doirachani bosib bajarildi deb belgilash. Surish (swipe) imo-ishorasi keyinroq, telefonda sinalgandan so'ng qo'shiladi.
+   - Yorug' va tungi mavzu (Sozlamalar → Mavzu).
+   - Ekranlar ma'lumotlar bazasidagi o'zgarishlarni avtomatik ko'rsatadi (`dexie-react-hooks`); shuning uchun Zustand kerak bo'lmadi.
 3. **Bildirishnomalar.**
    - Har bir topshiriqning o'z eslatmasi.
    - Ertalab kunlik reja, kechqurun "nimalar qoldi" xulosasi.

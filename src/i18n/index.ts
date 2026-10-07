@@ -1,5 +1,7 @@
 import { uz, type MessageKey } from './uz'
 
+export type { MessageKey }
+
 const messages: Record<MessageKey, string> = uz
 
 /** Returns the translated text for `key`, replacing `{name}` placeholders with `params`. */
