@@ -91,12 +91,12 @@ Uzbekistonga to'lov qilinishini reklama bosqichida birga tekshiramiz.
 ## Bosqichlar
 Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz telefonda sinab ko'rasiz.
 
-0. **Poydevor.**
+0. **Poydevor.** ✅ bajarildi
    - Vite, React, TS, lint, Vitest va Capacitor sozlanadi.
    - GitHub Actions ikki ish bajaradi: testlar + web build → GitHub Pages, va APK yig'ish → yuklab olinadigan fayl.
    - Ishlab chiqish davrida APK repozitoriyadagi ochiq `bloknot-dev.keystore` kaliti bilan imzolanadi. Shunda har yangi APK eskisining ustiga o'rnatiladi. Google Play uchun maxfiy kalit 8-bosqichda GitHub Secrets'ga qo'shiladi.
    - Natija: telefonga o'rnatiladigan bo'sh ilova.
-1. **Ma'lumotlar qatlami.** Modellar, Dexie sxemasi, migratsiya va takrorlanish mantig'i, hammasi testlar bilan.
+1. **Ma'lumotlar qatlami.** ✅ bajarildi. Modellar, Dexie sxemasi, migratsiya va takrorlanish mantig'i, hammasi testlar bilan (`src/core/`).
 2. **Topshiriqlar interfeysi.**
    - Pastki menyu: Bugun | Reja | Bloknot | Statistika | Sozlamalar.
    - "Reja" ichida tablar: Kun / Hafta / Oy / Muddatli / Umumiy.
