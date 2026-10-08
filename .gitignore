@@ -25,3 +25,7 @@ dist-ssr
 
 # Build output
 /apk
+
+# Playwright
+/test-results
+/playwright-report

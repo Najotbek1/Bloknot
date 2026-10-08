@@ -5,6 +5,7 @@ import { t } from './i18n'
 import './ui/theme.css'
 import './ui/components.css'
 import App from './app/App'
+import { ErrorBoundary } from './app/ErrorBoundary'
 
 const root = createRoot(document.getElementById('root')!)
 
@@ -13,7 +14,9 @@ db.open().then(
   () =>
     root.render(
       <StrictMode>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </StrictMode>,
     ),
   (err: unknown) =>

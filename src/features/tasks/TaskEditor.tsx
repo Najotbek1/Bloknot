@@ -131,7 +131,9 @@ export function TaskForm({
   const toast = useToast()
 
   const dirty = JSON.stringify(draft) !== JSON.stringify(initial)
-  useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange])
+  useEffect(() => {
+    onDirtyChange(dirty)
+  }, [dirty, onDirtyChange])
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => {
     setDraft((current) => ({ ...current, [key]: value }))

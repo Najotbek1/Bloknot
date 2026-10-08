@@ -1,0 +1,29 @@
+.crash {
+  display: grid;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(var(--space) * 2 + env(safe-area-inset-top)) var(--space) var(--space);
+}
+
+.crash__title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.crash p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.crash__details {
+  margin: 0;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

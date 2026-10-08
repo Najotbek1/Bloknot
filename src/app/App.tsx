@@ -12,6 +12,7 @@ import { useNotificationSync } from '../features/notifications/useNotificationSy
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
 import { BottomNav, type TabId } from './BottomNav'
+import { useGlobalErrors } from './useGlobalErrors'
 
 /** Applies the theme chosen in settings; "system" follows the phone. */
 function useTheme() {
@@ -21,6 +22,11 @@ function useTheme() {
     if (!settings || settings.theme === 'system') delete root.dataset.theme
     else root.dataset.theme = settings.theme
   }, [settings])
+}
+
+function GlobalErrors() {
+  useGlobalErrors()
+  return null
 }
 
 export default function App() {
@@ -44,10 +50,14 @@ export default function App() {
     [],
   )
 
-  useEffect(() => window.scrollTo(0, 0), [tab])
+  // Braces matter: newer WebViews return a Promise from scrollTo, and React would call it as cleanup.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [tab])
 
   return (
     <ToastProvider>
+      <GlobalErrors />
       <TaskEditorProvider>
         {tab === 'today' && <TodayScreen />}
         {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}

@@ -155,6 +155,11 @@ export const uz = {
   'settings.notify.test': 'Sinov bildirishnomasi',
   'settings.notify.testSent': '5 soniyadan keyin bildirishnoma keladi',
 
+  'error.title': 'Kutilmagan xato yuz berdi',
+  'error.hint': 'Iltimos, shu ekranning skrinshotini dasturchiga yuboring. Ma’lumotlaringiz saqlangan.',
+  'error.backToToday': 'Bugun bo‘limiga qaytish',
+  'error.reload': 'Ilovani qayta yuklash',
+  'error.toast': 'Xato: {error}',
   'error.database': 'Ma’lumotlar bazasini ochib bo‘lmadi. Ilovani yopib qayta oching. Xato: {error}',
 
   'comingSoon.notebooks': 'Bloknotlar 4-bosqichda qo‘shiladi.',
