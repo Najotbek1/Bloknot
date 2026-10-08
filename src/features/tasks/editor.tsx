@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { Task } from '../../core/models/types'
 import { t } from '../../i18n'
 import { Sheet } from '../../ui/Sheet'
@@ -15,12 +15,31 @@ interface Session {
 export function TaskEditorProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
 
-  const openNew = useCallback((defaults: TaskDefaults) => setSession({ key: Date.now(), defaults }), [])
+  const openNew = useCallback(
+    (defaults: TaskDefaults) => setSession({ key: Date.now(), defaults }),
+    [],
+  )
   const openEdit = useCallback(
     (task: Task) => setSession({ key: Date.now(), task, defaults: { kind: task.kind } }),
     [],
   )
-  const close = useCallback(() => setSession(null), [])
+  const [confirmingClose, setConfirmingClose] = useState(false)
+  const dirtyRef = useRef(false)
+  const setDirty = useCallback((dirty: boolean) => {
+    dirtyRef.current = dirty
+  }, [])
+
+  const close = useCallback(() => {
+    dirtyRef.current = false
+    setConfirmingClose(false)
+    setSession(null)
+  }, [])
+  // Back button, backdrop tap and ✕ all land here: never throw away typed text without asking.
+  const requestClose = useCallback(() => {
+    if (dirtyRef.current) setConfirmingClose(true)
+    else close()
+  }, [close])
+  const keepEditing = useCallback(() => setConfirmingClose(false), [])
   const api = useMemo(() => ({ openNew, openEdit }), [openNew, openEdit])
 
   return (
@@ -29,11 +48,19 @@ export function TaskEditorProvider({ children }: { children: ReactNode }) {
       <Sheet
         open={session !== null}
         title={session?.task ? t('task.edit') : t('task.new')}
-        onClose={close}
+        onClose={requestClose}
         closeLabel={t('task.cancel')}
       >
         {session && (
-          <TaskForm key={session.key} task={session.task} defaults={session.defaults} onDone={close} />
+          <TaskForm
+            key={session.key}
+            task={session.task}
+            defaults={session.defaults}
+            onDone={close}
+            onDirtyChange={setDirty}
+            confirmingClose={confirmingClose}
+            onKeepEditing={keepEditing}
+          />
         )}
       </Sheet>
     </EditorContext.Provider>

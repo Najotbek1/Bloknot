@@ -9,6 +9,7 @@ import { SettingsScreen } from '../features/settings/SettingsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
 import { initBackButton } from '../platform/backButton'
+import { ToastProvider } from '../ui/Toast'
 import { BottomNav, type TabId } from './BottomNav'
 
 /** Applies the theme chosen in settings; "system" follows the phone. */
@@ -44,13 +45,15 @@ export default function App() {
   useEffect(() => window.scrollTo(0, 0), [tab])
 
   return (
-    <TaskEditorProvider>
-      {tab === 'today' && <TodayScreen />}
-      {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
-      {tab === 'notebooks' && <ComingSoon title="nav.notebooks" message="comingSoon.notebooks" />}
-      {tab === 'stats' && <ComingSoon title="nav.stats" message="comingSoon.stats" />}
-      {tab === 'settings' && <SettingsScreen />}
-      <BottomNav active={tab} onSelect={setTab} />
-    </TaskEditorProvider>
+    <ToastProvider>
+      <TaskEditorProvider>
+        {tab === 'today' && <TodayScreen />}
+        {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
+        {tab === 'notebooks' && <ComingSoon title="nav.notebooks" message="comingSoon.notebooks" />}
+        {tab === 'stats' && <ComingSoon title="nav.stats" message="comingSoon.stats" />}
+        {tab === 'settings' && <SettingsScreen />}
+        <BottomNav active={tab} onSelect={setTab} />
+      </TaskEditorProvider>
+    </ToastProvider>
   )
 }

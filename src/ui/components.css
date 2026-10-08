@@ -214,11 +214,6 @@ textarea.input {
   font-weight: 600;
 }
 
-.form-actions {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
-}
 
 .fab {
   position: fixed;
@@ -280,4 +275,44 @@ textarea.input {
 
 .field__hint--block {
   margin-bottom: var(--space);
+}
+
+/* Sheet footer: stays at the bottom of the sheet so "Saqlash" is reachable with the keyboard open */
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin: var(--space) calc(var(--space) * -1) 0;
+  padding: 12px var(--space);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+.form-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.form-actions .form-error {
+  margin: 0;
+}
+
+.unsaved {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-warning);
+}
+
+.unsaved__title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.unsaved__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }

@@ -63,6 +63,14 @@ export const uz = {
   'task.overdue': 'Muddati o‘tgan',
   'task.error.title': 'Nomini yozing',
   'task.error.range': 'Tugash sanasi boshlanishdan oldin bo‘lishi mumkin emas',
+  'task.unsaved': 'O‘zgarishlar saqlanmagan',
+  'task.unsavedHint': 'Oynani yopsangiz, yozganlaringiz yo‘qoladi.',
+  'task.discard': 'Saqlamasdan chiqish',
+  'task.keepEditing': 'Davom etish',
+  'task.saveFailed': 'Saqlab bo‘lmadi: {error}',
+  'task.added': 'Reja qo‘shildi: {where}',
+  'task.saved': 'O‘zgarishlar saqlandi',
+  'task.deleted': 'Reja o‘chirildi',
   'task.recurringStatusNote': 'Takrorlanuvchi reja: holat har kun uchun alohida belgilanadi.',
 
   'kind.daily': 'Kunlik',
@@ -101,6 +109,8 @@ export const uz = {
   'settings.theme.light': 'Yorug‘',
   'settings.theme.dark': 'Tungi',
   'settings.about': 'Ilova haqida',
+
+  'error.database': 'Ma’lumotlar bazasini ochib bo‘lmadi. Ilovani yopib qayta oching. Xato: {error}',
 
   'comingSoon.notebooks': 'Bloknotlar 4-bosqichda qo‘shiladi.',
   'comingSoon.stats': 'Statistika 5-bosqichda qo‘shiladi.',

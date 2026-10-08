@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { db } from '../../core/db/schema'
 import { buildTask, createTask, updateTask } from '../../core/db/tasks'
 import { monthKeyOf, parseDateKey, todayKey, weekStartOf, weekdayOf } from '../../core/dates'
@@ -14,7 +14,9 @@ import type {
 import { t, type MessageKey } from '../../i18n'
 import { formatWeek } from '../../i18n/format'
 import { uzWeekdaysShort } from '../../i18n/uz'
+import { useToast } from '../../ui/toastContext'
 import { changeStatus, deleteTask } from './actions'
+import { describeTaskPlace } from './describe'
 
 /** Values a new task starts with, e.g. the tab and day the user was looking at. */
 export interface TaskDefaults {
@@ -97,17 +99,36 @@ interface TaskFormProps {
   task?: Task
   defaults: TaskDefaults
   onDone: () => void
+  /** Reports whether the form has unsaved changes, so closing the sheet can ask first. */
+  onDirtyChange: (dirty: boolean) => void
+  /** True while the "unsaved changes" panel is shown. */
+  confirmingClose: boolean
+  onKeepEditing: () => void
 }
 
-export function TaskForm({ task, defaults, onDone }: TaskFormProps) {
-  const [draft, setDraft] = useState(() => draftFrom(task, defaults))
+export function TaskForm({
+  task,
+  defaults,
+  onDone,
+  onDirtyChange,
+  confirmingClose,
+  onKeepEditing,
+}: TaskFormProps) {
+  const initial = useMemo(() => draftFrom(task, defaults), [task, defaults])
+  const [draft, setDraft] = useState(initial)
   const [error, setError] = useState<MessageKey | null>(null)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
+
+  const dirty = JSON.stringify(draft) !== JSON.stringify(initial)
+  useEffect(() => onDirtyChange(dirty), [dirty, onDirtyChange])
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => {
     setDraft((current) => ({ ...current, [key]: value }))
     setError(null)
+    setSaveError(null)
   }
 
   const isRecurring = draft.kind === 'daily' && draft.repeat !== 'none'
@@ -131,10 +152,14 @@ export function TaskForm({ task, defaults, onDone }: TaskFormProps) {
         if (!updated.recurrence && final.status !== task.status) {
           await changeStatus(db, updated, final.status)
         }
+        toast.show(t('task.saved'))
       } else {
-        await createTask(db, { ...fields, order: Date.now() })
+        const created = await createTask(db, { ...fields, order: Date.now() })
+        toast.show(t('task.added', { where: describeTaskPlace(created) }))
       }
       onDone()
+    } catch (err) {
+      setSaveError(t('task.saveFailed', { error: err instanceof Error ? err.message : String(err) }))
     } finally {
       setSaving(false)
     }
@@ -143,8 +168,13 @@ export function TaskForm({ task, defaults, onDone }: TaskFormProps) {
   async function remove() {
     if (!task) return
     if (!confirmDelete) return setConfirmDelete(true)
-    await deleteTask(db, task.id)
-    onDone()
+    try {
+      await deleteTask(db, task.id)
+      toast.show(t('task.deleted'))
+      onDone()
+    } catch (err) {
+      setSaveError(t('task.saveFailed', { error: err instanceof Error ? err.message : String(err) }))
+    }
   }
 
   return (
@@ -362,21 +392,37 @@ export function TaskForm({ task, defaults, onDone }: TaskFormProps) {
         />
       </label>
 
-      {error && (
-        <p className="form-error" role="alert">
-          {t(error)}
-        </p>
+      {task && (
+        <button type="button" className="btn btn--danger btn--block" onClick={remove}>
+          {confirmDelete ? t('task.deleteConfirm') : t('task.delete')}
+        </button>
       )}
 
       <div className="form-actions">
+        {(error || saveError) && (
+          <p className="form-error" role="alert">
+            {error ? t(error) : saveError}
+          </p>
+        )}
+        {confirmingClose && (
+          <div className="unsaved" role="alertdialog" aria-labelledby="unsaved-title">
+            <p id="unsaved-title" className="unsaved__title">
+              {t('task.unsaved')}
+            </p>
+            <p className="field__hint">{t('task.unsavedHint')}</p>
+            <div className="unsaved__buttons">
+              <button type="button" className="btn" onClick={onKeepEditing}>
+                {t('task.keepEditing')}
+              </button>
+              <button type="button" className="btn btn--danger" onClick={onDone}>
+                {t('task.discard')}
+              </button>
+            </div>
+          </div>
+        )}
         <button type="submit" className="btn btn--primary btn--block" disabled={saving}>
           {t('task.save')}
         </button>
-        {task && (
-          <button type="button" className="btn btn--danger btn--block" onClick={remove}>
-            {confirmDelete ? t('task.deleteConfirm') : t('task.delete')}
-          </button>
-        )}
       </div>
     </form>
   )
