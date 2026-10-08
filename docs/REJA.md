@@ -120,7 +120,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - 7/30 kunlik davr: bajarilish foizi, muddatida bajarilganlar, faol kunlar, ketma-ketlik (joriy va eng uzun).
    - Kunlar bo'yicha ustunli grafik (rejada / bajarilgan), 12 haftalik faollik kalendari, turlar bo'yicha, jadval ko'rinishi.
    - Hisob-kitob `src/core/stats/` da, testlar bilan.
-6. **Eksport, import va birlashtirish.** `.bloknot` fayli, ulashish tugmasi, birlashtirish natijasi haqida hisobot.
+6. **Eksport, import va birlashtirish.** ✅ bajarildi (0.6.0)
+   - Sozlamalar → Ma'lumotlar: «Eksport qilish» `.bloknot` (JSON) faylini yaratib Android ulashish oynasini ochadi (brauzerda yuklab olinadi); «Import qilish» faylni tanlab, ichidagini ko'rsatadi va birlashtiradi.
+   - Birlashtirish: har bir yozuv `id` bo'yicha, `updatedAt` kattasi yutadi; o'chirishlar ham tarqaladi; takrorlanish kunlari `taskId + sana` bo'yicha dublikatsiz. Bitta tranzaksiyada (`src/core/sync/`).
+   - Fayl formati `version: 1`; desktop ilova (9-bosqich) ham shu formatni ishlatadi.
 7. **Reklama.** AdMob banner (sinov ID bilan), sozlash bo'yicha qo'llanma.
 8. **Pardoz.** Ilova ikonkasi, splash ekran, animatsiyalar, nomlanishni tekshirish, imzolangan release APK.
 9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
