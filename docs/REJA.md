@@ -103,10 +103,12 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Topshiriq qo'shish, tahrirlash, holatini o'zgartirish, doirachani bosib bajarildi deb belgilash. Surish (swipe) imo-ishorasi keyinroq, telefonda sinalgandan so'ng qo'shiladi.
    - Yorug' va tungi mavzu (Sozlamalar → Mavzu).
    - Ekranlar ma'lumotlar bazasidagi o'zgarishlarni avtomatik ko'rsatadi (`dexie-react-hooks`); shuning uchun Zustand kerak bo'lmadi.
-3. **Bildirishnomalar.**
-   - Har bir topshiriqning o'z eslatmasi.
-   - Ertalab kunlik reja, kechqurun "nimalar qoldi" xulosasi.
-   - Muddati yaqinlashgan topshiriqlar haqida ogohlantirish.
+3. **Bildirishnomalar.** ✅ bajarildi
+   - Har bir rejaning o'z eslatmalari (vaqt + "o'sha kuni / N kun oldin"); eslatmada «Bajarildi» tugmasi.
+   - Ertalab kunlik reja, kechqurun "nimalar qoldi" xulosasi (Sozlamalarda yoqish/o'chirish, vaqtini o'zgartirish).
+   - Muddatli reja tugashidan 1 kun oldin va oxirgi kuni ogohlantirish.
+   - Har bir o'zgarishdan keyin keyingi 30 kunlik bildirishnomalar qaytadan rejalashtiriladi (`src/core/reminders/plan.ts`).
+   - Tuzatildi: reja oynasi "orqaga" tugmasi, tashqariga bosish yoki ✕ bilan yopilganda yozilgan reja jimgina yo'qolardi. Endi oyna tasdiq so'raydi, «Saqlash» doim ko'rinadi, har saqlashdan keyin xabar chiqadi.
 4. **Bloknotlar.** Bloknotlar ro'yxati, bloknot ichidagi yozuvlar, qidiruv, topshiriqqa bog'lash.
 5. **Statistika.** Quyidagilar hisoblanadi:
    - Bajarilish foizi (kun, hafta, oy).

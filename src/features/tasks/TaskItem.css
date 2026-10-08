@@ -114,3 +114,9 @@
 .task__progress > .progress__bar {
   display: block;
 }
+
+.task__reminder {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}

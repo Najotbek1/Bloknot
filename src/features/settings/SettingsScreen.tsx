@@ -3,6 +3,7 @@ import { db } from '../../core/db/schema'
 import { getSettings, updateSettings } from '../../core/db/tasks'
 import type { ThemePreference } from '../../core/models/types'
 import { t } from '../../i18n'
+import { NotificationSettings } from '../notifications/NotificationSettings'
 
 const THEMES: ThemePreference[] = ['system', 'light', 'dark']
 
@@ -30,6 +31,13 @@ export function SettingsScreen() {
             </button>
           ))}
         </div>
+      </section>
+
+      <section className="section">
+        <h2 className="section__title">{t('settings.notifications')}</h2>
+        {settings && (
+          <NotificationSettings settings={settings} onChange={(changes) => void updateSettings(db, changes)} />
+        )}
       </section>
 
       <section className="section">

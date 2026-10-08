@@ -1,6 +1,6 @@
 import type { Task, TaskStatus } from '../../core/models/types'
 import { t } from '../../i18n'
-import { CheckIcon, RepeatIcon } from '../../ui/icons'
+import { BellIcon, CheckIcon, RepeatIcon } from '../../ui/icons'
 import './TaskItem.css'
 
 interface TaskItemProps {
@@ -16,6 +16,7 @@ interface TaskItemProps {
 
 export function TaskItem({ task, status, meta, progress, onToggle, onOpen }: TaskItemProps) {
   const done = status === 'done'
+  const reminderTimes = [...new Set(task.reminders.map((reminder) => reminder.time))].sort().join(', ')
   return (
     <li className={`task task--${status} task--priority-${task.priority}`}>
       <button
@@ -29,13 +30,19 @@ export function TaskItem({ task, status, meta, progress, onToggle, onOpen }: Tas
       </button>
       <button type="button" className="task__body" onClick={onOpen}>
         <span className="task__title">{task.title}</span>
-        {(meta || task.recurrence || status === 'in_progress' || status === 'skipped') && (
+        {(meta || task.recurrence || reminderTimes || status === 'in_progress' || status === 'skipped') && (
           <span className="task__meta">
             {task.recurrence && <RepeatIcon size={14} aria-label={t('task.recurring')} />}
             {(status === 'in_progress' || status === 'skipped') && (
               <span className={`task__status task__status--${status}`}>{t(`status.${status}`)}</span>
             )}
             {meta && <span>{meta}</span>}
+            {reminderTimes && (
+              <span className="task__reminder" aria-label={`${t('task.reminders')}: ${reminderTimes}`}>
+                <BellIcon size={13} />
+                {reminderTimes}
+              </span>
+            )}
           </span>
         )}
         {progress !== undefined && (

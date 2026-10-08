@@ -6,6 +6,7 @@ import { t } from '../../i18n'
 import { formatDayLong } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
 import { useToday } from '../../ui/useToday'
+import { useNotificationPermission } from '../notifications/usePermission'
 import { useTaskEditor } from '../tasks/editorContext'
 import { agendaRows, taskRows } from '../tasks/rows'
 import { TaskRows } from '../tasks/TaskRows'
@@ -13,6 +14,7 @@ import { TaskRows } from '../tasks/TaskRows'
 export function TodayScreen() {
   const today = useToday()
   const editor = useTaskEditor()
+  const { permission, request } = useNotificationPermission()
   const agenda = useLiveQuery(() => getDayAgenda(db, today), [today])
   const week = useLiveQuery(() => getWeekTasks(db, today), [today])
   const month = useLiveQuery(() => getMonthTasks(db, monthKeyOf(today)), [today])
@@ -27,6 +29,15 @@ export function TodayScreen() {
         <h1 className="screen__title">{t('today.title')}</h1>
         <p className="screen__subtitle">{formatDayLong(today)}</p>
       </header>
+
+      {permission === 'prompt' && (
+        <div className="notice">
+          <p>{t('today.enableNotifications')}</p>
+          <button type="button" className="btn btn--primary" onClick={() => void request()}>
+            {t('settings.notify.allow')}
+          </button>
+        </div>
+      )}
 
       {agenda && agenda.length > 0 && (
         <div className="card summary-card">

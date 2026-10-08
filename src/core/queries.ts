@@ -1,7 +1,7 @@
 import { weekStartOf } from './dates'
 import type { BloknotDB } from './db/schema'
 import { listActive } from './db/repository'
-import type { DateKey, MonthKey, Task, TaskStatus } from './models/types'
+import type { DateKey, MonthKey, Task, TaskOccurrence, TaskStatus } from './models/types'
 import { occursOn } from './recurrence'
 
 /** One line of a day's to-do list. For a recurring task, status is that day's status. */
@@ -25,23 +25,25 @@ function activeTasksOfKind(db: BloknotDB, kinds: Task['kind'][]): Promise<Task[]
     .toArray()
 }
 
-/** Everything to do on `date`: daily tasks, recurring tasks due that day, and ranges covering it. */
-export async function getDayAgenda(db: BloknotDB, date: DateKey): Promise<AgendaItem[]> {
-  const tasks = (await activeTasksOfKind(db, ['daily', 'range'])).sort(byOrder)
-  const occurrences = await db.occurrences
-    .where('date')
-    .equals(date)
-    .filter((occurrence) => occurrence.deletedAt === null)
-    .toArray()
-  const occurrenceByTask = new Map(occurrences.map((occurrence) => [occurrence.taskId, occurrence]))
+/**
+ * Everything to do on `date`: daily tasks, recurring tasks due that day, and ranges covering it.
+ * Pure: works on any list of tasks and occurrences, ignoring deleted ones and other kinds.
+ */
+export function buildDayAgenda(tasks: Task[], occurrences: TaskOccurrence[], date: DateKey): AgendaItem[] {
+  const occurrenceByTask = new Map(
+    occurrences
+      .filter((occurrence) => occurrence.date === date && occurrence.deletedAt === null)
+      .map((occurrence) => [occurrence.taskId, occurrence]),
+  )
 
   const items: AgendaItem[] = []
-  for (const task of tasks) {
+  for (const task of [...tasks].sort(byOrder)) {
+    if (task.deletedAt !== null) continue
     if (task.kind === 'range') {
       if (task.startDate && task.endDate && task.startDate <= date && date <= task.endDate) {
         items.push({ task, date, status: task.status, completedAt: task.completedAt, recurring: false })
       }
-    } else if (task.recurrence) {
+    } else if (task.kind === 'daily' && task.recurrence) {
       if (task.date && occursOn(task.recurrence, task.date, date)) {
         const occurrence = occurrenceByTask.get(task.id)
         items.push({
@@ -52,11 +54,17 @@ export async function getDayAgenda(db: BloknotDB, date: DateKey): Promise<Agenda
           recurring: true,
         })
       }
-    } else if (task.date === date) {
+    } else if (task.kind === 'daily' && task.date === date) {
       items.push({ task, date, status: task.status, completedAt: task.completedAt, recurring: false })
     }
   }
   return items
+}
+
+export async function getDayAgenda(db: BloknotDB, date: DateKey): Promise<AgendaItem[]> {
+  const tasks = await activeTasksOfKind(db, ['daily', 'range'])
+  const occurrences = await db.occurrences.where('date').equals(date).toArray()
+  return buildDayAgenda(tasks, occurrences, date)
 }
 
 export async function getWeekTasks(db: BloknotDB, week: DateKey): Promise<Task[]> {

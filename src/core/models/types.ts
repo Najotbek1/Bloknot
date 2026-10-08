@@ -93,8 +93,14 @@ export type Language = 'uz'
 export interface Settings extends BaseRecord {
   id: 'settings'
   theme: ThemePreference
+  /** Morning notification listing the day's tasks. */
+  morningSummary: boolean
   morningSummaryTime: TimeOfDay
+  /** Evening notification saying how many of the day's tasks are left. */
+  eveningSummary: boolean
   eveningSummaryTime: TimeOfDay
+  /** Warn the day before and on the last day of a range task, at the morning time. */
+  deadlineWarnings: boolean
   language: Language
 }
 

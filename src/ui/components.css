@@ -316,3 +316,109 @@ textarea.input {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
+
+/* On/off rows */
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px var(--space);
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.switch-row__text {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.switch-row__label {
+  font-weight: 600;
+}
+
+.switch-row__hint {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.switch {
+  flex: none;
+  position: relative;
+  width: 48px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+  transition: transform 0.15s;
+}
+
+.switch-row[aria-checked='true'] .switch {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.switch-row[aria-checked='true'] .switch::after {
+  transform: translateX(20px);
+}
+
+.settings-list {
+  overflow: hidden;
+}
+
+.settings-list > * + * {
+  border-top: 1px solid var(--color-border);
+}
+
+.settings-time {
+  padding: 0 var(--space) 14px;
+}
+
+.settings-time .input {
+  max-width: 160px;
+}
+
+.notice {
+  display: grid;
+  gap: 10px;
+  padding: var(--space);
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+  background: var(--color-primary-soft);
+  line-height: 1.45;
+}
+
+.notice p {
+  margin: 0;
+}
+
+.notice--warning {
+  background: var(--color-surface);
+  border: 1px solid var(--color-warning);
+}
+
+.reminder-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 40px;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-reminder {
+  justify-self: start;
+}

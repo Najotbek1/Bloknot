@@ -8,6 +8,7 @@ import { PlanScreen, type PlanState } from '../features/plan/PlanScreen'
 import { SettingsScreen } from '../features/settings/SettingsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
+import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
 import { BottomNav, type TabId } from './BottomNav'
@@ -26,6 +27,7 @@ export default function App() {
   const [tab, setTab] = useState<TabId>('today')
   const [plan, setPlan] = useState<PlanState>(() => ({ tab: 'daily', day: todayKey() }))
   useTheme()
+  useNotificationSync()
 
   // Android back button: from any tab go back to "Bugun"; from "Bugun" close the app.
   const tabRef = useRef(tab)

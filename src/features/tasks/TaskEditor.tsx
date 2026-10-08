@@ -5,6 +5,7 @@ import { monthKeyOf, parseDateKey, todayKey, weekStartOf, weekdayOf } from '../.
 import type {
   DateKey,
   RecurrenceRule,
+  Reminder,
   Task,
   TaskKind,
   TaskPriority,
@@ -14,6 +15,8 @@ import type {
 import { t, type MessageKey } from '../../i18n'
 import { formatWeek } from '../../i18n/format'
 import { uzWeekdaysShort } from '../../i18n/uz'
+import { getPermission, requestPermission } from '../../platform/notifications'
+import { CloseIcon } from '../../ui/icons'
 import { useToast } from '../../ui/toastContext'
 import { changeStatus, deleteTask } from './actions'
 import { describeTaskPlace } from './describe'
@@ -41,6 +44,7 @@ interface Draft {
   interval: number
   weekdays: Weekday[]
   until: string
+  reminders: Reminder[]
 }
 
 const KINDS: TaskKind[] = ['daily', 'weekly', 'monthly', 'range', 'general']
@@ -48,6 +52,8 @@ const PRIORITIES: TaskPriority[] = ['low', 'normal', 'high']
 const STATUSES: TaskStatus[] = ['todo', 'in_progress', 'done', 'skipped']
 const REPEAT_MODES: RepeatMode[] = ['none', 'daily', 'weekly', 'monthly']
 const WEEKDAYS: Weekday[] = [1, 2, 3, 4, 5, 6, 7]
+const REMINDER_LEADS = [0, 1, 2, 3, 7]
+const NEW_REMINDER: Reminder = { time: '09:00', daysBefore: 0 }
 
 function draftFrom(task: Task | undefined, defaults: TaskDefaults): Draft {
   const day = defaults.date ?? todayKey()
@@ -67,6 +73,7 @@ function draftFrom(task: Task | undefined, defaults: TaskDefaults): Draft {
     interval: task?.recurrence?.interval ?? 1,
     weekdays: [...(task?.recurrence?.weekdays ?? [weekdayOf(date)])],
     until: task?.recurrence?.until ?? '',
+    reminders: (task?.reminders ?? []).map((reminder) => ({ ...reminder })),
   }
 }
 
@@ -92,6 +99,7 @@ function taskFieldsFrom(draft: Draft) {
     startDate: draft.kind === 'range' ? draft.startDate : null,
     endDate: draft.kind === 'range' ? draft.endDate : null,
     recurrence: recurrenceFrom(draft),
+    reminders: draft.kind === 'general' ? [] : draft.reminders,
   })
 }
 
@@ -132,6 +140,18 @@ export function TaskForm({
   }
 
   const isRecurring = draft.kind === 'daily' && draft.repeat !== 'none'
+
+  const setReminder = (index: number, changes: Partial<Reminder>) =>
+    set(
+      'reminders',
+      draft.reminders.map((reminder, i) => (i === index ? { ...reminder, ...changes } : reminder)),
+    )
+
+  async function addReminder() {
+    set('reminders', [...draft.reminders, { ...NEW_REMINDER }])
+    // Ask for notification permission the first time it is actually needed.
+    if ((await getPermission()) === 'prompt') await requestPermission()
+  }
 
   async function save(event: FormEvent) {
     event.preventDefault()
@@ -342,6 +362,47 @@ export function TaskForm({
               </label>
             </div>
           )}
+        </div>
+      )}
+
+      {draft.kind !== 'general' && (
+        <div className="field">
+          <span className="field__label">{t('task.reminders')}</span>
+          <span className="field__hint">{t(`task.reminderHint.${draft.kind}`)}</span>
+          {draft.reminders.map((reminder, index) => (
+            <div key={index} className="reminder-row">
+              <input
+                className="input"
+                type="time"
+                aria-label={t('task.reminderTime')}
+                value={reminder.time}
+                onChange={(event) => event.target.value && setReminder(index, { time: event.target.value })}
+              />
+              <select
+                className="input"
+                aria-label={t('task.reminderWhen')}
+                value={reminder.daysBefore}
+                onChange={(event) => setReminder(index, { daysBefore: Number(event.target.value) })}
+              >
+                {REMINDER_LEADS.map((days) => (
+                  <option key={days} value={days}>
+                    {days === 0 ? t('reminder.sameDay') : t('reminder.daysBefore', { days })}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="icon-btn"
+                aria-label={t('task.removeReminder')}
+                onClick={() => set('reminders', draft.reminders.filter((_, i) => i !== index))}
+              >
+                <CloseIcon size={20} />
+              </button>
+            </div>
+          ))}
+          <button type="button" className="btn add-reminder" onClick={() => void addReminder()}>
+            {t('task.addReminder')}
+          </button>
         </div>
       )}
 
