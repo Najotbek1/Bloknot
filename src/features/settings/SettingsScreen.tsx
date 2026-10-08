@@ -5,6 +5,7 @@ import type { ThemePreference } from '../../core/models/types'
 import { t } from '../../i18n'
 import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
+import { AdSettings } from '../ads/AdSettings'
 
 const THEMES: ThemePreference[] = ['system', 'light', 'dark']
 
@@ -45,6 +46,8 @@ export function SettingsScreen() {
         <h2 className="section__title">{t('backup.title')}</h2>
         <BackupSection />
       </section>
+
+      <AdSettings />
 
       <section className="section">
         <h2 className="section__title">{t('settings.about')}</h2>

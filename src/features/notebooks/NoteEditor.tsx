@@ -8,6 +8,7 @@ import { t } from '../../i18n'
 import { ChevronLeftIcon, CloseIcon, LinkIcon, TrashIcon } from '../../ui/icons'
 import { Sheet } from '../../ui/Sheet'
 import { useToast } from '../../ui/toastContext'
+import { pushAdBlocker } from '../ads/blockers'
 import { useTaskEditor } from '../tasks/editorContext'
 import { TaskPicker } from './TaskPicker'
 
@@ -57,6 +58,12 @@ function NoteForm({ note, isNew, onBack }: { note: Note; isNew?: boolean; onBack
   )
 
   const dirty = content.title !== saved.title || content.body !== saved.body
+
+  // Full-screen writing: no ad banner over the text.
+  useEffect(() => {
+    const releaseAd = pushAdBlocker()
+    return releaseAd
+  }, [])
 
   // Debounced autosave.
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import { pushAdBlocker } from '../features/ads/blockers'
 import { t } from '../i18n'
 import './ErrorBoundary.css'
 
@@ -23,8 +24,18 @@ export class ErrorBoundary extends Component<Props, State> {
     return { error: error instanceof Error ? error : new Error(String(error)) }
   }
 
+  private releaseAd: (() => void) | null = null
+
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error('App crashed', error, info.componentStack)
+    this.releaseAd ??= pushAdBlocker()
+  }
+
+  componentDidUpdate() {
+    if (!this.state.error && this.releaseAd) {
+      this.releaseAd()
+      this.releaseAd = null
+    }
   }
 
   render() {

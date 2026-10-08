@@ -1,6 +1,6 @@
 .toast-region {
   position: fixed;
-  inset: auto 0 calc(var(--nav-height) + 92px + env(safe-area-inset-bottom));
+  inset: auto 0 calc(var(--nav-height) + var(--ad-height) + 92px + env(safe-area-inset-bottom));
   z-index: 100;
   display: flex;
   justify-content: center;

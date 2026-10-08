@@ -2,7 +2,7 @@
 
 .screen {
   padding: calc(var(--space) + env(safe-area-inset-top)) var(--space)
-    calc(var(--nav-height) + 96px + env(safe-area-inset-bottom));
+    calc(var(--nav-height) + var(--ad-height) + 96px + env(safe-area-inset-bottom));
   max-width: 640px;
   margin: 0 auto;
 }
@@ -218,7 +218,7 @@ textarea.input {
 .fab {
   position: fixed;
   right: max(var(--space), calc((100vw - 640px) / 2 + var(--space)));
-  bottom: calc(var(--nav-height) + var(--space) + env(safe-area-inset-bottom));
+  bottom: calc(var(--nav-height) + var(--ad-height) + var(--space) + env(safe-area-inset-bottom));
   z-index: 10;
   display: grid;
   place-items: center;
@@ -549,4 +549,14 @@ textarea.input {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Vertical group with even spacing */
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.stack > p {
+  margin: 0;
 }

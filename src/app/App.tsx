@@ -9,6 +9,7 @@ import { SettingsScreen } from '../features/settings/SettingsScreen'
 import { StatsScreen } from '../features/stats/StatsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
+import { useAdBanner } from '../features/ads/useAdBanner'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
@@ -46,6 +47,7 @@ export default function App() {
   )
   useTheme()
   useNotificationSync()
+  useAdBanner()
 
   // Android back button: from any tab go back to "Bugun"; from "Bugun" close the app.
   const tabRef = useRef(tab)

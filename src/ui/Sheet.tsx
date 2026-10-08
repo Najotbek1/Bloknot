@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react'
+import { pushAdBlocker } from '../features/ads/blockers'
 import { pushBackHandler } from '../platform/backButton'
 import { CloseIcon } from './icons'
 import './Sheet.css'
@@ -25,7 +26,13 @@ export function Sheet({ open, title, onClose, children, closeLabel }: SheetProps
     if (open && !dialog.open) dialog.showModal()
     if (!open && dialog.open) dialog.close()
     if (!open) return
-    return pushBackHandler(() => onCloseRef.current())
+    // The ad banner is drawn over the app and would cover the sheet's buttons.
+    const releaseAd = pushAdBlocker()
+    const releaseBack = pushBackHandler(() => onCloseRef.current())
+    return () => {
+      releaseAd()
+      releaseBack()
+    }
   }, [open])
 
   return (

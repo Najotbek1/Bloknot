@@ -124,7 +124,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Sozlamalar → Ma'lumotlar: «Eksport qilish» `.bloknot` (JSON) faylini yaratib Android ulashish oynasini ochadi (brauzerda yuklab olinadi); «Import qilish» faylni tanlab, ichidagini ko'rsatadi va birlashtiradi.
    - Birlashtirish: har bir yozuv `id` bo'yicha, `updatedAt` kattasi yutadi; o'chirishlar ham tarqaladi; takrorlanish kunlari `taskId + sana` bo'yicha dublikatsiz. Bitta tranzaksiyada (`src/core/sync/`).
    - Fayl formati `version: 1`; desktop ilova (9-bosqich) ham shu formatni ishlatadi.
-7. **Reklama.** AdMob banner (sinov ID bilan), sozlash bo'yicha qo'llanma.
+7. **Reklama.** ✅ bajarildi (0.7.0) — sinov ID'lari bilan
+   - Pastki menyu ustida bitta adaptiv AdMob banner (`@capacitor-community/admob`); oyna ochiq bo'lsa, yozuv yozilayotganda va klaviatura ochiq bo'lsa yashiriladi (`src/features/ads/`).
+   - Rozilik (UMP) va Sozlamalar → Reklama maxfiylik tugmasi.
+   - Haqiqiy daromad uchun foydalanuvchining App ID va banner ID'si kerak: qo'llanma `docs/ADMOB.md`. ⏳ ID'lar kutilmoqda.
 8. **Pardoz.** Ilova ikonkasi, splash ekran, animatsiyalar, nomlanishni tekshirish, imzolangan release APK.
 9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 

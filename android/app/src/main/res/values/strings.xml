@@ -4,4 +4,6 @@
     <string name="title_activity_main">Bloknot</string>
     <string name="package_name">uz.najotbek.bloknot</string>
     <string name="custom_url_scheme">uz.najotbek.bloknot</string>
+    <!-- AdMob App ID. Google's TEST id for now; replace with your own together with src/platform/adConfig.ts. -->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>
