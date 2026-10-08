@@ -3,7 +3,7 @@ import { t } from './index'
 
 describe('t', () => {
   it('returns the Uzbek text for a key', () => {
-    expect(t('app.name')).toBe('Bloknot')
+    expect(t('app.name')).toBe('Maqsad')
   })
 
   it('fills placeholders', () => {

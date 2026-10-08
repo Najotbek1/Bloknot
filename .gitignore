@@ -29,3 +29,7 @@ dist-ssr
 # Playwright
 /test-results
 /playwright-report
+
+# Private signing keys never go in the repository
+*.jks
+/release

@@ -69,9 +69,9 @@ test('export on one device, merge on another, re-import changes nothing', async 
   await expect(pc.getByText(/Qo‘shildi: 0 · Yangilandi: 0 · O‘chirildi: 0 · O‘zgarmadi: 3/)).toBeVisible()
   await pc.getByRole('button', { name: 'Yopish' }).last().click()
 
-  // Not a Bloknot file.
+  // Not a Maqsad backup file.
   await importFile(pc, { name: 'rasm.txt', mimeType: 'text/plain', buffer: Buffer.from('salom') })
-  await expect(pc.getByText('Bu fayl Bloknot fayli emas yoki buzilgan.')).toBeVisible()
+  await expect(pc.getByText('Bu fayl Maqsad ilovasining fayli emas yoki buzilgan.')).toBeVisible()
 
   await other.close()
   expect(pageErrors).toEqual([])

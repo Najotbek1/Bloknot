@@ -20,12 +20,22 @@ android {
     signingConfigs {
         // Development key, committed on purpose so every CI build has the same signature and
         // installs as an update over the previous one. Its password is public: never use it
-        // for a Google Play release. A private release key (from GitHub Secrets) comes later.
+        // for a Google Play release; that one is the private key below.
         dev {
             storeFile file('bloknot-dev.keystore')
             storePassword 'bloknot-dev'
             keyAlias 'bloknot-dev'
             keyPassword 'bloknot-dev'
+        }
+        // Private Google Play upload key. Never in the repository: CI writes it from GitHub Secrets
+        // to a temporary file and passes its path and passwords in these environment variables.
+        if (System.getenv("RELEASE_KEYSTORE_FILE")) {
+            release {
+                storeFile file(System.getenv("RELEASE_KEYSTORE_FILE"))
+                storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+            }
         }
     }
     buildTypes {
@@ -33,6 +43,9 @@ android {
             signingConfig signingConfigs.dev
         }
         release {
+            if (signingConfigs.findByName('release')) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

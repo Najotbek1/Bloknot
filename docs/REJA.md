@@ -1,4 +1,4 @@
-# Bloknot: to'liq loyiha rejasi
+# Maqsad (avvalgi nomi «Bloknot»): to'liq loyiha rejasi
 
 ## Kontekst
 **Maqsad:** foydalanuvchiga kunlik, haftalik va oylik rejalarini, muddatli va muddatsiz maqsadlarini tartibga solishda yordam beradigan ilova yaratish. Ilova doim cho'ntakda turadi va bildirishnomalar orqali eslatib turadi.
@@ -128,7 +128,12 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Pastki menyu ustida bitta adaptiv AdMob banner (`@capacitor-community/admob`); oyna ochiq bo'lsa, yozuv yozilayotganda va klaviatura ochiq bo'lsa yashiriladi (`src/features/ads/`).
    - Rozilik (UMP) va Sozlamalar → Reklama maxfiylik tugmasi.
    - Haqiqiy daromad uchun foydalanuvchining App ID va banner ID'si kerak: qo'llanma `docs/ADMOB.md`. ⏳ ID'lar kutilmoqda.
-8. **Pardoz.** Ilova ikonkasi, splash ekran, animatsiyalar, nomlanishni tekshirish, imzolangan release APK.
+8. **Pardoz va Google Play'ga tayyorgarlik.** ✅ bajarildi (1.0.0)
+   - Ilova nomi **«Maqsad»** (do'konda «Maqsad — reja va bloknot»). `applicationId` (`uz.najotbek.bloknot`) o'zgarmaydi, aks holda ma'lumotlar yangi ilovaga o'tmaydi.
+   - Ikonka: qora fonda «M» va yuqoriga ko'rsatkich (`docs/brand/maqsad-icon.svg`), adaptive + monoxrom, ochilish ekrani va bildirishnoma ikonkasi.
+   - Release imzosi: maxfiy kalit faqat GitHub Secrets'da; CI `maqsad-release` (AAB + APK) yig'adi.
+   - Play materiallari `docs/play/`: maxfiylik siyosati, do'kon matnlari, Data safety javoblari, skrinshotlar, joylash qo'llanmasi.
+   - ⏳ Foydalanuvchi qiladi: Secrets'ni qo'shish, `main`ga birlashtirish + Pages, maxfiylik siyosatiga email, Play Console hisobi va yopiq test, AdMob ID'lari.
 9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 
 ## Tekshirish (har bosqichda)

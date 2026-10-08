@@ -1,11 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="27 26 58 58">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+  <!-- Master icon. Android resources in android/app/src/main/res/drawable/ic_launcher_*.xml mirror these shapes. -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1F2230"/>
       <stop offset="1" stop-color="#05060A"/>
     </linearGradient>
   </defs>
-  <rect x="27" y="26" width="58" height="58" rx="13" fill="url(#bg)"/>
+  <rect width="108" height="108" fill="url(#bg)"/>
   <path d="M33 72 V40 L52 61 L71 40 V72" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M63 40 L71 32 L79 40" fill="none" stroke="#818CF8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
