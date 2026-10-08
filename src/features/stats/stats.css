@@ -1,0 +1,310 @@
+/* Hero score */
+.score {
+  display: flex;
+  align-items: center;
+  gap: var(--space);
+  padding: var(--space);
+}
+
+.score__ring {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+
+.score__track,
+.score__arc {
+  fill: none;
+  stroke-width: 10;
+}
+
+.score__track {
+  stroke: var(--chart-track);
+}
+
+.score__arc {
+  stroke: var(--chart-3);
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.4s ease;
+}
+
+.score__value {
+  position: absolute;
+  font-size: 40px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.score__text {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.score__title {
+  margin: 0;
+  font-size: 17px;
+}
+
+.score__grade {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.score__how {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.score__how summary {
+  cursor: pointer;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.score__how p {
+  margin: 6px 0 0;
+  line-height: 1.45;
+}
+
+/* KPI tiles */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat-tile {
+  display: grid;
+  gap: 2px;
+  padding: 14px;
+}
+
+.stat-tile__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stat-tile__value {
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-tile__sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Shared chart pieces */
+.chart-card {
+  padding: var(--space) 12px 12px;
+}
+
+.chart-grid {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.chart-baseline {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+}
+
+.chart-axis-label {
+  fill: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.chart-hit {
+  fill: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.chart-hit:focus-visible {
+  stroke: var(--color-primary);
+  stroke-width: 1;
+}
+
+.chart-footer {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.chart-legend__swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 6px;
+  border-radius: 3px;
+}
+
+.chart-legend__swatch:first-child {
+  margin-left: 0;
+}
+
+.chart-legend__swatch--track {
+  background: var(--chart-track);
+}
+
+.chart-legend__swatch--done {
+  background: var(--chart-3);
+}
+
+.chart-detail {
+  min-height: 1.4em;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Daily bars */
+.daily-bars__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.daily-bars__track {
+  fill: var(--chart-track);
+}
+
+.daily-bars__done {
+  fill: var(--chart-3);
+}
+
+.daily-bars__done.is-selected {
+  fill: var(--chart-4);
+}
+
+/* Activity calendar */
+.heatmap__grid {
+  display: grid;
+  grid-template-rows: repeat(7, auto);
+  gap: 3px;
+  align-items: center;
+}
+
+.heatmap__weekday {
+  padding-right: 4px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.heatmap__cell {
+  aspect-ratio: 1;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--chart-track);
+}
+
+.heatmap__cell.level-1 {
+  background: var(--chart-1);
+}
+
+.heatmap__cell.level-2 {
+  background: var(--chart-2);
+}
+
+.heatmap__cell.level-3 {
+  background: var(--chart-3);
+}
+
+.heatmap__cell.level-4 {
+  background: var(--chart-4);
+}
+
+.heatmap__cell.is-future {
+  background: transparent;
+  outline: 1px dashed var(--chart-grid);
+  outline-offset: -1px;
+}
+
+.heatmap__cell.is-selected {
+  box-shadow: 0 0 0 2px var(--color-text);
+}
+
+.heatmap__cell--legend {
+  display: inline-block;
+  width: 12px;
+}
+
+/* Per-kind meters */
+.kind-list {
+  margin: 0;
+  padding: 4px var(--space);
+  list-style: none;
+}
+
+.kind-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 12px 0;
+}
+
+.kind-row + .kind-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.kind-row__label {
+  font-weight: 600;
+}
+
+.kind-row__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.kind-row__meter {
+  grid-column: 1 / -1;
+  display: block;
+  height: 6px;
+}
+
+.kind-row__meter > .progress__bar {
+  display: block;
+  background: var(--chart-3);
+}
+
+/* Table view */
+.stats-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.stats-table th {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.stats-table tr + tr td,
+.stats-table tbody tr:first-child td {
+  border-top: 1px solid var(--color-border);
+}

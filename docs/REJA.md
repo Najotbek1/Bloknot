@@ -115,12 +115,11 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Yozuvlar avtomatik saqlanadi; bo'sh qolgan yangi yozuv o'chiriladi.
    - Barcha yozuvlar bo'yicha qidiruv (o‘/o'/oʻ farqsiz).
    - Yozuvni rejaga bog'lash; reja oynasida "Yozuvlar" bo'limi va "+ Yozuv qo'shish" ("Umumiy" bloknotiga).
-5. **Statistika.** Quyidagilar hisoblanadi:
-   - Bajarilish foizi (kun, hafta, oy).
-   - Ketma-ket faol kunlar soni.
-   - Muddatida bajarilganlar foizi.
-   - Faollik kalendari (heatmap).
-   - Umumiy "mas'uliyat bali" (0–100).
+5. **Statistika.** ✅ bajarildi (0.5.0)
+   - Mas'uliyat bali (0–100) = 50% bajarilish + 30% muddatida bajarish + 20% faol kunlar ulushi.
+   - 7/30 kunlik davr: bajarilish foizi, muddatida bajarilganlar, faol kunlar, ketma-ketlik (joriy va eng uzun).
+   - Kunlar bo'yicha ustunli grafik (rejada / bajarilgan), 12 haftalik faollik kalendari, turlar bo'yicha, jadval ko'rinishi.
+   - Hisob-kitob `src/core/stats/` da, testlar bilan.
 6. **Eksport, import va birlashtirish.** `.bloknot` fayli, ulashish tugmasi, birlashtirish natijasi haqida hisobot.
 7. **Reklama.** AdMob banner (sinov ID bilan), sozlash bo'yicha qo'llanma.
 8. **Pardoz.** Ilova ikonkasi, splash ekran, animatsiyalar, nomlanishni tekshirish, imzolangan release APK.

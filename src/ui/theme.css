@@ -19,6 +19,13 @@
   --space: 16px;
   --nav-height: 64px;
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Charts: one sequential indigo ramp, light → dark = little → much */
+  --chart-track: #e6e8f2;
+  --chart-1: #c7d2fe;
+  --chart-2: #a5b4fc;
+  --chart-3: #6366f1;
+  --chart-4: #4338ca;
+  --chart-grid: #e1e3ee;
   color-scheme: light;
 }
 
@@ -39,6 +46,12 @@
     --color-danger: #f87171;
     --color-overlay: rgb(0 0 0 / 0.6);
     --shadow: 0 6px 20px rgb(0 0 0 / 0.35);
+    --chart-track: #363b52;
+    --chart-1: #312e81;
+    --chart-2: #4338ca;
+    --chart-3: #6366f1;
+    --chart-4: #a5b4fc;
+    --chart-grid: #2f3344;
     color-scheme: dark;
   }
 }
@@ -58,6 +71,12 @@
   --color-danger: #f87171;
   --color-overlay: rgb(0 0 0 / 0.6);
   --shadow: 0 6px 20px rgb(0 0 0 / 0.35);
+  --chart-track: #363b52;
+  --chart-1: #312e81;
+  --chart-2: #4338ca;
+  --chart-3: #6366f1;
+  --chart-4: #a5b4fc;
+  --chart-grid: #2f3344;
   color-scheme: dark;
 }
 

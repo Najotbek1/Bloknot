@@ -3,10 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { db } from '../core/db/schema'
 import { getSettings } from '../core/db/tasks'
 import { todayKey } from '../core/dates'
-import { ComingSoon } from '../features/ComingSoon'
 import { NotebooksScreen } from '../features/notebooks/NotebooksScreen'
 import { PlanScreen, type PlanState } from '../features/plan/PlanScreen'
 import { SettingsScreen } from '../features/settings/SettingsScreen'
+import { StatsScreen } from '../features/stats/StatsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
@@ -75,7 +75,7 @@ export default function App() {
           {tab === 'today' && <TodayScreen />}
           {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
           {tab === 'notebooks' && <NotebooksScreen state={notebooks} onChange={setNotebooks} />}
-          {tab === 'stats' && <ComingSoon title="nav.stats" message="comingSoon.stats" />}
+          {tab === 'stats' && <StatsScreen />}
           {tab === 'settings' && <SettingsScreen />}
           <BottomNav
             active={tab}
