@@ -1,9 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { db } from '../core/db/schema'
 import { getSettings } from '../core/db/tasks'
 import { todayKey } from '../core/dates'
 import { ComingSoon } from '../features/ComingSoon'
+import { NotebooksScreen } from '../features/notebooks/NotebooksScreen'
 import { PlanScreen, type PlanState } from '../features/plan/PlanScreen'
 import { SettingsScreen } from '../features/settings/SettingsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
@@ -12,6 +13,7 @@ import { useNotificationSync } from '../features/notifications/useNotificationSy
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
 import { BottomNav, type TabId } from './BottomNav'
+import { NavigationContext, type NavigationApi, type NotebooksView } from './navigation'
 import { useGlobalErrors } from './useGlobalErrors'
 
 /** Applies the theme chosen in settings; "system" follows the phone. */
@@ -32,6 +34,16 @@ function GlobalErrors() {
 export default function App() {
   const [tab, setTab] = useState<TabId>('today')
   const [plan, setPlan] = useState<PlanState>(() => ({ tab: 'daily', day: todayKey() }))
+  const [notebooks, setNotebooks] = useState<NotebooksView>({ view: 'list' })
+  const navigation = useMemo<NavigationApi>(
+    () => ({
+      openNote: ({ notebookId, noteId, isNew }) => {
+        setNotebooks({ view: 'note', notebookId, noteId, isNew })
+        setTab('notebooks')
+      },
+    }),
+    [],
+  )
   useTheme()
   useNotificationSync()
 
@@ -56,16 +68,25 @@ export default function App() {
   }, [tab])
 
   return (
-    <ToastProvider>
-      <GlobalErrors />
-      <TaskEditorProvider>
-        {tab === 'today' && <TodayScreen />}
-        {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
-        {tab === 'notebooks' && <ComingSoon title="nav.notebooks" message="comingSoon.notebooks" />}
-        {tab === 'stats' && <ComingSoon title="nav.stats" message="comingSoon.stats" />}
-        {tab === 'settings' && <SettingsScreen />}
-        <BottomNav active={tab} onSelect={setTab} />
-      </TaskEditorProvider>
-    </ToastProvider>
+    <NavigationContext.Provider value={navigation}>
+      <ToastProvider>
+        <GlobalErrors />
+        <TaskEditorProvider>
+          {tab === 'today' && <TodayScreen />}
+          {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
+          {tab === 'notebooks' && <NotebooksScreen state={notebooks} onChange={setNotebooks} />}
+          {tab === 'stats' && <ComingSoon title="nav.stats" message="comingSoon.stats" />}
+          {tab === 'settings' && <SettingsScreen />}
+          <BottomNav
+            active={tab}
+            onSelect={(next) => {
+              // Tapping Bloknot again while inside a notebook goes back to the list.
+              if (next === 'notebooks' && tab === 'notebooks') setNotebooks({ view: 'list' })
+              setTab(next)
+            }}
+          />
+        </TaskEditorProvider>
+      </ToastProvider>
+    </NavigationContext.Provider>
   )
 }

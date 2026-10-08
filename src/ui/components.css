@@ -422,3 +422,131 @@ textarea.input {
 .add-reminder {
   justify-self: start;
 }
+
+/* Search box */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.search__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  outline: none;
+}
+
+/* Header of a page inside a tab: back button, title, action */
+.subpage-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: -8px;
+}
+
+.subpage-header__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+}
+
+.icon-btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+/* Colour picker */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--color-bg);
+}
+
+.swatch[aria-checked='true'] {
+  border-color: var(--color-text);
+}
+
+/* Lists to pick from inside a sheet */
+.task-picker {
+  display: grid;
+  gap: 8px;
+  padding-bottom: var(--space);
+}
+
+.picker-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.picker-item {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 12px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  text-align: left;
+}
+
+.picker-item__title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.picker-item__meta {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* Notes linked to a task, in the task editor */
+.task-notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.task-notes__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  text-align: left;
+}
+
+.task-notes__item > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

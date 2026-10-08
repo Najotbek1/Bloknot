@@ -110,7 +110,11 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Har bir o'zgarishdan keyin keyingi 30 kunlik bildirishnomalar qaytadan rejalashtiriladi (`src/core/reminders/plan.ts`).
    - Tuzatildi (0.3.1): Android 16 da "Bugun"dan boshqa bo'limga o'tganda ilova oq ekranda qotib qolardi. Sabab: yangi WebView'da `window.scrollTo()` Promise qaytaradi, React esa uni effekt tozalash funksiyasi deb chaqirgan. Endi xato bo'lsa, oq ekran o'rniga xato oynasi chiqadi; `e2e/` testlari yangi WebView'ni ham emulyatsiya qiladi.
    - Tuzatildi: reja oynasi "orqaga" tugmasi, tashqariga bosish yoki ✕ bilan yopilganda yozilgan reja jimgina yo'qolardi. Endi oyna tasdiq so'raydi, «Saqlash» doim ko'rinadi, har saqlashdan keyin xabar chiqadi.
-4. **Bloknotlar.** Bloknotlar ro'yxati, bloknot ichidagi yozuvlar, qidiruv, topshiriqqa bog'lash.
+4. **Bloknotlar.** ✅ bajarildi (0.4.0)
+   - Bloknotlar ro'yxati (rang, yozuvlar soni, oxirgi o'zgarish), yaratish, tahrirlash, o'chirish (yozuvlari bilan).
+   - Yozuvlar avtomatik saqlanadi; bo'sh qolgan yangi yozuv o'chiriladi.
+   - Barcha yozuvlar bo'yicha qidiruv (o‘/o'/oʻ farqsiz).
+   - Yozuvni rejaga bog'lash; reja oynasida "Yozuvlar" bo'limi va "+ Yozuv qo'shish" ("Umumiy" bloknotiga).
 5. **Statistika.** Quyidagilar hisoblanadi:
    - Bajarilish foizi (kun, hafta, oy).
    - Ketma-ket faol kunlar soni.

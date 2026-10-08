@@ -1,4 +1,5 @@
-import { addDays, parseDateKey, weekdayOf } from '../core/dates'
+import { addDays, parseDateKey, toDateKey, weekdayOf } from '../core/dates'
+import { t } from './index'
 import type { DateKey, MonthKey } from '../core/models/types'
 import { uzMonths, uzWeekdays } from './uz'
 
@@ -38,4 +39,15 @@ export function formatWeek(weekStart: DateKey): string {
 export function formatRange(startDate: DateKey, endDate: DateKey): string {
   const year = parseDateKey(startDate).getFullYear()
   return `${formatDayShort(startDate, year)} – ${formatDayShort(endDate, year)}`
+}
+
+/** "bugun 14:05", "kecha 09:30", or "7-oktabr" for a moment in the past. */
+export function formatUpdated(timestamp: number, now: Date = new Date()): string {
+  const date = new Date(timestamp)
+  const day = toDateKey(date)
+  const today = toDateKey(now)
+  const time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+  if (day === today) return t('time.today', { time })
+  if (day === addDays(today, -1)) return t('time.yesterday', { time })
+  return formatDayShort(day, now.getFullYear())
 }

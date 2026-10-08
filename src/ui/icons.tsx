@@ -99,3 +99,29 @@ export const BellIcon = (props: IconProps) => (
     <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
   </Icon>
 )
+
+export const SearchIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </Icon>
+)
+
+export const PencilIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M17 3a2.85 2.85 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+  </Icon>
+)
+
+export const TrashIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
+  </Icon>
+)
+
+export const LinkIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" />
+    <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" />
+  </Icon>
+)

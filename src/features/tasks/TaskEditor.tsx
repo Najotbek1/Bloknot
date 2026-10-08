@@ -20,6 +20,7 @@ import { CloseIcon } from '../../ui/icons'
 import { useToast } from '../../ui/toastContext'
 import { changeStatus, deleteTask } from './actions'
 import { describeTaskPlace } from './describe'
+import { TaskNotes } from './TaskNotes'
 
 /** Values a new task starts with, e.g. the tab and day the user was looking at. */
 export interface TaskDefaults {
@@ -444,6 +445,8 @@ export function TaskForm({
         </div>
       )}
       {task && isRecurring && <p className="field__hint field__hint--block">{t('task.recurringStatusNote')}</p>}
+
+      {task && <TaskNotes taskId={task.id} dirty={dirty} onLeave={onDone} />}
 
       <label className="field">
         <span className="field__label">{t('task.notes')}</span>
