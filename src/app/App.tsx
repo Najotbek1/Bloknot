@@ -10,6 +10,8 @@ import { StatsScreen } from '../features/stats/StatsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
 import { useAdBanner } from '../features/ads/useAdBanner'
+import { AlarmRinging } from '../features/alarm/AlarmRinging'
+import { useAlarmSync } from '../features/alarm/useAlarmSync'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
@@ -59,6 +61,7 @@ export default function App() {
   )
   useTheme()
   useNotificationSync()
+  useAlarmSync()
   useAdBanner()
 
   // Android back button: from any tab go back to "Bugun"; from "Bugun" close the app.
@@ -85,6 +88,7 @@ export default function App() {
     <NavigationContext.Provider value={navigation}>
       <ToastProvider>
         <GlobalErrors />
+        <AlarmRinging />
         <TaskEditorProvider>
           {tab === 'today' && <TodayScreen />}
           {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}

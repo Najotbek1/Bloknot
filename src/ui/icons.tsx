@@ -125,3 +125,10 @@ export const LinkIcon = (props: IconProps) => (
     <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" />
   </Icon>
 )
+
+export const AlarmIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3M6 19l-2 2M18 19l2 2" />
+  </Icon>
+)

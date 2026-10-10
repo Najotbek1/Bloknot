@@ -1,5 +1,5 @@
 import { Dexie, type Table } from 'dexie'
-import type { DayReminder, Note, Notebook, Settings, Task, TaskOccurrence } from '../models/types'
+import type { Alarm, DayReminder, Note, Notebook, Settings, Task, TaskOccurrence } from '../models/types'
 
 export const DATABASE_NAME = 'bloknot'
 
@@ -14,6 +14,7 @@ export class BloknotDB extends Dexie {
   notes!: Table<Note, string>
   settings!: Table<Settings, string>
   dayReminders!: Table<DayReminder, string>
+  alarms!: Table<Alarm, string>
 
   constructor(name: string = DATABASE_NAME) {
     super(name)
@@ -27,6 +28,10 @@ export class BloknotDB extends Dexie {
     // v2 (1.2.0): reminders pinned to calendar days. A new table only, so nothing to migrate.
     this.version(2).stores({
       dayReminders: 'id, date, updatedAt',
+    })
+    // v3 (1.3.0): wake-up alarms. A new table only, so nothing to migrate.
+    this.version(3).stores({
+      alarms: 'id, updatedAt',
     })
   }
 }

@@ -145,7 +145,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Kalendarda tanlangan kunga eslatma: «Kun davomida 3 marta» (09:00, 14:00, 20:00) yoki belgilangan vaqtda. Kalendar katagida 🔔, «Bugun»da ham ko'rinadi. Yangi `dayReminders` jadvali (Dexie v2), eksport/importga kiradi.
    - Statistika tuzatildi: bugungi hali bajarilmagan rejalar «kutilmoqda» (foizni tushirmaydi); faollik ilova ishlatila boshlagan kundan hisoblanadi. Yangi: oldingi davr bilan solishtirish, hafta kunlari, kunning qaysi vaqtida bajarilishi, kechikkan rejalar.
    - Murabbiy (`src/core/coach.ts`): so'nggi 7 kunlik ball < 50 — qattiq (haqoratsiz), 50–70 — oddiy, > 70 — ruhlantiruvchi. Sozlamalar → Murabbiy, Statistikada joriy holat.
-11. **Uyg'otgich.** Native Android plagin: aniq vaqtda signal (telefondagi uyg'otgich ohanglaridan), qulflangan ekranda ochiladi, berilgan matn to'g'ri yozilmaguncha o'chmaydi.
+11. **Uyg'otgich.** ✅ bajarildi (1.3.0)
+   - «Bugun» ekranidagi ⏰ tugmasi: keyingi uyg'otgich vaqti va ro'yxat. Vaqt, hafta kunlari (bo'sh bo'lsa bir marta), nom, matn uzunligi, telefondagi signal tanlanadi.
+   - Chalganda butun ekranni egallaydi; matn to'g'ri yozilmaguncha (katta-kichik harf, tinish belgilari va apostrof shakli hisobga olinmaydi) musiqa o'chmaydi. «Keyinroq» tugmasi yo'q (egasining qarori).
+   - Native plagin `android/app/src/main/java/uz/najotbek/bloknot/alarm/`: `AlarmManager.setAlarmClock`, foreground `AlarmService` (takroriy ovoz, tebranish, ovozni ≥70%, 1 soatlik chegara), full-screen intent, qayta yoqilganda tiklash. JS ko'prigi `src/platform/alarm.ts`, mantiq `src/core/alarms/`, Dexie v3 `alarms` jadvali.
 12. **Tillar.** Ingliz, rus, nemis, yapon, koreys, hind, arab (RTL); til telefondan olinadi va Sozlamalarda tanlanadi.
 13. **Desktop** (avvalgi 9-bosqich, keyinga surildi). Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 

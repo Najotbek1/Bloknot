@@ -26,6 +26,7 @@ const emptyData = (): BackupData => ({
   notes: [],
   settings: [],
   dayReminders: [],
+  alarms: [],
 })
 
 /**

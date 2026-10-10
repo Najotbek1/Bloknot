@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { createAlarm, listAlarms } from '../db/alarms'
 import { createDayReminder, deleteDayReminder, listDayReminders } from '../db/dayReminders'
 import { createNote, createNotebook, listAllNotes } from '../db/notebooks'
 import { softDelete } from '../db/repository'
@@ -49,7 +50,7 @@ describe('mergeData', () => {
   const rec = (id: string, updatedAt: number, deletedAt: number | null = null, title = id) =>
     ({ id, title, createdAt: 0, updatedAt, deletedAt }) as never
   const data = (tasks: unknown[]) =>
-    ({ tasks, occurrences: [], notebooks: [], notes: [], settings: [], dayReminders: [] }) as never
+    ({ tasks, occurrences: [], notebooks: [], notes: [], settings: [], dayReminders: [], alarms: [] }) as never
 
   it('adds new, takes newer, keeps older-or-equal local, and spreads deletions', () => {
     const local = data([rec('a', 10), rec('b', 10), rec('c', 10), rec('d', 10)])
@@ -155,5 +156,13 @@ describe('importBackup', () => {
     await deleteDayReminder(pc, reminder.id, 3000)
     await transfer(pc, phone, 4000)
     expect(await listDayReminders(phone, '2026-10-12')).toEqual([])
+  })
+
+  it('alarms travel between devices', async () => {
+    const phone = createTestDb()
+    const pc = createTestDb()
+    await createAlarm(phone, { time: '06:30', weekdays: [1, 2, 3, 4, 5], textLength: 'long' }, 1000)
+    await transfer(phone, pc, 2000)
+    expect(await listAlarms(pc)).toMatchObject([{ time: '06:30', weekdays: [1, 2, 3, 4, 5], textLength: 'long' }])
   })
 })

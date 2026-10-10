@@ -99,6 +99,22 @@ export interface DayReminder extends BaseRecord {
   time: TimeOfDay | null
 }
 
+/** How much text must be typed to stop a ringing alarm. */
+export type AlarmTextLength = 'short' | 'medium' | 'long'
+
+/** A wake-up alarm. It only stops after the shown text is typed correctly. */
+export interface Alarm extends BaseRecord {
+  time: TimeOfDay
+  /** Days it repeats on; empty means it rings once, at the next `time`. */
+  weekdays: Weekday[]
+  enabled: boolean
+  label: string
+  textLength: AlarmTextLength
+  /** A ringtone picked on this phone; `null` uses the phone's default alarm sound. */
+  ringtoneUri: string | null
+  ringtoneTitle: string | null
+}
+
 /** "system" follows the phone (light or dark); the others are fixed palettes from theme.css. */
 export type ThemePreference = 'system' | 'light' | 'dark' | 'black' | 'pink' | 'amber'
 /** How the Calendar tab shows plans: a month grid, or the older lists by day/week/month. */
