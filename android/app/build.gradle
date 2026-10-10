@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace = "uz.najotbek.bloknot"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "uz.najotbek.bloknot"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        // CI passes the build number and package.json version; local builds fall back to 1 / 0.0.0.
+        versionCode((System.getenv("BLOKNOT_VERSION_CODE") ?: "1").toInteger())
+        versionName(System.getenv("BLOKNOT_VERSION_NAME") ?: "0.0.0")
+        // AdMob App ID for the manifest: the ADMOB_APP_ID repository Variable, or Google's TEST id.
+        // The banner id comes the same way through Vite (src/platform/adConfig.ts, docs/ADMOB.md).
+        resValue "string", "admob_app_id", System.getenv("ADMOB_APP_ID")?.trim() ?: "ca-app-pub-3940256099942544~3347511713"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    signingConfigs {
+        // Development key, committed on purpose so every CI build has the same signature and
+        // installs as an update over the previous one. Its password is public: never use it
+        // for a Google Play release; that one is the private key below.
+        dev {
+            storeFile file('bloknot-dev.keystore')
+            storePassword 'bloknot-dev'
+            keyAlias 'bloknot-dev'
+            keyPassword 'bloknot-dev'
+        }
+        // Private Google Play upload key. Never in the repository: CI writes it from GitHub Secrets
+        // to a temporary file and passes its path and passwords in these environment variables.
+        if (System.getenv("RELEASE_KEYSTORE_FILE")) {
+            release {
+                storeFile file(System.getenv("RELEASE_KEYSTORE_FILE"))
+                storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.dev
+        }
+        release {
+            if (signingConfigs.findByName('release')) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

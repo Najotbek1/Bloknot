@@ -1,0 +1,146 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Lint, test, build web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Smoke-test the build in a browser
+        run: |
+          npx playwright install --with-deps chromium
+          npm run e2e
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  android:
+    name: Build Android APK
+    needs: web
+    runs-on: ubuntu-latest
+    env:
+      # Real AdMob ids from Settings → Secrets and variables → Actions → Variables (docs/ADMOB.md).
+      # Unset, the app shows Google's test ads.
+      ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci
+      - run: npm run android:sync
+      - name: Assemble APK
+        working-directory: android
+        env:
+          BLOKNOT_VERSION_CODE: ${{ github.run_number }}
+        run: |
+          export BLOKNOT_VERSION_NAME="$(node -p "require('../package.json').version")"
+          ./gradlew assembleDebug --no-daemon
+          mkdir -p ../apk
+          cp app/build/outputs/apk/debug/app-debug.apk "../apk/maqsad-${BLOKNOT_VERSION_NAME}-build${BLOKNOT_VERSION_CODE}.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maqsad-apk
+          path: apk/*.apk
+          if-no-files-found: error
+
+  release:
+    name: Build signed release (AAB + APK)
+    needs: web
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      # The private upload key lives only in GitHub Secrets; without it this job does nothing.
+      HAS_RELEASE_KEY: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
+      ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
+    steps:
+      - name: Release key missing
+        if: env.HAS_RELEASE_KEY != 'true'
+        run: echo "::notice::RELEASE_* secrets are not set, skipping the signed release build (see docs/play/PUBLISH.md)."
+      - uses: actions/checkout@v4
+        if: env.HAS_RELEASE_KEY == 'true'
+      - uses: actions/setup-node@v4
+        if: env.HAS_RELEASE_KEY == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        if: env.HAS_RELEASE_KEY == 'true'
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+        if: env.HAS_RELEASE_KEY == 'true'
+      - if: env.HAS_RELEASE_KEY == 'true'
+        run: npm ci
+      - if: env.HAS_RELEASE_KEY == 'true'
+        run: npm run android:sync
+      - name: Build and sign AAB and APK
+        if: env.HAS_RELEASE_KEY == 'true'
+        working-directory: android
+        env:
+          BLOKNOT_VERSION_CODE: ${{ github.run_number }}
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          export BLOKNOT_VERSION_NAME="$(node -p "require('../package.json').version")"
+          export RELEASE_KEYSTORE_FILE="$RUNNER_TEMP/release.jks"
+          echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RELEASE_KEYSTORE_FILE"
+          trap 'rm -f "$RELEASE_KEYSTORE_FILE"' EXIT
+          ./gradlew bundleRelease assembleRelease --no-daemon
+          mkdir -p ../release
+          cp app/build/outputs/bundle/release/app-release.aab "../release/maqsad-${BLOKNOT_VERSION_NAME}-build${BLOKNOT_VERSION_CODE}.aab"
+          cp app/build/outputs/apk/release/app-release.apk "../release/maqsad-${BLOKNOT_VERSION_NAME}-build${BLOKNOT_VERSION_CODE}.apk"
+      - uses: actions/upload-artifact@v4
+        if: env.HAS_RELEASE_KEY == 'true'
+        with:
+          name: maqsad-release
+          path: release/*
+          if-no-files-found: error
+
+  deploy-pages:
+    name: Publish web version
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: web
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

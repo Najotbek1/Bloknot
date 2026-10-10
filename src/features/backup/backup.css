@@ -1,0 +1,45 @@
+.backup {
+  display: grid;
+  gap: 10px;
+}
+
+.backup__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.backup .form-error {
+  margin: 0;
+}
+
+.import-preview {
+  display: grid;
+  gap: 12px;
+}
+
+.import-preview__facts {
+  display: grid;
+  gap: 4px;
+  padding: var(--space);
+}
+
+.import-preview__facts p {
+  margin: 0;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.import-preview__facts .import-preview__main {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.import-preview .notice {
+  margin: 0;
+}
+
+.import-preview .field__hint,
+.import-preview .form-error {
+  margin: 0;
+}
