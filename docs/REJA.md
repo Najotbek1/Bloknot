@@ -149,7 +149,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - «Bugun» ekranidagi ⏰ tugmasi: keyingi uyg'otgich vaqti va ro'yxat. Vaqt, hafta kunlari (bo'sh bo'lsa bir marta), nom, matn uzunligi, telefondagi signal tanlanadi.
    - Chalganda butun ekranni egallaydi; matn to'g'ri yozilmaguncha (katta-kichik harf, tinish belgilari va apostrof shakli hisobga olinmaydi) musiqa o'chmaydi. «Keyinroq» tugmasi yo'q (egasining qarori).
    - Native plagin `android/app/src/main/java/uz/najotbek/bloknot/alarm/`: `AlarmManager.setAlarmClock`, foreground `AlarmService` (takroriy ovoz, tebranish, ovozni ≥70%, 1 soatlik chegara), full-screen intent, qayta yoqilganda tiklash. JS ko'prigi `src/platform/alarm.ts`, mantiq `src/core/alarms/`, Dexie v3 `alarms` jadvali.
-12. **Tillar.** Ingliz, rus, nemis, yapon, koreys, hind, arab (RTL); til telefondan olinadi va Sozlamalarda tanlanadi.
+12. **Tillar.** ✅ bajarildi (1.4.0)
+   - O'zbek, ingliz, rus, nemis, yapon, koreys, hind va arab tillari. Til telefon tilidan olinadi (bizda bo'lmasa — o'zbekcha) va Sozlamalar → Til orqali tanlanadi.
+   - Matnlar `src/i18n/<til>.ts`, ko'plik shakllari (`{count, plural, …}`), sanalar va hafta kunlari Intl orqali. Murabbiy iboralari, bildirishnomalar va uyg'otgich matnlari ham tarjima qilingan.
+   - Arab tili uchun o'ngdan chapga (RTL) joylashuv.
 13. **Desktop** (avvalgi 9-bosqich, keyinga surildi). Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 
 ## Tekshirish (har bosqichda)

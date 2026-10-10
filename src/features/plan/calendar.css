@@ -90,6 +90,6 @@
 .calendar__bell {
   position: absolute;
   top: 3px;
-  right: 3px;
+  inset-inline-end: 3px;
   color: var(--color-warning);
 }

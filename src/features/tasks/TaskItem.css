@@ -9,7 +9,7 @@
   align-items: flex-start;
   gap: 4px;
   padding: 0 8px 0 4px;
-  border-left: 3px solid transparent;
+  border-inline-start: 3px solid transparent;
 }
 
 .task + .task {
@@ -17,11 +17,11 @@
 }
 
 .task--priority-high {
-  border-left-color: var(--color-danger);
+  border-inline-start-color: var(--color-danger);
 }
 
 .task--priority-low {
-  border-left-color: var(--color-border);
+  border-inline-start-color: var(--color-border);
 }
 
 .task__check {
@@ -64,7 +64,7 @@
   padding: 14px 4px;
   border: 0;
   background: transparent;
-  text-align: left;
+  text-align: start;
 }
 
 .task__title {

@@ -1,6 +1,6 @@
 import type { Weekday } from '../../core/models/types'
+import { weekdayShort } from '../../i18n/format'
 import { t } from '../../i18n'
-import { uzWeekdaysShort } from '../../i18n/uz'
 
 /** "Bir marta", "Har kuni", "Ish kunlari" or "Du, Ch, Ju". */
 export function describeWeekdays(weekdays: Weekday[]): string {
@@ -9,5 +9,5 @@ export function describeWeekdays(weekdays: Weekday[]): string {
   if (weekdays.length === 5 && [1, 2, 3, 4, 5].every((day) => weekdays.includes(day as Weekday))) {
     return t('alarm.weekdaysOnly')
   }
-  return weekdays.map((day) => uzWeekdaysShort[day - 1]).join(', ')
+  return weekdays.map((day) => weekdayShort(day)).join(', ')
 }

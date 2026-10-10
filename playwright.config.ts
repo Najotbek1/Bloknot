@@ -12,6 +12,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173',
     ...devices['Pixel 7'],
+    // The app follows the phone's language; the tests are written against the Uzbek texts.
+    locale: 'uz-UZ',
   },
   projects: [
     { name: 'browser' },

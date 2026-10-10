@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { WeekdayStat } from '../../core/stats'
+import { weekdayShort, weekdayName } from '../../i18n/format'
 import { t } from '../../i18n'
-import { uzWeekdays, uzWeekdaysShort } from '../../i18n/uz'
 
 /** Completion rate per weekday as seven columns; the best day is highlighted, tap for numbers. */
 export function WeekdayChart({ rows }: { rows: WeekdayStat[] }) {
@@ -13,7 +13,7 @@ export function WeekdayChart({ rows }: { rows: WeekdayStat[] }) {
     return top === null || value > (rate(top) ?? 0) ? row : top
   }, null)
   const current = rows.find((row) => row.weekday === selected)
-  const name = (row: WeekdayStat) => uzWeekdays[row.weekday - 1]
+  const name = (row: WeekdayStat) => weekdayName(row.weekday)
 
   return (
     <div>
@@ -40,7 +40,7 @@ export function WeekdayChart({ rows }: { rows: WeekdayStat[] }) {
                   style={{ height: `${(value ?? 0) * 100}%` }}
                 />
               </span>
-              <span className="weekday-chart__label">{uzWeekdaysShort[row.weekday - 1]}</span>
+              <span className="weekday-chart__label">{weekdayShort(row.weekday)}</span>
             </button>
           )
         })}

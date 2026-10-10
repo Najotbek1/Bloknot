@@ -2,7 +2,7 @@
 
 - The app's visible name is **Maqsad**; internal names stay `bloknot` (IndexedDB name, `.bloknot` files, code). Never change `applicationId` `uz.najotbek.bloknot`: installed apps would lose their data.
 
-- The user speaks Uzbek: reply in Uzbek. UI text is Uzbek (Latin) and lives only in `src/i18n/uz.ts`; use `t()`, never hard-code strings in components.
+- The user speaks Uzbek: reply in Uzbek. UI text lives only in `src/i18n/`: `uz.ts` is the source, and `en ru de ja ko hi ar` mirror its keys (TypeScript `Messages` type + `languages.test.ts` check keys and placeholders). Every new key goes into all eight files. Use `t()` (ICU-style `{count, plural, …}` is supported); dates and weekday names come from `src/i18n/format.ts` (Intl for non-Uzbek), never hard-coded. Arabic is RTL: use logical CSS properties (`inline-start/end`), not left/right.
 - Plan and stage list: `docs/REJA.md`. Work stage by stage; update that file when a stage is finished or the plan changes.
 - Stack: React + TypeScript + Vite, Capacitor (Android), later Electron (`desktop/`). No server: all data is local (IndexedDB).
 - Layout: `src/core` (pure logic, must have Vitest tests), `src/platform` (Capacitor/Electron/browser differences behind one interface), `src/features/<name>`, `src/ui` (shared components, `theme.css` tokens).

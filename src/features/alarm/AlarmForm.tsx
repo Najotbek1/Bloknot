@@ -3,8 +3,8 @@ import { challengeTexts } from '../../core/alarms/challenge'
 import { createAlarm, deleteAlarm, updateAlarm } from '../../core/db/alarms'
 import { db } from '../../core/db/schema'
 import type { Alarm, AlarmTextLength, Weekday } from '../../core/models/types'
+import { weekdayShort } from '../../i18n/format'
 import { t } from '../../i18n'
-import { uzWeekdaysShort } from '../../i18n/uz'
 import { alarmsSupported, pickRingtone } from '../../platform/alarm'
 import { useToast } from '../../ui/toastContext'
 
@@ -79,7 +79,7 @@ export function AlarmForm({ alarm, onDone }: AlarmFormProps) {
               aria-pressed={weekdays.includes(day)}
               onClick={() => toggleDay(day)}
             >
-              {uzWeekdaysShort[day - 1]}
+              {weekdayShort(day)}
             </button>
           ))}
         </div>

@@ -22,7 +22,7 @@
   padding: 12px var(--space);
   border: 0;
   background: transparent;
-  text-align: left;
+  text-align: start;
 }
 
 .alarm-row__time {
@@ -44,7 +44,8 @@
 
 .alarm-row__switch {
   width: auto;
-  padding: 14px var(--space) 14px 8px;
+  padding-block: 14px;
+  padding-inline: 8px var(--space);
 }
 
 .alarm-form__time {

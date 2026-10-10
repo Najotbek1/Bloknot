@@ -119,7 +119,10 @@ export interface Alarm extends BaseRecord {
 export type ThemePreference = 'system' | 'light' | 'dark' | 'black' | 'pink' | 'amber'
 /** How the Calendar tab shows plans: a month grid, or the older lists by day/week/month. */
 export type PlanView = 'calendar' | 'list'
-export type Language = 'uz'
+/** UI languages; texts are in src/i18n/<code>.ts. */
+export type Language = 'uz' | 'en' | 'ru' | 'de' | 'ja' | 'ko' | 'hi' | 'ar'
+/** 'auto' follows the phone's language (Uzbek when the phone's is not one of ours). */
+export type LanguagePreference = 'auto' | Language
 
 export interface Settings extends BaseRecord {
   id: 'settings'
@@ -135,7 +138,7 @@ export interface Settings extends BaseRecord {
   eveningSummaryTime: TimeOfDay
   /** Warn the day before and on the last day of a range task, at the morning time. */
   deadlineWarnings: boolean
-  language: Language
+  language: LanguagePreference
 }
 
 /** Fields the caller provides when creating a record; the rest are filled in. */

@@ -2,11 +2,10 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { getMonthSummaries, isInMonth, monthGrid } from '../../core/calendar'
 import { db } from '../../core/db/schema'
 import { monthKeyOf, parseDateKey, shiftMonth, weekStartOf } from '../../core/dates'
-import type { DateKey } from '../../core/models/types'
+import type { DateKey, Weekday } from '../../core/models/types'
 import { getMonthTasks, getWeekTasks } from '../../core/queries'
 import { t } from '../../i18n'
-import { formatDayLong, formatMonth, formatWeek } from '../../i18n/format'
-import { uzWeekdaysShort } from '../../i18n/uz'
+import { formatDayLong, formatMonth, formatWeek, weekdayShort } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
 import { BellIcon } from '../../ui/icons'
 import { PeriodNav } from '../../ui/PeriodNav'
@@ -18,6 +17,8 @@ import { DayReminders } from '../reminders/DayReminders'
 import { DayList, GeneralList, RangeList } from './lists'
 import type { PlanState } from './PlanScreen'
 import './calendar.css'
+
+const WEEKDAYS: Weekday[] = [1, 2, 3, 4, 5, 6, 7]
 
 export type CalendarTab = 'calendar' | 'range' | 'general'
 
@@ -110,7 +111,7 @@ function MonthGrid({ month, selected, today, onSelect }: MonthGridProps) {
   return (
     <div className="card calendar">
       <div className="calendar__weekdays" aria-hidden="true">
-        {uzWeekdaysShort.map((name) => (
+        {WEEKDAYS.map(weekdayShort).map((name) => (
           <span key={name}>{name}</span>
         ))}
       </div>

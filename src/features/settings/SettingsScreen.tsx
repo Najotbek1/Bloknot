@@ -1,7 +1,8 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../core/db/schema'
 import { getSettings, updateSettings } from '../../core/db/tasks'
-import type { PlanView, ThemePreference } from '../../core/models/types'
+import type { LanguagePreference, PlanView, ThemePreference } from '../../core/models/types'
+import { LANGUAGES } from '../../i18n/languages'
 import { t } from '../../i18n'
 import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
@@ -20,6 +21,23 @@ export function SettingsScreen() {
       <header className="screen__header">
         <h1 className="screen__title">{t('settings.title')}</h1>
       </header>
+
+      <section className="section">
+        <h2 className="section__title">{t('settings.language')}</h2>
+        <select
+          className="input"
+          aria-label={t('settings.language')}
+          value={settings?.language ?? 'auto'}
+          onChange={(event) => void updateSettings(db, { language: event.target.value as LanguagePreference })}
+        >
+          <option value="auto">{t('settings.language.auto')}</option>
+          {LANGUAGES.map((language) => (
+            <option key={language.code} value={language.code} lang={language.locale}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+      </section>
 
       <section className="section">
         <h2 className="section__title">{t('settings.theme')}</h2>

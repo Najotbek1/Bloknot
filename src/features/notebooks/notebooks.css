@@ -15,7 +15,7 @@
   padding: 0;
   border: 0;
   overflow: hidden;
-  text-align: left;
+  text-align: start;
 }
 
 .notebook-card__spine {
@@ -57,8 +57,8 @@
   width: 100%;
   padding: 14px 16px;
   border: 0;
-  border-left: 4px solid var(--color-border);
-  text-align: left;
+  border-inline-start: 4px solid var(--color-border);
+  text-align: start;
 }
 
 .note-card__title {

@@ -74,14 +74,14 @@
 }
 
 .coach-info li {
-  padding-left: 12px;
-  border-left: 3px solid var(--color-border);
+  padding-inline-start: 12px;
+  border-inline-start: 3px solid var(--color-border);
 }
 
 .coach-info li.coach-info__strict {
-  border-left-color: var(--color-danger);
+  border-inline-start-color: var(--color-danger);
 }
 
 .coach-info li.coach-info__inspiring {
-  border-left-color: var(--color-success);
+  border-inline-start-color: var(--color-success);
 }

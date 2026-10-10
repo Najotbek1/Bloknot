@@ -68,13 +68,13 @@ export const CheckIcon = (props: IconProps) => (
 )
 
 export const ChevronLeftIcon = (props: IconProps) => (
-  <Icon {...props}>
+  <Icon className="icon-directional" {...props}>
     <path d="m15 18-6-6 6-6" />
   </Icon>
 )
 
 export const ChevronRightIcon = (props: IconProps) => (
-  <Icon {...props}>
+  <Icon className="icon-directional" {...props}>
     <path d="m9 18 6-6-6-6" />
   </Icon>
 )

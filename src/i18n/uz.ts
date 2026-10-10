@@ -250,6 +250,8 @@ export const uz = {
   'coach.inspiring.8': 'Kuchli odatlar kuchli inson yaratadi. Sen shundaysan.',
 
   'settings.title': 'Sozlamalar',
+  'settings.language': 'Til',
+  'settings.language.auto': 'Telefon tili',
   'settings.theme': 'Mavzu',
   'settings.theme.system': 'Telefon bo‘yicha',
   'settings.theme.light': 'Yorug‘',

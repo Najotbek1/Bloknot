@@ -141,7 +141,7 @@ export const DEFAULT_SETTINGS: Settings = {
   eveningSummary: true,
   eveningSummaryTime: '21:00',
   deadlineWarnings: true,
-  language: 'uz',
+  language: 'auto',
 }
 
 export async function getSettings(db: BloknotDB): Promise<Settings> {

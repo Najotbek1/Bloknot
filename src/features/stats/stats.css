@@ -150,12 +150,12 @@
   display: inline-block;
   width: 12px;
   height: 12px;
-  margin-left: 6px;
+  margin-inline-start: 6px;
   border-radius: 3px;
 }
 
 .chart-legend__swatch:first-child {
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 
 .chart-legend__swatch--track {
@@ -201,7 +201,7 @@
 }
 
 .heatmap__weekday {
-  padding-right: 4px;
+  padding-inline-end: 4px;
   font-size: 10px;
   color: var(--color-text-muted);
 }
@@ -296,7 +296,7 @@
 .stats-table th,
 .stats-table td {
   padding: 8px 12px;
-  text-align: left;
+  text-align: start;
 }
 
 .stats-table th {
@@ -410,7 +410,7 @@
   width: 100%;
   padding: 14px var(--space);
   border: 0;
-  text-align: left;
+  text-align: start;
   font-weight: 600;
 }
 

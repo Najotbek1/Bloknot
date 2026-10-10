@@ -13,8 +13,7 @@ import type {
   Weekday,
 } from '../../core/models/types'
 import { t, type MessageKey } from '../../i18n'
-import { formatWeek } from '../../i18n/format'
-import { uzWeekdaysShort } from '../../i18n/uz'
+import { formatWeek, weekdayShort } from '../../i18n/format'
 import { getPermission, requestPermission } from '../../platform/notifications'
 import { CloseIcon } from '../../ui/icons'
 import { useToast } from '../../ui/toastContext'
@@ -333,7 +332,7 @@ export function TaskForm({
                     )
                   }
                 >
-                  {uzWeekdaysShort[day - 1]}
+                  {weekdayShort(day)}
                 </button>
               ))}
             </div>
