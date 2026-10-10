@@ -23,7 +23,7 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:
 1. AdMob'dan App ID va Banner ID olasiz.
-2. GitHub → **Settings → Secrets and variables → Actions → Variables** bo‘limiga `ADMOB_APP_ID` va `ADMOB_BANNER_ID` ni yozasiz.
+2. GitHub → **Settings → Secrets and variables → Actions → Variables** bo‘limiga `ADMOB_APP_ID`, `ADMOB_BANNER_ID` va `ADMOB_APP_OPEN_ID` ni yozasiz.
 3. **Actions → Build → Re-run all jobs** bosasiz.
 
 ## 3. Google Play'ga joylash

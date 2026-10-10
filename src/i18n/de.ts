@@ -276,6 +276,7 @@ export const de: Messages = {
   'ads.title': 'Werbung',
   'ads.intro': 'Die App ist kostenlos. Die kleine Werbung unten hilft bei der Weiterentwicklung. Beim Schreiben eines Plans oder bei offenen Fenstern wird keine Werbung angezeigt.',
   'ads.testMode': 'Gerade wird Testwerbung angezeigt.',
+  'ads.appOpenNote': 'Beim Öffnen der App kann höchstens einmal am Tag eine Vollbildanzeige erscheinen. Sie erscheint nie, wenn ein Wecker klingelt oder du die App über eine Benachrichtigung öffnest.',
   'ads.privacy': 'Datenschutz für Werbung',
   'backup.title': 'Daten',
   'backup.intro': 'Zum Übertragen zwischen Handy und Computer oder als Sicherung. Der Import löscht nichts – Änderungen beider Seiten werden zusammengeführt.',

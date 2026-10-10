@@ -13,6 +13,7 @@ import { StatsScreen } from '../features/stats/StatsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
 import { useAdBanner } from '../features/ads/useAdBanner'
+import { useAppOpenAd } from '../features/ads/useAppOpenAd'
 import { AlarmRinging } from '../features/alarm/AlarmRinging'
 import { useAlarmSync } from '../features/alarm/useAlarmSync'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
@@ -79,6 +80,7 @@ export default function App() {
   useNotificationSync()
   useAlarmSync()
   useAdBanner()
+  useAppOpenAd()
 
   // Android back button: from any tab go back to "Bugun"; from "Bugun" close the app.
   const tabRef = useRef(tab)

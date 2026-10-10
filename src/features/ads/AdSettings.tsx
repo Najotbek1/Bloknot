@@ -21,6 +21,7 @@ export function AdSettings() {
       <h2 className="section__title">{t('ads.title')}</h2>
       <div className="stack">
         <p className="field__hint">{t('ads.intro')}</p>
+        <p className="field__hint">{t('ads.appOpenNote')}</p>
         {adConfig.useTestAds && <p className="field__hint">{t('ads.testMode')}</p>}
         {privacyAvailable && (
           <button type="button" className="btn" onClick={() => void showAdPrivacyOptions()}>

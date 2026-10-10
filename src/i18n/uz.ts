@@ -274,6 +274,7 @@ export const uz = {
   'ads.title': 'Reklama',
   'ads.intro': 'Ilova bepul. Pastdagi kichik reklama uni rivojlantirishga yordam beradi. Reja yozayotganda yoki oyna ochiq bo‘lganda reklama ko‘rinmaydi.',
   'ads.testMode': 'Hozir sinov reklamasi ko‘rsatilmoqda.',
+  'ads.appOpenNote': 'Ilova ochilganda kuniga ko‘pi bilan bir marta butun ekranli reklama chiqishi mumkin. U uyg‘otgich chalganda yoki bildirishnomadan kirganda chiqmaydi.',
   'ads.privacy': 'Reklama maxfiylik sozlamalari',
   'backup.title': 'Ma’lumotlar',
   'backup.intro': 'Telefon va kompyuter o‘rtasida ko‘chirish yoki zaxira nusxa uchun. Import ma’lumotlarni o‘chirmaydi — ikkala tomondagi o‘zgarishlar birlashtiriladi.',

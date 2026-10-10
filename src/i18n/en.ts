@@ -276,6 +276,7 @@ export const en: Messages = {
   'ads.title': 'Ads',
   'ads.intro': 'The app is free. The small ad at the bottom helps it grow. Ads are hidden while you’re writing a plan or a window is open.',
   'ads.testMode': 'Test ads are being shown right now.',
+  'ads.appOpenNote': 'A full-screen ad may appear when you open the app, at most once a day. It never appears when an alarm rings or when you open the app from a notification.',
   'ads.privacy': 'Ad privacy settings',
   'backup.title': 'Data',
   'backup.intro': 'To move data between phone and computer, or to keep a backup. Importing doesn’t delete anything: changes from both sides are merged.',

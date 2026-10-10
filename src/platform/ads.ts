@@ -1,4 +1,4 @@
-import { AdMob, BannerAdPluginEvents, BannerAdPosition, BannerAdSize } from '@capacitor-community/admob'
+import { AdMob, AppOpenAdPluginEvents, BannerAdPluginEvents, BannerAdPosition, BannerAdSize } from '@capacitor-community/admob'
 import { Capacitor } from '@capacitor/core'
 import { adConfig } from './adConfig'
 
@@ -99,5 +99,57 @@ export async function showAdPrivacyOptions(): Promise<void> {
     await AdMob.showPrivacyOptionsForm()
   } catch (error) {
     warn('privacy options', error)
+  }
+}
+
+/** A loaded App Open ad is only good for about four hours. */
+const APP_OPEN_MAX_AGE_MS = 4 * 60 * 60 * 1000
+let appOpenLoadedAt = 0
+let appOpenLoading: Promise<void> | null = null
+
+/** Loads the App Open ad in the background so it can show instantly later. */
+export function preloadAppOpen(): Promise<void> {
+  if (!adsSupported) return Promise.resolve()
+  if (appOpenLoadedAt && Date.now() - appOpenLoadedAt < APP_OPEN_MAX_AGE_MS) return Promise.resolve()
+  appOpenLoading ??= (async () => {
+    try {
+      if (!(await initAds())) return
+      await AdMob.loadAppOpen({ adId: adConfig.appOpenId })
+      appOpenLoadedAt = Date.now()
+    } catch (error) {
+      warn('load app open', error)
+    } finally {
+      appOpenLoading = null
+    }
+  })()
+  return appOpenLoading
+}
+
+/**
+ * Shows the App Open ad if one is ready (never waits for one). Resolves `true` when it was shown,
+ * after it is closed; the next one is then loaded.
+ */
+export async function showAppOpenIfLoaded(): Promise<boolean> {
+  if (!adsSupported || !appOpenLoadedAt || Date.now() - appOpenLoadedAt >= APP_OPEN_MAX_AGE_MS) return false
+  try {
+    if (!(await AdMob.isAppOpenLoaded()).value) return false
+    const closed = new Promise<void>((resolve) => {
+      const handles = [
+        AdMob.addListener(AppOpenAdPluginEvents.Closed, () => done()),
+        AdMob.addListener(AppOpenAdPluginEvents.FailedToShow, () => done()),
+      ]
+      function done() {
+        for (const handle of handles) void handle.then((h) => h.remove())
+        resolve()
+      }
+    })
+    appOpenLoadedAt = 0
+    await AdMob.showAppOpen()
+    await closed
+    void preloadAppOpen()
+    return true
+  } catch (error) {
+    warn('show app open', error)
+    return false
   }
 }
