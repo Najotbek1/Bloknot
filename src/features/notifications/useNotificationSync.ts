@@ -3,7 +3,11 @@ import { useEffect } from 'react'
 import { getActive, listActive } from '../../core/db/repository'
 import { db } from '../../core/db/schema'
 import { getSettings } from '../../core/db/tasks'
+import { coachTone } from '../../core/coach'
+import { addDays, todayKey } from '../../core/dates'
+import { listDayRemindersBetween } from '../../core/db/dayReminders'
 import { planNotifications } from '../../core/reminders/plan'
+import { computeStats } from '../../core/stats'
 import { NOTIFICATIONS_RESYNC_EVENT, onDoneAction, syncNotifications } from '../../platform/notifications'
 import { changeStatus } from '../tasks/actions'
 
@@ -11,8 +15,8 @@ const DEBOUNCE_MS = 1000
 
 /**
  * Keeps the phone's scheduled notifications in line with the data: whenever tasks, their daily
- * statuses or settings change (and when the app comes back to the foreground), the next 30 days
- * of notifications are planned again from scratch.
+ * statuses, day reminders or settings change (and when the app comes back to the foreground), the
+ * next 30 days of notifications are planned again from scratch.
  */
 export function useNotificationSync() {
   useEffect(() => {
@@ -23,7 +27,10 @@ export function useNotificationSync() {
       window.clearTimeout(timer)
       timer = window.setTimeout(() => {
         if (!latest) return
-        const plan = planNotifications(latest, latest.settings, new Date())
+        const now = new Date()
+        // The coach speaks according to the last 7 days' responsibility score.
+        const tone = latest.settings.coachMode ? coachTone(computeStats(latest, todayKey(now), 7).score) : 'normal'
+        const plan = planNotifications(latest, latest.settings, now, 30, tone)
         syncNotifications(plan).catch((err: unknown) => console.error('Notification sync failed', err))
       }, DEBOUNCE_MS)
     }
@@ -56,10 +63,12 @@ export function useNotificationSync() {
 }
 
 async function load() {
-  const [tasks, occurrences, settings] = await Promise.all([
+  const today = todayKey()
+  const [tasks, occurrences, settings, dayReminders] = await Promise.all([
     listActive(db.tasks),
     listActive(db.occurrences),
     getSettings(db),
+    listDayRemindersBetween(db, today, addDays(today, 31)),
   ])
-  return { tasks, occurrences, settings }
+  return { tasks, occurrences, settings, dayReminders }
 }

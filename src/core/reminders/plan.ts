@@ -1,11 +1,13 @@
 import { addDays, parseDateKey, toDateKey } from '../dates'
-import type { DateKey, Settings, Task, TaskOccurrence, TimeOfDay } from '../models/types'
+import { coachPhrase, type CoachTone } from '../coach'
+import { reminderTimes } from '../db/dayReminders'
+import type { DateKey, DayReminder, Settings, Task, TaskOccurrence, TimeOfDay } from '../models/types'
 import { buildDayAgenda } from '../queries'
 import { occurrencesBetween } from '../recurrence'
 import { t } from '../../i18n'
 import { formatDayShort, formatMonth, formatWeek } from '../../i18n/format'
 
-export type NotificationKind = 'task' | 'morning' | 'evening' | 'deadline'
+export type NotificationKind = 'task' | 'morning' | 'evening' | 'deadline' | 'day-reminder'
 
 export interface PlannedNotification {
   /** 1-based position in the plan; the whole plan is rescheduled each time, so ids never clash. */
@@ -23,6 +25,7 @@ export interface PlannedNotification {
 export interface NotificationSnapshot {
   tasks: Task[]
   occurrences: TaskOccurrence[]
+  dayReminders?: DayReminder[]
 }
 
 /** Android can hold a few hundred alarms per app; stay well below that. */
@@ -94,6 +97,8 @@ export function planNotifications(
   settings: Settings,
   now: Date,
   days = 30,
+  /** Wording of summaries and task reminders (src/core/coach.ts); 'normal' adds nothing. */
+  tone: CoachTone = 'normal',
 ): PlannedNotification[] {
   const tasks = snapshot.tasks.filter((task) => task.deletedAt === null)
   const today = toDateKey(now)
@@ -110,11 +115,14 @@ export function planNotifications(
     for (const base of reminderBases(task, snapshot.occurrences, today, addDays(last, longestLead))) {
       if (!base.open) continue
       for (const reminder of task.reminders) {
+        const day = addDays(base.date, -reminder.daysBefore)
+        const phrase = coachPhrase(tone, day, 2)
+        const body = taskBody(task, base.date, reminder.daysBefore)
         add({
-          at: at(addDays(base.date, -reminder.daysBefore), reminder.time),
+          at: at(day, reminder.time),
           kind: 'task',
           title: task.title,
-          body: taskBody(task, base.date, reminder.daysBefore),
+          body: phrase ? `${body} · ${phrase}` : body,
           taskId: task.id,
           date: base.date,
         })
@@ -132,30 +140,38 @@ export function planNotifications(
       if (open.length > MORNING_LIST_LENGTH) {
         names.push(t('notify.morning.more', { count: open.length - MORNING_LIST_LENGTH }))
       }
+      const title = t('notify.morning.title', { count: open.length })
+      const phrase = coachPhrase(tone, day, 0)
       add({
         at: at(day, settings.morningSummaryTime),
         kind: 'morning',
-        title: t('notify.morning.title', { count: open.length }),
-        body: names.join(', '),
+        // With a coach phrase, it becomes the headline and the count moves into the text.
+        title: phrase ?? title,
+        body: phrase ? `${title}: ${names.join(', ')}` : names.join(', '),
       })
     }
 
     if (settings.eveningSummary && agenda.length > 0) {
-      add(
-        open.length > 0
-          ? {
-              at: at(day, settings.eveningSummaryTime),
-              kind: 'evening',
-              title: t('notify.evening.leftTitle', { count: open.length }),
-              body: open.map((item) => item.task.title).join(', '),
-            }
-          : {
-              at: at(day, settings.eveningSummaryTime),
-              kind: 'evening',
-              title: t('notify.evening.doneTitle'),
-              body: t('notify.evening.doneBody', { count: agenda.length }),
-            },
-      )
+      const phrase = coachPhrase(tone, day, 1)
+      if (open.length > 0) {
+        const title = t('notify.evening.leftTitle', { count: open.length })
+        const names = open.map((item) => item.task.title).join(', ')
+        add({
+          at: at(day, settings.eveningSummaryTime),
+          kind: 'evening',
+          title: phrase ?? title,
+          body: phrase ? `${title}: ${names}` : names,
+        })
+      } else {
+        // Everything done: only the cheering coach has something to add.
+        const body = t('notify.evening.doneBody', { count: agenda.length })
+        add({
+          at: at(day, settings.eveningSummaryTime),
+          kind: 'evening',
+          title: t('notify.evening.doneTitle'),
+          body: tone === 'inspiring' && phrase ? `${body} ${phrase}` : body,
+        })
+      }
     }
 
     if (settings.deadlineWarnings) {
@@ -178,6 +194,14 @@ export function planNotifications(
           })
         }
       }
+    }
+  }
+
+  // 5. Reminders pinned to calendar days.
+  for (const reminder of snapshot.dayReminders ?? []) {
+    if (reminder.deletedAt !== null) continue
+    for (const time of reminderTimes(reminder)) {
+      add({ at: at(reminder.date, time), kind: 'day-reminder', title: t('notify.dayReminder.title'), body: reminder.text })
     }
   }
 

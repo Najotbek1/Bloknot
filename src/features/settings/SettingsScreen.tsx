@@ -6,6 +6,7 @@ import { t } from '../../i18n'
 import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
 import { AdSettings } from '../ads/AdSettings'
+import { Switch } from '../../ui/Switch'
 import './settings.css'
 
 const THEMES: ThemePreference[] = ['system', 'light', 'dark', 'black', 'pink', 'amber']
@@ -66,6 +67,26 @@ export function SettingsScreen() {
         {settings && (
           <NotificationSettings settings={settings} onChange={(changes) => void updateSettings(db, changes)} />
         )}
+      </section>
+
+      <section className="section">
+        <h2 className="section__title">{t('settings.coach')}</h2>
+        <div className="card settings-list">
+          <Switch
+            label={t('settings.coach.toggle')}
+            hint={t('settings.coach.toggleHint')}
+            checked={settings?.coachMode ?? true}
+            onChange={(coachMode) => void updateSettings(db, { coachMode })}
+          />
+          <div className="coach-info">
+            <p>{t('settings.coach.intro')}</p>
+            <ul>
+              <li className="coach-info__strict">{t('settings.coach.strict')}</li>
+              <li>{t('settings.coach.normal')}</li>
+              <li className="coach-info__inspiring">{t('settings.coach.inspiring')}</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section className="section">

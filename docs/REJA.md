@@ -140,7 +140,14 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - 6 ta mavzu: Telefon bo'yicha, Yorug', Tungi, Tim qora (AMOLED), Pushti, Sariq-qora. Tokenlar `src/ui/theme.css` da; Sozlamalarda har mavzu o'z ranglarida ko'rsatiladi (`[data-preview]`).
    - «Reja» bo'limi endi «Kalendar». Sozlamalar → «Rejalarni ko'rish usuli»: **Kalendar** (oy jadvali, kunda nuqtalar, kunni bosganda rejalari; Muddatli va Umumiy yorliqlari) yoki **Ro'yxat** (avvalgi Kun/Hafta/Oy/Muddatli/Umumiy). Mantiq `src/core/calendar.ts`.
    - AdMob ID'lari GitHub Variables orqali (yuqoridagi 7-bosqich).
-9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
+9. **Desktop** → 13-bosqichga ko'chirildi (foydalanuvchi avval yangi imkoniyatlarni so'radi).
+10. **Kun eslatmalari, statistika, murabbiy.** ✅ bajarildi (1.2.0)
+   - Kalendarda tanlangan kunga eslatma: «Kun davomida 3 marta» (09:00, 14:00, 20:00) yoki belgilangan vaqtda. Kalendar katagida 🔔, «Bugun»da ham ko'rinadi. Yangi `dayReminders` jadvali (Dexie v2), eksport/importga kiradi.
+   - Statistika tuzatildi: bugungi hali bajarilmagan rejalar «kutilmoqda» (foizni tushirmaydi); faollik ilova ishlatila boshlagan kundan hisoblanadi. Yangi: oldingi davr bilan solishtirish, hafta kunlari, kunning qaysi vaqtida bajarilishi, kechikkan rejalar.
+   - Murabbiy (`src/core/coach.ts`): so'nggi 7 kunlik ball < 50 — qattiq (haqoratsiz), 50–70 — oddiy, > 70 — ruhlantiruvchi. Sozlamalar → Murabbiy, Statistikada joriy holat.
+11. **Uyg'otgich.** Native Android plagin: aniq vaqtda signal (telefondagi uyg'otgich ohanglaridan), qulflangan ekranda ochiladi, berilgan matn to'g'ri yozilmaguncha o'chmaydi.
+12. **Tillar.** Ingliz, rus, nemis, yapon, koreys, hind, arab (RTL); til telefondan olinadi va Sozlamalarda tanlanadi.
+13. **Desktop** (avvalgi 9-bosqich, keyinga surildi). Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 
 ## Tekshirish (har bosqichda)
 - `npm test`: mantiqiy testlar (sinxronlash, takrorlanish, statistika).

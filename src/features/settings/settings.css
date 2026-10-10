@@ -53,3 +53,35 @@
 .settings-hint {
   margin: 8px 4px 0;
 }
+
+.coach-info {
+  padding: 12px var(--space) 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.coach-info p {
+  margin: 0 0 8px;
+}
+
+.coach-info ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coach-info li {
+  padding-left: 12px;
+  border-left: 3px solid var(--color-border);
+}
+
+.coach-info li.coach-info__strict {
+  border-left-color: var(--color-danger);
+}
+
+.coach-info li.coach-info__inspiring {
+  border-left-color: var(--color-success);
+}

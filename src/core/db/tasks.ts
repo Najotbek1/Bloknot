@@ -135,6 +135,7 @@ export const DEFAULT_SETTINGS: Settings = {
   deletedAt: null,
   theme: 'system',
   planView: 'calendar',
+  coachMode: true,
   morningSummary: true,
   morningSummaryTime: '08:00',
   eveningSummary: true,

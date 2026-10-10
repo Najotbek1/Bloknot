@@ -67,3 +67,40 @@ test('the calendar shows a day’s plans, and Settings can switch to lists', asy
   await expect(page.locator('.calendar')).toHaveCount(0)
   expect(pageErrors).toEqual([])
 })
+
+test('a reminder can be pinned to a calendar day and shows on Today', async ({ page, pageErrors }) => {
+  await page.goto('/')
+  const nav = (name: string) => page.locator('.bottom-nav').getByRole('button', { name, exact: true })
+  await nav('Kalendar').click()
+
+  await page.getByRole('button', { name: 'Eslatma qo‘shish' }).click()
+  await page.getByLabel('Nimani eslatay?').fill('Onamga qo‘ng‘iroq')
+  await page.getByRole('button', { name: 'Belgilangan vaqtda' }).click()
+  await page.getByLabel('Vaqt').fill('18:30')
+  await page.getByRole('button', { name: 'Saqlash' }).click()
+  await expect(page.getByText('Eslatma saqlandi')).toBeVisible()
+
+  await expect(page.locator('.reminder-row', { hasText: 'Onamga qo‘ng‘iroq' })).toContainText('18:30')
+  await expect(page.locator('.calendar__day--today')).toHaveAttribute('aria-label', /1 ta eslatma/)
+  await expect(page.locator('.calendar__day--today .calendar__bell')).toBeVisible()
+
+  await nav('Bugun').click()
+  await expect(page.locator('.reminder-row', { hasText: 'Onamga qo‘ng‘iroq' })).toBeVisible()
+
+  // Edit: switch to "3 times", then delete.
+  await page.locator('.reminder-row').click()
+  await page.getByRole('button', { name: 'Kun davomida 3 marta' }).click()
+  await page.getByRole('button', { name: 'Saqlash' }).click()
+  await expect(page.locator('.reminder-row')).toContainText('09:00, 14:00, 20:00')
+  await page.locator('.reminder-row').click()
+  await page.getByRole('button', { name: 'Eslatmani o‘chirish' }).click()
+  await page.getByRole('button', { name: 'O‘chirish uchun yana bir marta bosing' }).click()
+  await expect(page.locator('.reminder-row')).toHaveCount(0)
+
+  await nav('Sozlamalar').click()
+  const coach = page.getByRole('switch', { name: /Murabbiy ohangi/ })
+  await expect(coach).toHaveAttribute('aria-checked', 'true')
+  await coach.click()
+  await expect(coach).toHaveAttribute('aria-checked', 'false')
+  expect(pageErrors).toEqual([])
+})

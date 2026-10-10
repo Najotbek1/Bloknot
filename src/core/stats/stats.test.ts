@@ -1,7 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { buildTask } from '../db/tasks'
 import type { Task, TaskOccurrence } from '../models/types'
-import { completionCounts, computeStats, dueDateOf, dueItems, heatmap } from './index'
+import {
+  completionCounts,
+  computeStats,
+  dayPartCounts,
+  dayPartOf,
+  dueDateOf,
+  dueItems,
+  heatmap,
+  overdueTasks,
+  previousStats,
+  weekdayStats,
+} from './index'
 
 let nextId = 1
 function task(input: Parameters<typeof buildTask>[0]): Task {
@@ -97,6 +108,90 @@ describe('computeStats', () => {
       task({ title: 'g3', kind: 'general' }),
     ]
     expect(computeStats({ tasks, occurrences: [] }, today, 7).byKind.general).toEqual({ done: 1, total: 2 })
+  })
+})
+
+describe('computeStats for a new user and an unfinished day', () => {
+  const today = '2026-10-07'
+
+  it('does not count today’s open plans as missed', () => {
+    const tasks = [
+      done({ title: 'a', kind: 'daily', date: today }, today),
+      task({ title: 'b', kind: 'daily', date: today }), // still open: pending
+      task({ title: 'c', kind: 'daily', date: '2026-10-06' }), // yesterday, open: missed
+    ]
+    const stats = computeStats({ tasks, occurrences: [] }, today, 7)
+    expect(stats).toMatchObject({ planned: 2, done: 1, pendingToday: 1 })
+    expect(stats.completionRate).toBeCloseTo(1 / 2)
+    // The chart still shows today's whole plan.
+    expect(stats.series.at(-1)).toEqual({ date: today, planned: 2, done: 1 })
+  })
+
+  it('measures activity from the first task, not from before the app was used', () => {
+    const firstDay = { ...done({ title: 'a', kind: 'daily', date: '2026-10-06' }, '2026-10-06'), createdAt: at('2026-10-06', 9) }
+    const stats = computeStats({ tasks: [firstDay], occurrences: [] }, today, 30)
+    expect(stats).toMatchObject({ activeDays: 1, activeSpan: 2 })
+    // 100 × (0.5 × 1 + 0.3 × 1 + 0.2 × 1/2) = 90, not 81 as with 1/30 days.
+    expect(stats.score).toBe(90)
+  })
+
+  it('has no score on the first morning, before anything is due or done', () => {
+    const fresh = { ...task({ title: 'a', kind: 'daily', date: today }), createdAt: at(today, 8) }
+    expect(computeStats({ tasks: [fresh], occurrences: [] }, today, 7).score).toBeNull()
+  })
+})
+
+describe('extra statistics', () => {
+  const today = '2026-10-07' // Wednesday
+
+  it('compares with the previous period', () => {
+    const tasks = [
+      done({ title: 'a', kind: 'daily', date: '2026-09-29' }, '2026-09-29'),
+      task({ title: 'b', kind: 'daily', date: '2026-09-28' }),
+    ]
+    const previous = previousStats({ tasks, occurrences: [] }, today, 7)
+    expect(previous).toMatchObject({ from: '2026-09-24', to: '2026-09-30', planned: 2, done: 1 })
+  })
+
+  it('groups by weekday, Monday first', () => {
+    const tasks = [
+      done({ title: 'mon', kind: 'daily', date: '2026-10-05' }, '2026-10-05'),
+      task({ title: 'tue', kind: 'daily', date: '2026-10-06' }),
+    ]
+    const rows = weekdayStats({ tasks, occurrences: [] }, today, 7)
+    expect(rows[0]).toEqual({ weekday: 1, done: 1, total: 1 })
+    expect(rows[1]).toEqual({ weekday: 2, done: 0, total: 1 })
+    expect(rows[2]).toEqual({ weekday: 3, done: 0, total: 0 })
+  })
+
+  it('sorts completions into parts of the day', () => {
+    expect([4, 5, 11, 12, 16, 17, 21, 22].map(dayPartOf)).toEqual([
+      'night',
+      'morning',
+      'morning',
+      'afternoon',
+      'afternoon',
+      'evening',
+      'evening',
+      'night',
+    ])
+    const tasks = [
+      task({ title: 'a', kind: 'general', status: 'done', completedAt: at('2026-10-06', 7) }),
+      task({ title: 'b', kind: 'general', status: 'done', completedAt: at('2026-10-06', 23) }),
+      task({ title: 'old', kind: 'general', status: 'done', completedAt: at('2026-09-01', 7) }),
+    ]
+    expect(dayPartCounts({ tasks, occurrences: [] }, today, 7)).toEqual({ morning: 1, afternoon: 0, evening: 0, night: 1 })
+  })
+
+  it('lists open one-off tasks whose day has passed', () => {
+    const tasks = [
+      task({ title: 'late', kind: 'daily', date: '2026-10-03' }),
+      task({ title: 'later', kind: 'weekly', weekStart: '2026-09-28' }),
+      task({ title: 'today', kind: 'daily', date: today }),
+      done({ title: 'done', kind: 'daily', date: '2026-10-01' }, '2026-10-02'),
+      task({ title: 'repeat', kind: 'daily', date: '2026-10-01', recurrence: { freq: 'daily', interval: 1 } }),
+    ]
+    expect(overdueTasks({ tasks, occurrences: [] }, today).map((t) => t.title)).toEqual(['late', 'later'])
   })
 })
 

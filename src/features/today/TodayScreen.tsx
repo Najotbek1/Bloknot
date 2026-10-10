@@ -7,6 +7,7 @@ import { formatDayLong } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
 import { useToday } from '../../ui/useToday'
 import { useNotificationPermission } from '../notifications/usePermission'
+import { DayReminders } from '../reminders/DayReminders'
 import { useTaskEditor } from '../tasks/editorContext'
 import { agendaRows, taskRows } from '../tasks/rows'
 import { TaskRows } from '../tasks/TaskRows'
@@ -60,6 +61,8 @@ export function TodayScreen() {
         {agenda?.length === 0 && <p className="card empty">{t('today.empty')}</p>}
         {agenda && agenda.length > 0 && <TaskRows rows={agendaRows(agenda, today)} />}
       </section>
+
+      <DayReminders date={today} canAdd={false} />
 
       {week && week.length > 0 && (
         <section className="section">

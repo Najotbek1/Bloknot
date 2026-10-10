@@ -87,6 +87,18 @@ export interface Note extends BaseRecord {
   taskId: string | null
 }
 
+/** How a day reminder rings: three times that day (09:00, 14:00, 20:00), or once at `time`. */
+export type DayReminderMode = 'thrice' | 'time'
+
+/** A note-to-self pinned to a calendar day, delivered as notifications on that day. */
+export interface DayReminder extends BaseRecord {
+  date: DateKey
+  text: string
+  mode: DayReminderMode
+  /** Set when `mode` is 'time'. */
+  time: TimeOfDay | null
+}
+
 /** "system" follows the phone (light or dark); the others are fixed palettes from theme.css. */
 export type ThemePreference = 'system' | 'light' | 'dark' | 'black' | 'pink' | 'amber'
 /** How the Calendar tab shows plans: a month grid, or the older lists by day/week/month. */
@@ -97,6 +109,8 @@ export interface Settings extends BaseRecord {
   id: 'settings'
   theme: ThemePreference
   planView: PlanView
+  /** Notification wording follows the 7-day responsibility score (src/core/coach.ts). */
+  coachMode: boolean
   /** Morning notification listing the day's tasks. */
   morningSummary: boolean
   morningSummaryTime: TimeOfDay

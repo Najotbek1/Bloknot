@@ -81,3 +81,15 @@
 .calendar__day--done .calendar__dots > i {
   background: var(--color-success);
 }
+
+/* Day reminders: a small bell in the corner of the cell */
+.calendar__day {
+  position: relative;
+}
+
+.calendar__bell {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  color: var(--color-warning);
+}

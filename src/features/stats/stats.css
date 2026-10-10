@@ -308,3 +308,128 @@
 .stats-table tbody tr:first-child td {
   border-top: 1px solid var(--color-border);
 }
+
+/* Score comparison and coach line under the ring */
+.score-notes {
+  display: grid;
+  gap: 4px;
+  margin: 10px 4px 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.score-notes p {
+  margin: 0;
+}
+
+.score-delta--up {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.score-delta--down {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* Weekdays */
+.weekday-chart {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  padding: var(--space) 12px 4px;
+}
+
+.weekday-chart__col {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.weekday-chart__value {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.weekday-chart__track {
+  display: flex;
+  align-items: flex-end;
+  width: 70%;
+  height: 90px;
+  border-radius: 8px;
+  background: var(--chart-track);
+  overflow: hidden;
+}
+
+.weekday-chart__bar {
+  width: 100%;
+  border-radius: 8px;
+  background: var(--chart-2);
+  transition: height 0.3s ease;
+}
+
+.weekday-chart__bar.is-best {
+  background: var(--chart-3);
+}
+
+.weekday-chart__col[aria-pressed='true'] .weekday-chart__bar {
+  background: var(--chart-4);
+}
+
+.weekday-chart__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.chart-detail--below {
+  margin: 4px 12px 12px;
+}
+
+/* Parts of the day */
+.day-part__hours {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.day-part__best {
+  margin: 0;
+  padding: 0 var(--space) 14px;
+}
+
+/* Overdue */
+.overdue-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px var(--space);
+  border: 0;
+  text-align: left;
+  font-weight: 600;
+}
+
+.overdue-card__count {
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--color-danger);
+  color: var(--color-surface);
+  font-variant-numeric: tabular-nums;
+}
+
+.overdue-card__text {
+  flex: 1;
+}
+
+.overdue-list {
+  margin-top: 10px;
+}

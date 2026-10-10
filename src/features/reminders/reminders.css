@@ -1,0 +1,53 @@
+.reminder-list {
+  margin: 0 0 10px;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.reminder-list > li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.reminder-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px var(--space);
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.reminder-row__icon {
+  flex: none;
+  color: var(--color-primary);
+}
+
+.reminder-row__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.reminder-row__text {
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+.reminder-row__when {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.reminder-add {
+  color: var(--color-primary);
+}
+
+.reminder-time {
+  margin: 10px 0 0;
+}
+
+.reminder-time .input {
+  max-width: 180px;
+}
