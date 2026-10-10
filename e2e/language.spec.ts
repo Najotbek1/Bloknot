@@ -24,3 +24,17 @@ test('the language follows the setting, and Arabic turns the layout right-to-lef
   await expect(page.locator('html')).toHaveAttribute('lang', 'ru')
   expect(pageErrors).toEqual([])
 })
+
+test('Settings shows the contact email and the privacy policy', async ({ page, pageErrors }) => {
+  await page.goto('/')
+  await page.locator('.bottom-nav').getByRole('button', { name: 'Sozlamalar', exact: true }).click()
+  await expect(page.getByRole('link', { name: /Biz bilan bog‘lanish/ })).toHaveAttribute(
+    'href',
+    'mailto:contact.najotbek@gmail.com',
+  )
+  await expect(page.getByRole('link', { name: /Maxfiylik siyosati/ })).toHaveAttribute(
+    'href',
+    'https://najotbek1.github.io/Bloknot/privacy.html',
+  )
+  expect(pageErrors).toEqual([])
+})

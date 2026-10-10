@@ -27,7 +27,7 @@ Haqiqiy daromad uchun AdMob'dan ikkita ID olasiz va ularni GitHub sozlamalariga 
 2. Ad unit ID beriladi, u ham `ca-app-pub-…/…` ko‘rinishida bo‘ladi.
 
 Bu reklama ilovada qattiq cheklangan:
-- kuniga ko‘pi bilan 1 marta;
+- kuniga ko‘pi bilan 5 marta, orasida kamida 1 soat;
 - ilova o‘rnatilgandan keyingi dastlabki 3 kunda chiqmaydi;
 - faqat ilova yangidan ochilganda yoki 30 daqiqadan ko‘proq fonda turgach qaytilganda chiqadi;
 - uyg‘otgich chalganda, bildirishnomadan kirganda yoki biror oyna ochiq bo‘lsa chiqmaydi.

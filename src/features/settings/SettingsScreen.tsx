@@ -10,6 +10,10 @@ import { AdSettings } from '../ads/AdSettings'
 import { Switch } from '../../ui/Switch'
 import './settings.css'
 
+/** Where users reach the developer, and the published privacy policy (public/privacy.html). */
+const CONTACT_EMAIL = 'contact.najotbek@gmail.com'
+const PRIVACY_URL = 'https://najotbek1.github.io/Bloknot/privacy.html'
+
 const THEMES: ThemePreference[] = ['system', 'light', 'dark', 'black', 'pink', 'amber']
 const PLAN_VIEWS: PlanView[] = ['calendar', 'list']
 
@@ -116,9 +120,21 @@ export function SettingsScreen() {
 
       <section className="section">
         <h2 className="section__title">{t('settings.about')}</h2>
-        <p className="card empty">
-          {t('app.name')} · {t('app.version', { version: __APP_VERSION__ })}
-        </p>
+        <div className="card settings-list about-links">
+          <a className="about-link about-link--stacked" href={`mailto:${CONTACT_EMAIL}`}>
+            <span>{t('settings.contact')}</span>
+            <span className="about-link__value">{CONTACT_EMAIL}</span>
+          </a>
+          <a className="about-link" href={PRIVACY_URL} target="_blank" rel="noopener noreferrer">
+            <span>{t('settings.privacy')}</span>
+            <span className="about-link__value" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+          <p className="about-version">
+            {t('app.name')} · {t('app.version', { version: __APP_VERSION__ })}
+          </p>
+        </div>
       </section>
     </main>
   )

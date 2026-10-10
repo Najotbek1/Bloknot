@@ -107,17 +107,53 @@ const APP_OPEN_MAX_AGE_MS = 4 * 60 * 60 * 1000
 let appOpenLoadedAt = 0
 let appOpenLoading: Promise<void> | null = null
 
+/** What the App Open ad is doing, shown in Settings while testing so problems are visible. */
+export type AppOpenStatus =
+  | { state: 'idle' | 'loading' | 'ready' | 'shown' | 'skipped' }
+  | { state: 'error'; message: string }
+let appOpenStatus: AppOpenStatus = { state: 'idle' }
+const statusListeners = new Set<(status: AppOpenStatus) => void>()
+
+export function setAppOpenStatus(status: AppOpenStatus): void {
+  appOpenStatus = status
+  for (const listener of statusListeners) listener(status)
+}
+
+export function onAppOpenStatus(listener: (status: AppOpenStatus) => void): () => void {
+  statusListeners.add(listener)
+  listener(appOpenStatus)
+  return () => {
+    statusListeners.delete(listener)
+  }
+}
+
+function errorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message
+  if (typeof error === 'object' && error !== null && 'message' in error) return String(error.message)
+  return String(error)
+}
+
+/** Whether a loaded, still fresh App Open ad is waiting. */
+export function appOpenReady(): boolean {
+  return appOpenLoadedAt > 0 && Date.now() - appOpenLoadedAt < APP_OPEN_MAX_AGE_MS
+}
+
 /** Loads the App Open ad in the background so it can show instantly later. */
 export function preloadAppOpen(): Promise<void> {
-  if (!adsSupported) return Promise.resolve()
-  if (appOpenLoadedAt && Date.now() - appOpenLoadedAt < APP_OPEN_MAX_AGE_MS) return Promise.resolve()
+  if (!adsSupported || appOpenReady()) return Promise.resolve()
   appOpenLoading ??= (async () => {
     try {
-      if (!(await initAds())) return
+      if (!(await initAds())) {
+        setAppOpenStatus({ state: 'error', message: 'consent / init' })
+        return
+      }
+      setAppOpenStatus({ state: 'loading' })
       await AdMob.loadAppOpen({ adId: adConfig.appOpenId })
       appOpenLoadedAt = Date.now()
+      setAppOpenStatus({ state: 'ready' })
     } catch (error) {
       warn('load app open', error)
+      setAppOpenStatus({ state: 'error', message: errorMessage(error) })
     } finally {
       appOpenLoading = null
     }
@@ -130,9 +166,8 @@ export function preloadAppOpen(): Promise<void> {
  * after it is closed; the next one is then loaded.
  */
 export async function showAppOpenIfLoaded(): Promise<boolean> {
-  if (!adsSupported || !appOpenLoadedAt || Date.now() - appOpenLoadedAt >= APP_OPEN_MAX_AGE_MS) return false
+  if (!adsSupported || !appOpenReady()) return false
   try {
-    if (!(await AdMob.isAppOpenLoaded()).value) return false
     const closed = new Promise<void>((resolve) => {
       const handles = [
         AdMob.addListener(AppOpenAdPluginEvents.Closed, () => done()),
@@ -145,11 +180,14 @@ export async function showAppOpenIfLoaded(): Promise<boolean> {
     })
     appOpenLoadedAt = 0
     await AdMob.showAppOpen()
+    setAppOpenStatus({ state: 'shown' })
     await closed
     void preloadAppOpen()
     return true
   } catch (error) {
     warn('show app open', error)
+    setAppOpenStatus({ state: 'error', message: errorMessage(error) })
+    void preloadAppOpen()
     return false
   }
 }
