@@ -140,7 +140,22 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - 6 ta mavzu: Telefon bo'yicha, Yorug', Tungi, Tim qora (AMOLED), Pushti, Sariq-qora. Tokenlar `src/ui/theme.css` da; Sozlamalarda har mavzu o'z ranglarida ko'rsatiladi (`[data-preview]`).
    - «Reja» bo'limi endi «Kalendar». Sozlamalar → «Rejalarni ko'rish usuli»: **Kalendar** (oy jadvali, kunda nuqtalar, kunni bosganda rejalari; Muddatli va Umumiy yorliqlari) yoki **Ro'yxat** (avvalgi Kun/Hafta/Oy/Muddatli/Umumiy). Mantiq `src/core/calendar.ts`.
    - AdMob ID'lari GitHub Variables orqali (yuqoridagi 7-bosqich).
-9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
+9. **Desktop** → 13-bosqichga ko'chirildi (foydalanuvchi avval yangi imkoniyatlarni so'radi).
+10. **Kun eslatmalari, statistika, murabbiy.** ✅ bajarildi (1.2.0)
+   - Kalendarda tanlangan kunga eslatma: «Kun davomida 3 marta» (09:00, 14:00, 20:00) yoki belgilangan vaqtda. Kalendar katagida 🔔, «Bugun»da ham ko'rinadi. Yangi `dayReminders` jadvali (Dexie v2), eksport/importga kiradi.
+   - Statistika tuzatildi: bugungi hali bajarilmagan rejalar «kutilmoqda» (foizni tushirmaydi); faollik ilova ishlatila boshlagan kundan hisoblanadi. Yangi: oldingi davr bilan solishtirish, hafta kunlari, kunning qaysi vaqtida bajarilishi, kechikkan rejalar.
+   - Murabbiy (`src/core/coach.ts`): so'nggi 7 kunlik ball < 50 — qattiq (haqoratsiz), 50–70 — oddiy, > 70 — ruhlantiruvchi. Sozlamalar → Murabbiy, Statistikada joriy holat.
+11. **Uyg'otgich.** ✅ bajarildi (1.3.0)
+   - «Bugun» ekranidagi ⏰ tugmasi: keyingi uyg'otgich vaqti va ro'yxat. Vaqt, hafta kunlari (bo'sh bo'lsa bir marta), nom, matn uzunligi, telefondagi signal tanlanadi.
+   - Chalganda butun ekranni egallaydi; matn to'g'ri yozilmaguncha (katta-kichik harf, tinish belgilari va apostrof shakli hisobga olinmaydi) musiqa o'chmaydi. «Keyinroq» tugmasi yo'q (egasining qarori).
+   - Native plagin `android/app/src/main/java/uz/najotbek/bloknot/alarm/`: `AlarmManager.setAlarmClock`, foreground `AlarmService` (takroriy ovoz, tebranish, ovozni ≥70%, 1 soatlik chegara), full-screen intent, qayta yoqilganda tiklash. JS ko'prigi `src/platform/alarm.ts`, mantiq `src/core/alarms/`, Dexie v3 `alarms` jadvali.
+12. **Tillar.** ✅ bajarildi (1.4.0)
+   - O'zbek, ingliz, rus, nemis, yapon, koreys, hind va arab tillari. Til telefon tilidan olinadi (bizda bo'lmasa — o'zbekcha) va Sozlamalar → Til orqali tanlanadi.
+   - Matnlar `src/i18n/<til>.ts`, ko'plik shakllari (`{count, plural, …}`), sanalar va hafta kunlari Intl orqali. Murabbiy iboralari, bildirishnomalar va uyg'otgich matnlari ham tarjima qilingan.
+   - Arab tili uchun o'ngdan chapga (RTL) joylashuv.
+12.5. **App Open reklama.** ✅ bajarildi (1.5.0). Ilova ochilganda butun ekranli reklama: kuniga ko'pi bilan 1 marta, o'rnatilgandan 3 kun o'tgach, faqat yangidan ochilganda yoki 30 daqiqadan keyin qaytganda; uyg'otgich, bildirishnoma yoki ochiq oyna ustiga chiqmaydi. ID — GitHub Variables'dagi `ADMOB_APP_OPEN_ID`.
+12.6. **Reklama va aloqa (0.5.0).** ✅ App Open: kuniga ko'pi bilan 5 marta, orasida ≥1 soat; birinchi ochilishda 8 soniyagacha kutadi; sinov rejimida Sozlamalarda holat qatori. Sozlamalar → Ilova haqida: aloqa email'i (contact.najotbek@gmail.com) va maxfiylik siyosati havolasi. Ko'rinadigan versiya egasining so'rovi bilan 0.5.0 ga tushirildi (Play'ga chiqishgacha).
+13. **Desktop** (avvalgi 9-bosqich, keyinga surildi). Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 
 ## Tekshirish (har bosqichda)
 - `npm test`: mantiqiy testlar (sinxronlash, takrorlanish, statistika).

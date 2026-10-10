@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useCallback, useState } from 'react'
 import { db } from '../../core/db/schema'
 import { monthKeyOf } from '../../core/dates'
 import { getDayAgenda, getMonthTasks, getWeekTasks } from '../../core/queries'
@@ -6,12 +7,22 @@ import { t } from '../../i18n'
 import { formatDayLong } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
 import { useToday } from '../../ui/useToday'
+import { AlarmsScreen } from '../alarm/AlarmsScreen'
+import { NextAlarmButton } from '../alarm/NextAlarmButton'
 import { useNotificationPermission } from '../notifications/usePermission'
+import { DayReminders } from '../reminders/DayReminders'
 import { useTaskEditor } from '../tasks/editorContext'
 import { agendaRows, taskRows } from '../tasks/rows'
 import { TaskRows } from '../tasks/TaskRows'
 
 export function TodayScreen() {
+  const [showAlarms, setShowAlarms] = useState(false)
+  const closeAlarms = useCallback(() => setShowAlarms(false), [])
+  if (showAlarms) return <AlarmsScreen onBack={closeAlarms} />
+  return <TodayMain onOpenAlarms={() => setShowAlarms(true)} />
+}
+
+function TodayMain({ onOpenAlarms }: { onOpenAlarms: () => void }) {
   const today = useToday()
   const editor = useTaskEditor()
   const { permission, request } = useNotificationPermission()
@@ -25,9 +36,12 @@ export function TodayScreen() {
 
   return (
     <main className="screen">
-      <header className="screen__header">
-        <h1 className="screen__title">{t('today.title')}</h1>
-        <p className="screen__subtitle">{formatDayLong(today)}</p>
+      <header className="screen__header today-header">
+        <div className="today-header__text">
+          <h1 className="screen__title">{t('today.title')}</h1>
+          <p className="screen__subtitle">{formatDayLong(today)}</p>
+        </div>
+        <NextAlarmButton onClick={onOpenAlarms} />
       </header>
 
       {permission === 'prompt' && (
@@ -60,6 +74,8 @@ export function TodayScreen() {
         {agenda?.length === 0 && <p className="card empty">{t('today.empty')}</p>}
         {agenda && agenda.length > 0 && <TaskRows rows={agendaRows(agenda, today)} />}
       </section>
+
+      <DayReminders date={today} canAdd={false} />
 
       {week && week.length > 0 && (
         <section className="section">

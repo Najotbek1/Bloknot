@@ -1,5 +1,5 @@
 import type { BloknotDB } from '../db/schema'
-import type { BaseRecord, Note, Notebook, Settings, Task, TaskOccurrence } from '../models/types'
+import type { Alarm, BaseRecord, DayReminder, Note, Notebook, Settings, Task, TaskOccurrence } from '../models/types'
 
 export const BACKUP_FORMAT = 'bloknot'
 /** Bump when the file layout changes; older files must still be readable. */
@@ -13,6 +13,10 @@ export interface BackupData {
   notebooks: Notebook[]
   notes: Note[]
   settings: Settings[]
+  /** Added in 1.2.0; files from older versions have none. */
+  dayReminders: DayReminder[]
+  /** Added in 1.3.0. */
+  alarms: Alarm[]
 }
 
 export interface Backup {
@@ -23,17 +27,27 @@ export interface Backup {
   data: BackupData
 }
 
-export const TABLES = ['tasks', 'occurrences', 'notebooks', 'notes', 'settings'] as const satisfies readonly (keyof BackupData)[]
+export const TABLES = [
+  'tasks',
+  'occurrences',
+  'notebooks',
+  'notes',
+  'settings',
+  'dayReminders',
+  'alarms',
+] as const satisfies readonly (keyof BackupData)[]
 
 export async function readAll(db: BloknotDB): Promise<BackupData> {
-  const [tasks, occurrences, notebooks, notes, settings] = await Promise.all([
+  const [tasks, occurrences, notebooks, notes, settings, dayReminders, alarms] = await Promise.all([
     db.tasks.toArray(),
     db.occurrences.toArray(),
     db.notebooks.toArray(),
     db.notes.toArray(),
     db.settings.toArray(),
+    db.dayReminders.toArray(),
+    db.alarms.toArray(),
   ])
-  return { tasks, occurrences, notebooks, notes, settings }
+  return { tasks, occurrences, notebooks, notes, settings, dayReminders, alarms }
 }
 
 export async function createBackup(db: BloknotDB, appVersion: string, now: number = Date.now()): Promise<Backup> {
@@ -96,6 +110,8 @@ export function parseBackup(text: string): Backup {
       notebooks: data.notebooks ?? [],
       notes: data.notes ?? [],
       settings: data.settings ?? [],
+      dayReminders: data.dayReminders ?? [],
+      alarms: data.alarms ?? [],
     },
   }
 }

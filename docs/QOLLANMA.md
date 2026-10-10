@@ -23,7 +23,7 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:
 1. AdMob'dan App ID va Banner ID olasiz.
-2. GitHub → **Settings → Secrets and variables → Actions → Variables** bo‘limiga `ADMOB_APP_ID` va `ADMOB_BANNER_ID` ni yozasiz.
+2. GitHub → **Settings → Secrets and variables → Actions → Variables** bo‘limiga `ADMOB_APP_ID`, `ADMOB_BANNER_ID` va `ADMOB_APP_OPEN_ID` ni yozasiz.
 3. **Actions → Build → Re-run all jobs** bosasiz.
 
 ## 3. Google Play'ga joylash
@@ -42,17 +42,29 @@ Play har safar versiya raqami oshgan bo‘lishini talab qiladi:
   3. `"version": "1.1.0"` qatoridagi raqamni o‘zgartiring.
   4. **Commit changes** bosing.
 
-## 5. Maxfiy kalit (juda muhim)
+## 5. Uyg'otgich ishlamasa
+Uyg'otgich «Bugun» ekranidagi ⏰ tugmasi orqali ochiladi. Shu yerdagi ogohlantirishlar qaysi ruxsat yetishmayotganini ko'rsatadi. Ular:
+- **Bildirishnomalar** — yoqilgan bo'lishi kerak.
+- **Signal va eslatmalar** (Android 12–13) — aniq vaqtda chalish uchun.
+- **To'liq ekranli bildirishnomalar** (Android 14+) — qulflangan ekranda ochilish uchun.
+- **Xiaomi, Oppo, Vivo, Huawei** telefonlarida ilova sozlamalarida «Batareya cheklovi yo'q» va «Avtoishga tushish»ni yoqing. Aks holda tizim uyg'otgichni kechiktirishi mumkin.
+
+Cheklovlar:
+- Telefon o'chiq bo'lsa yoki ilova «Majburan to'xtatish» qilingan bo'lsa, uyg'otgich chalmaydi.
+- Ovozni ovoz tugmasi bilan pasaytirish mumkin. Chalish boshlanganda ilova ovozni kamida 70% gacha ko'taradi.
+- Uyg'otgich 1 soatdan keyin o'zi to'xtaydi, batareya tugab qolmasligi uchun.
+
+## 6. Maxfiy kalit (juda muhim)
 - `maqsad-release.jks` va `release-secrets.txt` fayllari Play'ga yangilanish yuklash uchun kerak. Ularni ikki joyda saqlang va hech kimga bermang.
 - Ular GitHub **Secrets**'da ham turibdi (`RELEASE_*`). Secrets'ni o‘chirmang.
 
-## 6. Keyin Claude bilan davom etish
+## 7. Keyin Claude bilan davom etish
 Loyihaning butun konteksti repozitoriyada saqlangan:
 - `CLAUDE.md` — qoidalar;
 - `docs/REJA.md` — bosqichlar va nima qilingani.
 
 Yangi Claude Code sessiyasini shu repozitoriya bilan oching va masalan quyidagilarni yozing:
-- «docs/REJA.md ni o‘qi va 9-bosqichni (desktop ilova) boshla»;
+- «docs/REJA.md ni o‘qi va keyingi bajarilmagan bosqichni boshla»;
 - «AdMob ID'larim tayyor, tekshirib ber»;
 - «ilovaga yangi funksiya qo‘sh: …».
 

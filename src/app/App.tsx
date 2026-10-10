@@ -2,6 +2,9 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { db } from '../core/db/schema'
 import { getSettings } from '../core/db/tasks'
+import type { Language } from '../core/models/types'
+import { getLanguage, setLanguage } from '../i18n'
+import { resolveLanguage } from '../i18n/languages'
 import { todayKey } from '../core/dates'
 import { NotebooksScreen } from '../features/notebooks/NotebooksScreen'
 import { PlanScreen, type PlanState } from '../features/plan/PlanScreen'
@@ -10,6 +13,9 @@ import { StatsScreen } from '../features/stats/StatsScreen'
 import { TaskEditorProvider } from '../features/tasks/editor'
 import { TodayScreen } from '../features/today/TodayScreen'
 import { useAdBanner } from '../features/ads/useAdBanner'
+import { useAppOpenAd } from '../features/ads/useAppOpenAd'
+import { AlarmRinging } from '../features/alarm/AlarmRinging'
+import { useAlarmSync } from '../features/alarm/useAlarmSync'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
@@ -39,6 +45,18 @@ function useTheme() {
   }, [settings])
 }
 
+/**
+ * The UI language from settings ('auto' = the phone's). `t()` reads a module-level language, so it
+ * is switched while rendering, before the screens below render, and they are remounted under a
+ * new key so every text is rebuilt.
+ */
+function useLanguage(): Language {
+  const settings = useLiveQuery(() => getSettings(db), [])
+  const language = settings ? resolveLanguage(settings.language, navigator.languages) : getLanguage()
+  if (getLanguage() !== language) setLanguage(language)
+  return language
+}
+
 function GlobalErrors() {
   useGlobalErrors()
   return null
@@ -58,8 +76,11 @@ export default function App() {
     [],
   )
   useTheme()
+  const language = useLanguage()
   useNotificationSync()
+  useAlarmSync()
   useAdBanner()
+  useAppOpenAd()
 
   // Android back button: from any tab go back to "Bugun"; from "Bugun" close the app.
   const tabRef = useRef(tab)
@@ -83,8 +104,9 @@ export default function App() {
 
   return (
     <NavigationContext.Provider value={navigation}>
-      <ToastProvider>
+      <ToastProvider key={language}>
         <GlobalErrors />
+        <AlarmRinging />
         <TaskEditorProvider>
           {tab === 'today' && <TodayScreen />}
           {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}

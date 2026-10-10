@@ -22,6 +22,18 @@ Haqiqiy daromad uchun AdMob'dan ikkita ID olasiz va ularni GitHub sozlamalariga 
 1. Ilova sahifasida **Ad units → Add ad unit → Banner**. Nomi: «Pastki banner».
 2. Sizga **Ad unit ID** beriladi. U `ca-app-pub-1234567890123456/1234567890` ko‘rinishida bo‘ladi, ichida **`/`** belgisi bor.
 
+## 3b. «App open» reklama bloki (ilova ochilganda chiqadigan reklama)
+1. Xuddi shu sahifada: **Ad units → Add ad unit → App open**. Nomi: masalan «Ochilish reklamasi».
+2. Ad unit ID beriladi, u ham `ca-app-pub-…/…` ko‘rinishida bo‘ladi.
+
+Bu reklama ilovada qattiq cheklangan:
+- kuniga ko‘pi bilan 5 marta, orasida kamida 1 soat;
+- ilova o‘rnatilgandan keyingi dastlabki 3 kunda chiqmaydi;
+- faqat ilova yangidan ochilganda yoki 30 daqiqadan ko‘proq fonda turgach qaytilganda chiqadi;
+- uyg‘otgich chalganda, bildirishnomadan kirganda yoki biror oyna ochiq bo‘lsa chiqmaydi.
+
+Haqiqiy ID qo‘yilmaguncha sinov rejimida ishlaydi. Bu rejimda reklama har 2 daqiqada bir marta chiqishi mumkin, shunda uni telefonda sinab ko‘rasiz.
+
 ## 4. ID'larni GitHub'ga yozish (eng muhim qadam)
 1. GitHub'da repozitoriyani oching: **Settings → Secrets and variables → Actions**.
 2. **Variables** yorlig‘iga o‘ting. Bu Secrets emas, uning yonidagi yorliq.
@@ -30,7 +42,8 @@ Haqiqiy daromad uchun AdMob'dan ikkita ID olasiz va ularni GitHub sozlamalariga 
    | Name | Value |
    |---|---|
    | `ADMOB_APP_ID` | `~` belgili App ID |
-   | `ADMOB_BANNER_ID` | `/` belgili Ad unit ID |
+   | `ADMOB_BANNER_ID` | `/` belgili banner Ad unit ID |
+   | `ADMOB_APP_OPEN_ID` | `/` belgili «App open» Ad unit ID (ixtiyoriy) |
 
 4. Nomlar aynan shunday, KATTA harflar bilan yozilishi kerak. Qiymatlarda bo‘sh joy qolmasin.
 

@@ -19,7 +19,15 @@ export interface MergeResult {
   report: MergeReport
 }
 
-const emptyData = (): BackupData => ({ tasks: [], occurrences: [], notebooks: [], notes: [], settings: [] })
+const emptyData = (): BackupData => ({
+  tasks: [],
+  occurrences: [],
+  notebooks: [],
+  notes: [],
+  settings: [],
+  dayReminders: [],
+  alarms: [],
+})
 
 /**
  * Last write wins, per record: a record from the file replaces the local one only if it was changed

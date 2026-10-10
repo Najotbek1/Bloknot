@@ -1,8 +1,10 @@
+import type { Weekday } from '../../core/models/types'
 import { useState } from 'react'
 import type { HeatmapCell } from '../../core/stats'
 import { t } from '../../i18n'
-import { formatDayShort } from '../../i18n/format'
-import { uzWeekdaysShort } from '../../i18n/uz'
+import { formatDayShort, weekdayShort } from '../../i18n/format'
+
+const WEEKDAYS: Weekday[] = [1, 2, 3, 4, 5, 6, 7]
 
 /** Activity calendar: columns are weeks, rows Monday–Sunday, darker = more tasks done that day. */
 export function Heatmap({ columns }: { columns: HeatmapCell[][] }) {
@@ -10,7 +12,7 @@ export function Heatmap({ columns }: { columns: HeatmapCell[][] }) {
   return (
     <div className="heatmap">
       <div className="heatmap__grid" style={{ gridTemplateColumns: `auto repeat(${columns.length}, 1fr)` }}>
-        {uzWeekdaysShort.map((name, row) => (
+        {WEEKDAYS.map(weekdayShort).map((name, row) => (
           <span key={name} className="heatmap__weekday" style={{ gridColumn: 1, gridRow: row + 1 }}>
             {row % 2 === 0 ? name : ''}
           </span>

@@ -2,20 +2,23 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { getMonthSummaries, isInMonth, monthGrid } from '../../core/calendar'
 import { db } from '../../core/db/schema'
 import { monthKeyOf, parseDateKey, shiftMonth, weekStartOf } from '../../core/dates'
-import type { DateKey } from '../../core/models/types'
+import type { DateKey, Weekday } from '../../core/models/types'
 import { getMonthTasks, getWeekTasks } from '../../core/queries'
 import { t } from '../../i18n'
-import { formatDayLong, formatMonth, formatWeek } from '../../i18n/format'
-import { uzWeekdaysShort } from '../../i18n/uz'
+import { formatDayLong, formatMonth, formatWeek, weekdayShort } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
+import { BellIcon } from '../../ui/icons'
 import { PeriodNav } from '../../ui/PeriodNav'
 import { useToday } from '../../ui/useToday'
 import { useTaskEditor } from '../tasks/editorContext'
 import { taskRows } from '../tasks/rows'
 import { TaskRows } from '../tasks/TaskRows'
+import { DayReminders } from '../reminders/DayReminders'
 import { DayList, GeneralList, RangeList } from './lists'
 import type { PlanState } from './PlanScreen'
 import './calendar.css'
+
+const WEEKDAYS: Weekday[] = [1, 2, 3, 4, 5, 6, 7]
 
 export type CalendarTab = 'calendar' | 'range' | 'general'
 
@@ -76,6 +79,7 @@ export function CalendarView({ state, onChange }: CalendarViewProps) {
             <h2 className="section__title">{formatDayLong(day)}</h2>
             <DayList day={day} today={today} />
           </section>
+          <DayReminders date={day} />
           <PeriodTasks day={day} />
         </>
       )}
@@ -107,7 +111,7 @@ function MonthGrid({ month, selected, today, onSelect }: MonthGridProps) {
   return (
     <div className="card calendar">
       <div className="calendar__weekdays" aria-hidden="true">
-        {uzWeekdaysShort.map((name) => (
+        {WEEKDAYS.map(weekdayShort).map((name) => (
           <span key={name}>{name}</span>
         ))}
       </div>
@@ -123,21 +127,22 @@ function MonthGrid({ month, selected, today, onSelect }: MonthGridProps) {
             summary?.inRange && 'calendar__day--range',
             total > 0 && done === total && 'calendar__day--done',
           ]
-          const label = formatDayLong(date)
+          const reminders = summary?.reminders ?? 0
+          const dayLabel =
+            total > 0
+              ? t('plan.calendar.label', { day: formatDayLong(date), total, done })
+              : t('plan.calendar.labelEmpty', { day: formatDayLong(date) })
           return (
             <button
               key={date}
               type="button"
               className={classes.filter(Boolean).join(' ')}
               aria-pressed={date === selected}
-              aria-label={
-                total > 0
-                  ? t('plan.calendar.label', { day: label, total, done })
-                  : t('plan.calendar.labelEmpty', { day: label })
-              }
+              aria-label={reminders > 0 ? t('plan.calendar.labelReminders', { label: dayLabel, count: reminders }) : dayLabel}
               onClick={() => onSelect(date)}
             >
               <span className="calendar__number">{parseDateKey(date).getDate()}</span>
+              {reminders > 0 && <BellIcon size={11} className="calendar__bell" />}
               <span className="calendar__dots" aria-hidden="true">
                 {Array.from({ length: Math.min(total, 3) }, (_, index) => (
                   <i key={index} />

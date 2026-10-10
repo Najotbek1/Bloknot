@@ -53,3 +53,70 @@
 .settings-hint {
   margin: 8px 4px 0;
 }
+
+.coach-info {
+  padding: 12px var(--space) 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.coach-info p {
+  margin: 0 0 8px;
+}
+
+.coach-info ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coach-info li {
+  padding-inline-start: 12px;
+  border-inline-start: 3px solid var(--color-border);
+}
+
+.coach-info li.coach-info__strict {
+  border-inline-start-color: var(--color-danger);
+}
+
+.coach-info li.coach-info__inspiring {
+  border-inline-start-color: var(--color-success);
+}
+
+/* Settings → Ilova haqida: contact and privacy links */
+.about-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px var(--space);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-link__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.about-version {
+  margin: 0;
+  padding: 14px var(--space);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.about-link--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}

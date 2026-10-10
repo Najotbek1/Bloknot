@@ -1,0 +1,164 @@
+/* Alarm list */
+.alarm-list {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.alarm-row {
+  display: flex;
+  align-items: center;
+}
+
+.alarm-row + .alarm-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.alarm-row__body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding: 12px var(--space);
+  border: 0;
+  background: transparent;
+  text-align: start;
+}
+
+.alarm-row__time {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.alarm-row__meta {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.alarm-row--off .alarm-row__time,
+.alarm-row--off .alarm-row__meta {
+  opacity: 0.45;
+}
+
+.alarm-row__switch {
+  width: auto;
+  padding-block: 14px;
+  padding-inline: 8px var(--space);
+}
+
+.alarm-form__time {
+  max-width: 200px;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+.alarm-form__ringtone {
+  justify-content: flex-start;
+}
+
+.alarm-battery summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* "Next alarm" button on Today */
+.today-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.today-header__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.next-alarm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Ringing: covers everything, including the bottom navigation */
+.alarm-ringing {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: calc(24px + env(safe-area-inset-top)) var(--space) calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body.alarm-open {
+  overflow: hidden;
+}
+
+.alarm-ringing__clock {
+  margin: 0;
+  text-align: center;
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary);
+}
+
+.alarm-ringing__title {
+  margin: 0;
+  text-align: center;
+  font-size: 26px;
+}
+
+.alarm-ringing__label {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.alarm-ringing__instruction {
+  margin: 12px 0 0;
+  font-weight: 600;
+}
+
+.alarm-ringing__target {
+  margin: 0;
+  padding: var(--space);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  font-size: 19px;
+  line-height: 1.55;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.alarm-ringing__done {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.alarm-ringing__input {
+  font-size: 17px;
+}
+
+.alarm-ringing__hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}

@@ -9,10 +9,14 @@
  */
 const TEST_APP_ID = 'ca-app-pub-3940256099942544~3347511713'
 const TEST_BANNER_ID = 'ca-app-pub-3940256099942544/9214589741'
+const TEST_APP_OPEN_ID = 'ca-app-pub-3940256099942544/9257395921'
 
 const appId = import.meta.env.VITE_ADMOB_APP_ID?.trim()
 const bannerId = import.meta.env.VITE_ADMOB_BANNER_ID?.trim()
+const appOpenId = import.meta.env.VITE_ADMOB_APP_OPEN_ID?.trim()
 const real = Boolean(appId && bannerId)
+// The App Open unit must belong to the same account as the App ID, so it is real only with both.
+const realAppOpen = Boolean(appId && appOpenId)
 
 export const adConfig = {
   /** App ID, `ca-app-pub-…~…`. Gradle writes the same value into the manifest. */
@@ -20,4 +24,7 @@ export const adConfig = {
   /** Adaptive banner ad unit, `ca-app-pub-…/…`. */
   bannerId: real ? bannerId! : TEST_BANNER_ID,
   useTestAds: !real,
+  /** Full-screen ad on opening the app (ADMOB_APP_OPEN_ID); see src/core/ads/appOpenPolicy.ts. */
+  appOpenId: realAppOpen ? appOpenId! : TEST_APP_OPEN_ID,
+  appOpenTest: !realAppOpen,
 } as const

@@ -1,8 +1,8 @@
 import { differenceInCalendarDays } from 'date-fns'
 import { parseDateKey, weekdayOf } from '../../core/dates'
 import type { DateKey, RecurrenceRule, Task } from '../../core/models/types'
+import { weekdayShort } from '../../i18n/format'
 import { t } from '../../i18n'
-import { uzWeekdaysShort } from '../../i18n/uz'
 
 /** "Har kuni", "Har hafta: Du, Ch", "Har oyning 15-kuni", … */
 export function recurrenceSummary(rule: RecurrenceRule, anchor: DateKey): string {
@@ -12,7 +12,7 @@ export function recurrenceSummary(rule: RecurrenceRule, anchor: DateKey): string
       return n === 1 ? t('repeat.summary.daily') : t('repeat.summary.everyNDays', { n })
     case 'weekly': {
       const weekdays = rule.weekdays?.length ? [...rule.weekdays].sort() : [weekdayOf(anchor)]
-      const days = weekdays.map((day) => uzWeekdaysShort[day - 1]).join(', ')
+      const days = weekdays.map((day) => weekdayShort(day)).join(', ')
       return n === 1 ? t('repeat.summary.weekly', { days }) : t('repeat.summary.everyNWeeks', { n, days })
     }
     case 'monthly': {

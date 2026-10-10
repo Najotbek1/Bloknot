@@ -29,6 +29,10 @@ Yangi shaxsiy hisoblar ilovani hammaga ochishdan oldin **yopiq testdan** o'tishi
   - **Content rating:** anketani to'ldiring. Zo'ravonlik va boshqa nomaqbul kontent yo'q, natija odatda «3+ / Everyone».
   - **Target audience:** 13+.
   - **Advertising ID:** Ha, reklama uchun.
+  - **Uyg'otgich ruxsatlari (1.3.0 dan).** Play quyidagilarni so'raydi:
+    - **Exact alarms (`USE_EXACT_ALARM`):** «Ilovada foydalanuvchi o'zi qo'yadigan uyg'otgich bor; u aniq vaqtda chalishi kerak».
+    - **Full-screen intent (`USE_FULL_SCREEN_INTENT`):** turi «Alarm». Chalayotgan uyg'otgich qulflangan ekranda ochiladi.
+    - **Foreground service (`mediaPlayback`):** «Uyg'otgich ovozi foydalanuvchi matnni yozguncha chalinadi». Play qisqa video so'rashi mumkin. Uni telefonda «Sinab ko'rish» tugmasini bosib, chalishini va matn yozib o'chirishni ekrandan yozib olib tayyorlaysiz.
 - **Mamlakatlar:** Uzbekiston va xohlagan boshqa mamlakatlar.
 
 ## 5. Production

@@ -41,3 +41,8 @@ export const adBlockers = new AdBlockers()
 export function pushAdBlocker(): () => void {
   return adBlockers.push()
 }
+
+/** Whether something covers the screen right now (no full-screen ad over an open sheet). */
+export function isAdBlocked(): boolean {
+  return adBlockers.blocked
+}

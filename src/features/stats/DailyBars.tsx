@@ -2,8 +2,7 @@ import { useState } from 'react'
 import type { DayStat } from '../../core/stats'
 import { weekdayOf, parseDateKey } from '../../core/dates'
 import { t } from '../../i18n'
-import { formatDayShort } from '../../i18n/format'
-import { uzWeekdaysShort } from '../../i18n/uz'
+import { formatDayShort, weekdayShort } from '../../i18n/format'
 
 const HEIGHT = 140
 const LABEL_SPACE = 20
@@ -60,7 +59,7 @@ export function DailyBars({ series }: { series: DayStat[] }) {
               {showLabel(index) && (
                 <text x={index * slot + slot / 2} y={HEIGHT - 4} textAnchor="middle" className="chart-axis-label">
                   {series.length <= 7
-                    ? uzWeekdaysShort[weekdayOf(item.date) - 1]
+                    ? weekdayShort(weekdayOf(item.date))
                     : parseDateKey(item.date).getDate()}
                 </text>
               )}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildTask, DEFAULT_SETTINGS } from '../db/tasks'
-import type { Reminder, Settings, Task, TaskOccurrence } from '../models/types'
+import type { DayReminder, Reminder, Settings, Task, TaskOccurrence } from '../models/types'
 import { MAX_NOTIFICATIONS, planNotifications } from './plan'
 
 let nextId = 1
@@ -138,5 +138,66 @@ describe('deadline warnings', () => {
       '10/8 08:00 deadline Kurs ishi | Ertaga muddati tugaydi',
       '10/9 08:00 deadline Kurs ishi | Bugun oxirgi kun',
     ])
+  })
+})
+
+describe('day reminders', () => {
+  const reminder = (fields: Partial<DayReminder>): DayReminder => ({
+    id: `r${nextId++}`,
+    date: '2026-10-07',
+    text: 'Dorini ich',
+    mode: 'thrice',
+    time: null,
+    createdAt: 0,
+    updatedAt: 0,
+    deletedAt: null,
+    ...fields,
+  })
+
+  it('rings three times on the day, or once at the chosen time, skipping passed times', () => {
+    const late = new Date(2026, 9, 7, 10, 0)
+    const dayReminders = [
+      reminder({}),
+      reminder({ date: '2026-10-08', text: 'Uchrashuv', mode: 'time', time: '18:30' }),
+      reminder({ date: '2026-10-08', text: 'O‘chirilgan', deletedAt: 5 }),
+    ]
+    expect(summary(planNotifications({ tasks: [], occurrences: [], dayReminders }, quiet, late, 3))).toEqual([
+      '10/7 14:00 day-reminder 🔔 Eslatma | Dorini ich',
+      '10/7 20:00 day-reminder 🔔 Eslatma | Dorini ich',
+      '10/8 18:30 day-reminder 🔔 Eslatma | Uchrashuv',
+    ])
+  })
+})
+
+describe('coach tone', () => {
+  const settings: Settings = { ...quiet, morningSummary: true, eveningSummary: true }
+  const tasks = () => [
+    task({ title: 'Ingliz tili', kind: 'daily', date: '2026-10-07', reminders: [at9()] }),
+    task({ title: 'Sport', kind: 'daily', date: '2026-10-07' }),
+  ]
+  const nowEarly = new Date(2026, 9, 7, 6, 0)
+
+  it('adds nothing in the neutral tone', () => {
+    const plain = planNotifications({ tasks: tasks(), occurrences: [] }, settings, nowEarly, 1)
+    expect(plain.find((n) => n.kind === 'morning')).toMatchObject({ title: 'Bugun 2 ta reja', body: 'Ingliz tili, Sport' })
+  })
+
+  it('a strict coach headlines the summaries and adds to task reminders', () => {
+    const plan = planNotifications({ tasks: tasks(), occurrences: [] }, settings, nowEarly, 1, 'strict')
+    const morning = plan.find((n) => n.kind === 'morning')!
+    const evening = plan.find((n) => n.kind === 'evening')!
+    const reminder = plan.find((n) => n.kind === 'task')!
+    expect(morning.title).not.toBe('Bugun 2 ta reja')
+    expect(morning.body).toBe('Bugun 2 ta reja: Ingliz tili, Sport')
+    expect(evening.body).toBe('2 ta reja bajarilmadi: Ingliz tili, Sport')
+    expect(reminder.body).toMatch(/^Bugungi reja · .+/)
+  })
+
+  it('only cheers a finished day', () => {
+    const done = [task({ title: 'A', kind: 'daily', date: '2026-10-07', status: 'done' })]
+    const strict = planNotifications({ tasks: done, occurrences: [] }, settings, nowEarly, 1, 'strict')
+    const cheer = planNotifications({ tasks: done, occurrences: [] }, settings, nowEarly, 1, 'inspiring')
+    expect(strict[0].body).toBe('Bugungi 1 ta reja bajarildi.')
+    expect(cheer[0].body.startsWith('Bugungi 1 ta reja bajarildi. ')).toBe(true)
   })
 })
