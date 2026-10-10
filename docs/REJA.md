@@ -127,13 +127,19 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
 7. **Reklama.** ✅ bajarildi (0.7.0) — sinov ID'lari bilan
    - Pastki menyu ustida bitta adaptiv AdMob banner (`@capacitor-community/admob`); oyna ochiq bo'lsa, yozuv yozilayotganda va klaviatura ochiq bo'lsa yashiriladi (`src/features/ads/`).
    - Rozilik (UMP) va Sozlamalar → Reklama maxfiylik tugmasi.
-   - Haqiqiy daromad uchun foydalanuvchining App ID va banner ID'si kerak: qo'llanma `docs/ADMOB.md`. ⏳ ID'lar kutilmoqda.
+   - Haqiqiy ID'larni egasi o'zi GitHub Variables'ga (`ADMOB_APP_ID`, `ADMOB_BANNER_ID`) yozadi, kod tahrirlamasdan: `docs/ADMOB.md`. ⏳ AdMob hisobi ochilishi kutilmoqda (telefon raqamini tasdiqlash muammosi).
 8. **Pardoz va Google Play'ga tayyorgarlik.** ✅ bajarildi (1.0.0)
    - Ilova nomi **«Maqsad»** (do'konda «Maqsad — reja va bloknot»). `applicationId` (`uz.najotbek.bloknot`) o'zgarmaydi, aks holda ma'lumotlar yangi ilovaga o'tmaydi.
    - Ikonka: qora fonda «M» va yuqoriga ko'rsatkich (`docs/brand/maqsad-icon.svg`), adaptive + monoxrom, ochilish ekrani va bildirishnoma ikonkasi.
    - Release imzosi: maxfiy kalit faqat GitHub Secrets'da; CI `maqsad-release` (AAB + APK) yig'adi.
    - Play materiallari `docs/play/`: maxfiylik siyosati, do'kon matnlari, Data safety javoblari, skrinshotlar, joylash qo'llanmasi.
-   - ⏳ Foydalanuvchi qiladi: Secrets'ni qo'shish, `main`ga birlashtirish + Pages, maxfiylik siyosatiga email, Play Console hisobi va yopiq test, AdMob ID'lari.
+   - ✅ Secrets qo'shildi, AAB yig'ilyapti; maxfiylik siyosati emaili: contact.najotbek@gmail.com.
+   - ⏳ Foydalanuvchi qiladi: `main`ga birlashtirish + Pages, Play Console hisobi va yopiq test, AdMob ID'lari. Hammasi `docs/QOLLANMA.md` da.
+8.5. **Yangi dizayn, mavzular, Kalendar.** ✅ bajarildi (1.1.0)
+   - Zamonaviyroq, soddaroq ko'rinish: yumaloq kartochkalar, «pill» tugmalar, faol bo'lim aksent rangda.
+   - 6 ta mavzu: Telefon bo'yicha, Yorug', Tungi, Tim qora (AMOLED), Pushti, Sariq-qora. Tokenlar `src/ui/theme.css` da; Sozlamalarda har mavzu o'z ranglarida ko'rsatiladi (`[data-preview]`).
+   - «Reja» bo'limi endi «Kalendar». Sozlamalar → «Rejalarni ko'rish usuli»: **Kalendar** (oy jadvali, kunda nuqtalar, kunni bosganda rejalari; Muddatli va Umumiy yorliqlari) yoki **Ro'yxat** (avvalgi Kun/Hafta/Oy/Muddatli/Umumiy). Mantiq `src/core/calendar.ts`.
+   - AdMob ID'lari GitHub Variables orqali (yuqoridagi 7-bosqich).
 9. **Desktop.** Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
 
 ## Tekshirish (har bosqichda)
@@ -145,5 +151,5 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
 ## Sizdan kerak bo'ladigan narsalar
 - **0-bosqich:** GitHub sozlamalarida Pages'ni yoqish (Settings → Pages → Source: GitHub Actions).
 - **8-bosqich:** Google Play uchun maxfiy imzolash kalitini Secrets'ga qo'shish.
-- **7-bosqich:** AdMob hisobi.
+- **7-bosqich:** AdMob hisobi va ID'larni GitHub Variables'ga yozish (`docs/ADMOB.md`).
 - Har bosqichdan keyin APK'ni sinab, fikringizni aytish.

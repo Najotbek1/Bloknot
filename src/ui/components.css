@@ -13,8 +13,9 @@
 
 .screen__title {
   margin: 0;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .screen__subtitle {
@@ -27,11 +28,9 @@
 }
 
 .section__title {
-  margin: 0 0 8px;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  margin: 0 0 10px 4px;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--color-text-muted);
 }
 
@@ -57,9 +56,13 @@
   min-height: 44px;
   padding: 0 18px;
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   background: var(--color-surface-2);
   font-weight: 600;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn--primary {
@@ -96,7 +99,7 @@
   display: flex;
   gap: 4px;
   padding: 4px;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   background: var(--color-surface-2);
   overflow-x: auto;
   scrollbar-width: none;
@@ -104,10 +107,10 @@
 
 .segmented__item {
   flex: 1 0 auto;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 38px;
+  padding: 0 14px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 999px;
   background: transparent;
   color: var(--color-text-muted);
   font-size: 14px;
@@ -117,9 +120,8 @@
 
 .segmented__item[aria-pressed='true'],
 .segmented__item[aria-selected='true'] {
-  background: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 /* Form fields */
@@ -137,11 +139,17 @@
 
 .input {
   width: 100%;
-  min-height: 46px;
-  padding: 10px 12px;
-  border: 1px solid var(--color-border);
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: var(--color-surface);
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  outline: none;
 }
 
 textarea.input {
@@ -225,10 +233,10 @@ textarea.input {
   width: 60px;
   height: 60px;
   border: 0;
-  border-radius: 20px;
+  border-radius: 50%;
   background: var(--color-primary);
   color: var(--color-on-primary);
-  box-shadow: 0 8px 24px rgb(79 70 229 / 0.4);
+  box-shadow: var(--shadow-primary);
 }
 
 .fab:active {
@@ -248,7 +256,7 @@ textarea.input {
   margin: 0;
   text-align: center;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .period-nav__today {
@@ -363,7 +371,7 @@ textarea.input {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--color-surface);
+  background: #fff;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
   transition: transform 0.15s;
 }
@@ -428,10 +436,10 @@ textarea.input {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  min-height: 48px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
   background: var(--color-surface);
   color: var(--color-text-muted);
 }
@@ -559,4 +567,9 @@ textarea.input {
 
 .stack > p {
   margin: 0;
+}
+
+/* Fields on a card sit on the second surface so they stay visible without borders. */
+.card .input {
+  background: var(--color-surface-2);
 }

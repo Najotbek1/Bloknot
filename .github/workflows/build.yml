@@ -38,6 +38,12 @@ jobs:
     name: Build Android APK
     needs: web
     runs-on: ubuntu-latest
+    env:
+      # Real AdMob ids from Settings → Secrets and variables → Actions → Variables (docs/ADMOB.md).
+      # Unset, the app shows Google's test ads.
+      ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -74,6 +80,9 @@ jobs:
     env:
       # The private upload key lives only in GitHub Secrets; without it this job does nothing.
       HAS_RELEASE_KEY: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
+      ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
+      VITE_ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
     steps:
       - name: Release key missing
         if: env.HAS_RELEASE_KEY != 'true'

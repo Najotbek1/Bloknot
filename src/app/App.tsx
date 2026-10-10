@@ -24,6 +24,18 @@ function useTheme() {
     const root = document.documentElement
     if (!settings || settings.theme === 'system') delete root.dataset.theme
     else root.dataset.theme = settings.theme
+
+    // The browser/system bar colour follows the theme's background.
+    const syncBarColor = () => {
+      const color = getComputedStyle(root).getPropertyValue('--color-bg').trim()
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color)
+    }
+    syncBarColor()
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+    media.addEventListener('change', syncBarColor)
+    return () => {
+      media.removeEventListener('change', syncBarColor)
+    }
   }, [settings])
 }
 
@@ -34,7 +46,7 @@ function GlobalErrors() {
 
 export default function App() {
   const [tab, setTab] = useState<TabId>('today')
-  const [plan, setPlan] = useState<PlanState>(() => ({ tab: 'daily', day: todayKey() }))
+  const [plan, setPlan] = useState<PlanState>(() => ({ tab: 'daily', calendarTab: 'calendar', day: todayKey() }))
   const [notebooks, setNotebooks] = useState<NotebooksView>({ view: 'list' })
   const navigation = useMemo<NavigationApi>(
     () => ({

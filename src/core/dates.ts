@@ -1,4 +1,4 @@
-import { addDays as addDaysToDate, format, isValid, parse, startOfISOWeek } from 'date-fns'
+import { addDays as addDaysToDate, addMonths, format, isValid, parse, startOfISOWeek } from 'date-fns'
 import type { DateKey, MonthKey, Weekday } from './models/types'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
@@ -45,4 +45,9 @@ export function weekdayOf(key: DateKey): Weekday {
 export function isDateInRange(key: DateKey, from: DateKey, to: DateKey): boolean {
   // YYYY-MM-DD keys sort the same way as the dates they represent.
   return key >= from && key <= to
+}
+
+/** The first day of the month `months` after `month` (negative goes back). */
+export function shiftMonth(month: MonthKey, months: number): DateKey {
+  return toDateKey(addMonths(parseDateKey(`${month}-01`), months))
 }

@@ -3,6 +3,7 @@ import {
   addDays,
   isDateInRange,
   monthKeyOf,
+  shiftMonth,
   parseDateKey,
   toDateKey,
   weekStartOf,
@@ -60,5 +61,12 @@ describe('isDateInRange', () => {
     expect(isDateInRange('2026-10-31', '2026-10-01', '2026-10-31')).toBe(true)
     expect(isDateInRange('2026-11-01', '2026-10-01', '2026-10-31')).toBe(false)
     expect(isDateInRange('2026-09-30', '2026-10-01', '2026-10-31')).toBe(false)
+  })
+})
+
+describe('shiftMonth', () => {
+  it('returns the first day of the month before or after', () => {
+    expect(shiftMonth('2026-10', 1)).toBe('2026-11-01')
+    expect(shiftMonth('2026-01', -1)).toBe('2025-12-01')
   })
 })

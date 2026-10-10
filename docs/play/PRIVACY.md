@@ -33,7 +33,7 @@ Ilova 13 yoshdan kichik bolalarga mo'ljallanmagan va ulardan ataylab ma'lumot yi
 Siyosat o'zgarsa, yangi versiya shu sahifada e'lon qilinadi.
 
 ## Aloqa
-Savollar uchun: **[EMAIL MANZIL]**
+Savollar uchun: **contact.najotbek@gmail.com**
 
 ---
 
@@ -45,4 +45,4 @@ Savollar uchun: **[EMAIL MANZIL]**
 - The Android app shows ads through **Google AdMob**. The Google Mobile Ads SDK may collect the advertising ID, general device information, approximate location (from IP) and ad interactions, and send them to Google for ad delivery, measurement and fraud prevention. See <https://policies.google.com/technologies/partner-sites>. Where required (e.g. the EU), consent is requested on first launch and can be changed under Settings → Reklama.
 - Permissions: notifications and exact alarms for reminders; internet for ads only.
 - The app is not directed at children under 13.
-- Contact: **[EMAIL ADDRESS]**
+- Contact: **contact.najotbek@gmail.com**

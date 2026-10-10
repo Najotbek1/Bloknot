@@ -87,12 +87,16 @@ export interface Note extends BaseRecord {
   taskId: string | null
 }
 
-export type ThemePreference = 'system' | 'light' | 'dark'
+/** "system" follows the phone (light or dark); the others are fixed palettes from theme.css. */
+export type ThemePreference = 'system' | 'light' | 'dark' | 'black' | 'pink' | 'amber'
+/** How the Calendar tab shows plans: a month grid, or the older lists by day/week/month. */
+export type PlanView = 'calendar' | 'list'
 export type Language = 'uz'
 
 export interface Settings extends BaseRecord {
   id: 'settings'
   theme: ThemePreference
+  planView: PlanView
   /** Morning notification listing the day's tasks. */
   morningSummary: boolean
   morningSummaryTime: TimeOfDay

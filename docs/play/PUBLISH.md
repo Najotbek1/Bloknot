@@ -2,8 +2,8 @@
 
 ## 0. Tayyor bo'lishi kerak bo'lgan narsalar
 - [ ] **Release imzo kaliti GitHub Secrets'da** (`RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`). Shundan keyin har push'da GitHub Actions → **Build** → Artifacts → `maqsad-release` ichida `.aab` (Play uchun) va imzolangan `.apk` paydo bo'ladi.
-- [ ] **Maxfiylik siyosati ochiq URL'da:** kod `main` branchga birlashtiriladi va Settings → Pages → Source: **GitHub Actions** yoqiladi. Natija: `https://najotbek1.github.io/Bloknot/privacy.html`. `docs/play/PRIVACY.md` va `public/privacy.html` dagi `[EMAIL MANZIL]` o'rniga aloqa email'i yoziladi.
-- [ ] **Haqiqiy AdMob ID'lari** (`docs/ADMOB.md`). Sinov reklamasi bilan ham joylash mumkin, lekin daromad bo'lmaydi.
+- [ ] **Maxfiylik siyosati ochiq URL'da:** kod `main` branchga birlashtiriladi va Settings → Pages → Source: **GitHub Actions** yoqiladi. Natija: `https://najotbek1.github.io/Bloknot/privacy.html`. Aloqa email'i: contact.najotbek@gmail.com.
+- [ ] **Haqiqiy AdMob ID'lari** GitHub Variables'da (`docs/ADMOB.md`). Sinov reklamasi bilan ham joylash mumkin, lekin daromad bo'lmaydi.
 
 ## 1. Play Console hisobi
 1. <https://play.google.com/console> → **Shaxsiy (Personal)** hisob ochiladi. Bir martalik **25 $** to'lov va shaxsni tasdiqlash (pasport) talab qilinadi.

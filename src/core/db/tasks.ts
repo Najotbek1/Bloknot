@@ -134,6 +134,7 @@ export const DEFAULT_SETTINGS: Settings = {
   updatedAt: 0,
   deletedAt: null,
   theme: 'system',
+  planView: 'calendar',
   morningSummary: true,
   morningSummaryTime: '08:00',
   eveningSummary: true,

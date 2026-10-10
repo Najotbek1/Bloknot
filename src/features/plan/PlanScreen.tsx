@@ -1,31 +1,28 @@
-import { addMonths } from 'date-fns'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../../core/db/schema'
-import { addDays, monthKeyOf, parseDateKey, toDateKey, weekStartOf } from '../../core/dates'
-import type { DateKey, MonthKey, TaskKind } from '../../core/models/types'
-import { getDayAgenda, getGeneralTasks, getMonthTasks, getRangeTasks, getWeekTasks } from '../../core/queries'
+import { addDays, monthKeyOf, shiftMonth, weekStartOf } from '../../core/dates'
+import { getSettings } from '../../core/db/tasks'
+import type { DateKey, TaskKind } from '../../core/models/types'
 import { t } from '../../i18n'
-import { formatDayLong, formatMonth, formatRange, formatWeek } from '../../i18n/format'
+import { formatDayLong, formatMonth, formatWeek } from '../../i18n/format'
 import { Fab } from '../../ui/Fab'
 import { PeriodNav } from '../../ui/PeriodNav'
 import { useToday } from '../../ui/useToday'
 import { useTaskEditor } from '../tasks/editorContext'
-import { rangeElapsed, rangeHint, rangePhase, type RangePhase } from '../tasks/labels'
-import { agendaRows, taskRows, type TaskRow } from '../tasks/rows'
-import { TaskRows } from '../tasks/TaskRows'
+import { CalendarView, type CalendarTab } from './CalendarView'
+import { DayList, GeneralList, MonthList, RangeList, WeekList } from './lists'
 
-/** What the Plan screen shows. Kept by the parent so it survives switching bottom tabs. */
+/** What the Calendar tab shows. Kept by the parent so it survives switching bottom tabs. */
 export interface PlanState {
+  /** Tab of the list view. */
   tab: TaskKind
-  /** Selected day (Kun tab); the Hafta and Oy tabs show the week and month containing it. */
+  /** Tab of the calendar view. */
+  calendarTab: CalendarTab
+  /** Selected day; the week and month views show the week and month containing it. */
   day: DateKey
 }
 
 const TABS: TaskKind[] = ['daily', 'weekly', 'monthly', 'range', 'general']
-
-function shiftMonth(month: MonthKey, months: number): DateKey {
-  return toDateKey(addMonths(parseDateKey(`${month}-01`), months))
-}
 
 interface PlanScreenProps {
   state: PlanState
@@ -33,6 +30,17 @@ interface PlanScreenProps {
 }
 
 export function PlanScreen({ state, onChange }: PlanScreenProps) {
+  const settings = useLiveQuery(() => getSettings(db), [])
+  if (!settings) return null
+  return settings.planView === 'list' ? (
+    <ListView state={state} onChange={onChange} />
+  ) : (
+    <CalendarView state={state} onChange={onChange} />
+  )
+}
+
+/** The plans as lists by day, week, month, range and general. */
+function ListView({ state, onChange }: PlanScreenProps) {
   const today = useToday()
   const editor = useTaskEditor()
   const { tab, day } = state
@@ -106,71 +114,5 @@ export function PlanScreen({ state, onChange }: PlanScreenProps) {
         onClick={() => editor.openNew({ kind: tab, date: tab === 'range' || tab === 'general' ? today : day })}
       />
     </main>
-  )
-}
-
-function Rows({ rows, empty }: { rows: TaskRow[] | undefined; empty: string }) {
-  if (!rows) return null
-  if (rows.length === 0) return <p className="card empty">{empty}</p>
-  return <TaskRows rows={rows} />
-}
-
-function DayList({ day, today }: { day: DateKey; today: DateKey }) {
-  const agenda = useLiveQuery(() => getDayAgenda(db, day), [day])
-  return <Rows rows={agenda && agendaRows(agenda, today)} empty={t('plan.empty.daily')} />
-}
-
-function WeekList({ day }: { day: DateKey }) {
-  const tasks = useLiveQuery(() => getWeekTasks(db, day), [day])
-  return <Rows rows={tasks && taskRows(tasks)} empty={t('plan.empty.weekly')} />
-}
-
-function MonthList({ month }: { month: MonthKey }) {
-  const tasks = useLiveQuery(() => getMonthTasks(db, month), [month])
-  return <Rows rows={tasks && taskRows(tasks)} empty={t('plan.empty.monthly')} />
-}
-
-const PHASES: { phase: RangePhase; title: Parameters<typeof t>[0] }[] = [
-  { phase: 'active', title: 'plan.activeRange' },
-  { phase: 'upcoming', title: 'plan.upcomingRange' },
-  { phase: 'finished', title: 'plan.finishedRange' },
-]
-
-function RangeList({ today }: { today: DateKey }) {
-  const tasks = useLiveQuery(() => getRangeTasks(db), [])
-  if (!tasks) return null
-  if (tasks.length === 0) return <p className="card empty section">{t('plan.empty.range')}</p>
-
-  return (
-    <>
-      {PHASES.map(({ phase, title }) => {
-        const rows = tasks
-          .filter((task) => rangePhase(task, today) === phase)
-          .map((task) => ({
-            task,
-            status: task.status,
-            meta: [formatRange(task.startDate!, task.endDate!), task.status === 'done' ? '' : rangeHint(task, today)]
-              .filter(Boolean)
-              .join(' · '),
-            progress: rangeElapsed(task, today),
-          }))
-        if (rows.length === 0) return null
-        return (
-          <section key={phase} className="section">
-            <h2 className="section__title">{t(title)}</h2>
-            <TaskRows rows={rows} />
-          </section>
-        )
-      })}
-    </>
-  )
-}
-
-function GeneralList() {
-  const tasks = useLiveQuery(() => getGeneralTasks(db), [])
-  return (
-    <div className="section">
-      <Rows rows={tasks && taskRows(tasks)} empty={t('plan.empty.general')} />
-    </div>
   )
 }

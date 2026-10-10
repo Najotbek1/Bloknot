@@ -4,8 +4,10 @@
   z-index: 20;
   display: flex;
   justify-content: center;
-  padding-bottom: env(safe-area-inset-bottom);
-  background: var(--color-surface);
+  padding: 0 8px env(safe-area-inset-bottom);
+  background: var(--color-nav);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border-top: 1px solid var(--color-border);
 }
 
@@ -16,7 +18,7 @@
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 2px;
+  gap: 3px;
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
@@ -25,17 +27,19 @@
 }
 
 .bottom-nav__item > svg {
-  padding: 2px 16px;
-  width: 56px;
-  height: 28px;
+  padding: 3px 18px;
+  width: 60px;
+  height: 30px;
   border-radius: 999px;
   box-sizing: border-box;
+  transition: background 0.2s, color 0.2s;
 }
 
 .bottom-nav__item[aria-current='page'] {
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .bottom-nav__item[aria-current='page'] > svg {
-  background: var(--color-primary-soft);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
