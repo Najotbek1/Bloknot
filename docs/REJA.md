@@ -155,7 +155,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Arab tili uchun o'ngdan chapga (RTL) joylashuv.
 12.5. **App Open reklama.** ✅ bajarildi (1.5.0). Ilova ochilganda butun ekranli reklama: kuniga ko'pi bilan 1 marta, o'rnatilgandan 3 kun o'tgach, faqat yangidan ochilganda yoki 30 daqiqadan keyin qaytganda; uyg'otgich, bildirishnoma yoki ochiq oyna ustiga chiqmaydi. ID — GitHub Variables'dagi `ADMOB_APP_OPEN_ID`.
 12.6. **Reklama va aloqa (0.5.0).** ✅ App Open: kuniga ko'pi bilan 5 marta, orasida ≥1 soat; birinchi ochilishda 8 soniyagacha kutadi; sinov rejimida Sozlamalarda holat qatori. Sozlamalar → Ilova haqida: aloqa email'i (contact.najotbek@gmail.com) va maxfiylik siyosati havolasi. Ko'rinadigan versiya egasining so'rovi bilan 0.5.0 ga tushirildi (Play'ga chiqishgacha).
-13. **Desktop** (avvalgi 9-bosqich, keyinga surildi). Electron (`desktop/`), Windows `.exe` Actions orqali yig'iladi, Wi-Fi + QR sinxronlash.
+13. **Desktop.**
+   - **13A. Windows ilovasi** ✅ (0.6.0): Electron (`desktop/`), o'rnatuvchi `.exe` GitHub Actions'da (`maqsad-windows` artefakti). Hamma bo'limlar, bildirishnomalar (oyna yopilsa ham tepsida ishlaydi), «Windows bilan birga ochilish», fayl orqali eksport/import. Uyg'otgich va reklama faqat telefonda.
+   - **13B. Wi-Fi + QR sinxronlash** — keyingi qadam: kompyuter QR kod ko'rsatadi, telefon skanerlaydi va ikkala tomon ma'lumotlarni birlashtiradi.
+   - Keyin xohlasa: Linux (AppImage) va macOS uchun ham yig'ish (bir xil kod, faqat build sozlamasi).
 
 ## Tekshirish (har bosqichda)
 - `npm test`: mantiqiy testlar (sinxronlash, takrorlanish, statistika).

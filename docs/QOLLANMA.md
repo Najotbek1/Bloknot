@@ -20,6 +20,12 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 3. Yangisini o‘rnating.
 4. **Import** qiling.
 
+## 1b. Kompyuter (Windows) ilovasi
+1. **Actions → Build** → oxirgi yashil ish → **Artifacts** → `maqsad-windows` ni yuklab oling va zip ichidagi `Maqsad-Setup-….exe` ni oching.
+2. Windows «Windows protected your PC» deb ogohlantirishi mumkin, chunki o'rnatuvchi raqamli sertifikat bilan imzolanmagan (u pullik). **More info → Run anyway** bosing.
+3. Telefondagi ma'lumotlarni ko'chirish: telefonda **Sozlamalar → Eksport**, faylni kompyuterga yuboring (Telegram, USB), kompyuterda **Sozlamalar → Import**.
+4. Oynani yopsangiz, Maqsad ekran burchagidagi tepsida ishlab turadi va eslatmalarni yuboradi. Butunlay chiqish: tepsidagi belgi → o'ng tugma → «Chiqish».
+
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:
 1. AdMob'dan App ID va Banner ID olasiz.

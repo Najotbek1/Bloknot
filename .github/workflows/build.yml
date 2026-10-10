@@ -132,6 +132,44 @@ jobs:
           path: release/*
           if-no-files-found: error
 
+  desktop:
+    name: Build Windows app
+    needs: web
+    runs-on: windows-latest
+    env:
+      # No code-signing certificate: build an unsigned installer (Windows shows a SmartScreen note).
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Put the web app into the desktop app
+        run: |
+          rm -rf desktop/web
+          cp -r dist desktop/web
+      - run: npm ci
+        working-directory: desktop
+      - name: Build the installer
+        working-directory: desktop
+        run: |
+          VERSION="$(node -p "require('../package.json').version")"
+          npx electron-builder --win nsis --publish never -c.extraMetadata.version="$VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maqsad-windows
+          path: desktop/release/*.exe
+          if-no-files-found: error
+
   deploy-pages:
     name: Publish web version
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
