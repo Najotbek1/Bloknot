@@ -383,6 +383,7 @@ export const ko: Messages = {
   'notebooks.in': '{notebook} 노트',
 
   'notes.add': '메모 추가',
+  'notes.pick': '왼쪽에서 메모를 선택하거나 새로 추가하세요.',
   'notes.empty': '이 노트에는 아직 메모가 없어요. 아래 «+»로 추가해 보세요.',
   'notes.untitled': '제목 없음',
   'notes.emptyBody': '내용 없음',

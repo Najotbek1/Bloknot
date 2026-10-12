@@ -31,3 +31,11 @@
     animation: none;
   }
 }
+
+/* Computer-sized window: centred over the content, beside the side menu. */
+@media (min-width: 960px) {
+  .toast-region {
+    inset: auto 0 100px;
+    padding-inline-start: var(--sidebar-width);
+  }
+}

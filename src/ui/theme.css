@@ -36,6 +36,8 @@
   --radius-sm: 12px;
   --space: 16px;
   --nav-height: 64px;
+  /* Width of the side menu on a computer-sized window. */
+  --sidebar-width: 248px;
   /* Height of the native ad banner above the bottom navigation; set by useAdBanner, 0 without ads. */
   --ad-height: 0px;
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

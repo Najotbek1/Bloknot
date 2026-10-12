@@ -160,6 +160,11 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
      - Kompyuter versiyasi **reklamasiz** qoladi (egasining qarori): AdMob faqat Android/iOS uchun, AdSense esa o'rnatiladigan dasturlarda taqiqlangan. Keyinroq daromad uchun ixtiyoriy «Pro / qo'llab-quvvatlash» mumkin.
    - **13B. Wi-Fi + QR sinxronlash** ✅ (0.7.0): kompyuterda Sozlamalar → «Telefon bilan sinxronlash» bir martalik QR kod ko'rsatadi (5 daqiqa amal qiladi), telefonda «QR kodni skanerlash». Telefon zaxirasini kompyuterga yuboradi, kompyuter birlashtiradi va natijani qaytaradi: ikkala tomonda ma'lumot bir xil bo'ladi. Internet va server kerak emas.
      - Mantiq `src/core/sync/lan.ts`: QR ichida manzil va 32 baytlik kalit; ma'lumot AES-GCM bilan shifrlanadi, kalit tarmoqqa chiqmaydi. Kompyuterdagi server `desktop/main.cjs` da (faqat uzatuvchi), telefonda Google code scanner (`@capacitor-mlkit/barcode-scanning`, kamera ruxsatisiz) va `CapacitorHttp`.
+   - **13C. Kompyuter ko'rinishi** ✅ (0.8.0): oyna 960px dan keng bo'lsa (Windows ilovasi va saytning katta ekrani) menyu chap tomondagi yon panelga o'tadi (arab tilida o'ngda), ekranlar butun kenglikni egallaydi va ikki ustunli bo'ladi:
+     - Bugun: rejalar | eslatmalar, hafta, oy; Kalendar: katta oy jadvali | tanlangan kun; Statistika: 4 ta ko'rsatkich bir qatorda, grafiklar juft-juft; Sozlamalar: ikki ustun;
+     - Bloknot ichida yozuvlar ro'yxati va ochiq yozuv yonma-yon;
+     - oynalar ekran o'rtasida ochiladi, «+» tugma yozuvli; `Ctrl+N` — yangi reja/yozuv, `Ctrl+1…5` — bo'limlar;
+     - Windows ilovasida ⏰ uyg'otgich tugmasi yo'q. Telefon ko'rinishi o'zgarmadi.
    - Keyin xohlasa: Linux (AppImage) va macOS uchun ham yig'ish (bir xil kod, faqat build sozlamasi).
 
 ## Tekshirish (har bosqichda)

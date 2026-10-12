@@ -20,7 +20,8 @@ import { useAlarmSync } from '../features/alarm/useAlarmSync'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
 import { ToastProvider } from '../ui/Toast'
-import { BottomNav, type TabId } from './BottomNav'
+import { BottomNav } from './BottomNav'
+import { TABS, type TabId } from './tabs'
 import { NavigationContext, type NavigationApi, type NotebooksView } from './navigation'
 import { useGlobalErrors } from './useGlobalErrors'
 
@@ -102,6 +103,30 @@ export default function App() {
     [],
   )
 
+  // Computer keyboard: Ctrl+1…5 switch sections, Ctrl+N is the current screen's "+" button.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (!(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) return
+      // Not while a dialog is open: its own fields and buttons have the keyboard.
+      if (document.querySelector('dialog[open]')) return
+      const index = Number(event.key) - 1
+      if (Number.isInteger(index) && index >= 0 && index < TABS.length) {
+        event.preventDefault()
+        setTab(TABS[index].id)
+      } else if (event.key.toLowerCase() === 'n') {
+        const add = document.querySelector<HTMLButtonElement>('.fab')
+        if (add) {
+          event.preventDefault()
+          add.click()
+        }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [])
+
   // Braces matter: newer WebViews return a Promise from scrollTo, and React would call it as cleanup.
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -113,11 +138,13 @@ export default function App() {
         <GlobalErrors />
         <AlarmRinging />
         <TaskEditorProvider>
-          {tab === 'today' && <TodayScreen />}
-          {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
-          {tab === 'notebooks' && <NotebooksScreen state={notebooks} onChange={setNotebooks} />}
-          {tab === 'stats' && <StatsScreen />}
-          {tab === 'settings' && <SettingsScreen />}
+          <div className="app-main">
+            {tab === 'today' && <TodayScreen />}
+            {tab === 'plan' && <PlanScreen state={plan} onChange={setPlan} />}
+            {tab === 'notebooks' && <NotebooksScreen state={notebooks} onChange={setNotebooks} />}
+            {tab === 'stats' && <StatsScreen />}
+            {tab === 'settings' && <SettingsScreen />}
+          </div>
           <BottomNav
             active={tab}
             onSelect={(next) => {

@@ -381,6 +381,7 @@ export const uz = {
   'notebooks.in': '{notebook} bloknotida',
 
   'notes.add': 'Yozuv qo‘shish',
+  'notes.pick': 'Chapdan yozuvni tanlang yoki yangisini qo‘shing.',
   'notes.empty': 'Bu bloknotda hali yozuv yo‘q. Pastdagi «+» bilan qo‘shing.',
   'notes.untitled': 'Sarlavhasiz',
   'notes.emptyBody': 'Matn yo‘q',

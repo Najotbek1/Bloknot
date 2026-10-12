@@ -383,6 +383,7 @@ export const en: Messages = {
   'notebooks.in': 'In {notebook}',
 
   'notes.add': 'Add note',
+  'notes.pick': 'Pick a note on the left or add a new one.',
   'notes.empty': 'No notes in this notebook yet. Add one with the “+” below.',
   'notes.untitled': 'Untitled',
   'notes.emptyBody': 'No text',

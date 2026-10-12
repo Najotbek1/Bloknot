@@ -54,8 +54,8 @@ function start() {
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 1100,
-    height: 800,
+    width: 1280,
+    height: 820,
     minWidth: 380,
     minHeight: 560,
     title: 'Maqsad',

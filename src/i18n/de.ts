@@ -383,6 +383,7 @@ export const de: Messages = {
   'notebooks.in': 'In {notebook}',
 
   'notes.add': 'Notiz hinzufügen',
+  'notes.pick': 'Wähle links eine Notiz oder füge eine neue hinzu.',
   'notes.empty': 'Noch keine Notizen in diesem Notizbuch. Füge mit „+“ unten eine hinzu.',
   'notes.untitled': 'Ohne Titel',
   'notes.emptyBody': 'Kein Text',

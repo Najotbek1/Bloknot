@@ -383,6 +383,7 @@ export const ru: Messages = {
   'notebooks.in': 'В блокноте «{notebook}»',
 
   'notes.add': 'Добавить запись',
+  'notes.pick': 'Выберите запись слева или добавьте новую.',
   'notes.empty': 'В этом блокноте пока нет записей. Добавь запись кнопкой «+» внизу.',
   'notes.untitled': 'Без названия',
   'notes.emptyBody': 'Нет текста',

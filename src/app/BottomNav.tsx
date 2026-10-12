@@ -1,27 +1,25 @@
-import type { ComponentType } from 'react'
-import { t, type MessageKey } from '../i18n'
-import { CalendarIcon, NotebookIcon, SettingsIcon, StatsIcon, TodayIcon } from '../ui/icons'
+import { t } from '../i18n'
+import { TABS, type TabId } from './tabs'
 import './BottomNav.css'
 
-export type TabId = 'today' | 'plan' | 'notebooks' | 'stats' | 'settings'
-
-const TABS: { id: TabId; label: MessageKey; Icon: ComponentType<{ size?: number }> }[] = [
-  { id: 'today', label: 'nav.today', Icon: TodayIcon },
-  { id: 'plan', label: 'nav.plan', Icon: CalendarIcon },
-  { id: 'notebooks', label: 'nav.notebooks', Icon: NotebookIcon },
-  { id: 'stats', label: 'nav.stats', Icon: StatsIcon },
-  { id: 'settings', label: 'nav.settings', Icon: SettingsIcon },
-]
-
+/**
+ * The main menu. On a phone it is the bottom bar; on a computer-sized window (≥ 960px) the same
+ * element becomes the side menu with the app's name on top and Settings at the bottom.
+ */
 export function BottomNav({ active, onSelect }: { active: TabId; onSelect: (tab: TabId) => void }) {
   return (
     <nav className="bottom-nav">
-      {TABS.map(({ id, label, Icon }) => (
+      <div className="bottom-nav__brand">
+        <img src="favicon.svg" alt="" width={32} height={32} />
+        <span>{t('app.name')}</span>
+      </div>
+      {TABS.map(({ id, label, Icon }, index) => (
         <button
           key={id}
           type="button"
           className="bottom-nav__item"
           aria-current={active === id ? 'page' : undefined}
+          title={`${t(label)} (Ctrl+${index + 1})`}
           onClick={() => onSelect(id)}
         >
           <Icon size={22} />

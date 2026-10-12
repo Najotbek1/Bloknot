@@ -19,21 +19,26 @@ interface NoteEditorProps {
   /** Just created: if it is left empty, it is deleted on the way out. */
   isNew?: boolean
   onBack: () => void
+  /** Computer-sized window: shown beside the note list instead of as its own screen. */
+  pane?: boolean
 }
 
-export function NoteEditor({ noteId, isNew, onBack }: NoteEditorProps) {
+export function NoteEditor({ noteId, isNew, onBack, pane }: NoteEditorProps) {
   const note = useLiveQuery(async () => (await getActive(db.notes, noteId)) ?? null, [noteId])
-  if (note === undefined) return <main className="screen" />
+  const Root = pane ? 'section' : 'main'
+  const rootClass = pane ? 'card note-editor note-editor--pane' : 'screen'
+  if (note === undefined) return <Root className={rootClass} />
   if (note === null) {
     return (
-      <main className="screen">
+      <Root className={rootClass}>
         <button type="button" className="btn" onClick={onBack}>
           {t('notebooks.back')}
         </button>
-      </main>
+      </Root>
     )
   }
-  return <NoteForm key={noteId} note={note} isNew={isNew} onBack={onBack} />
+  // Keyed by the loaded note, not the requested id: a stale note must never fill another one's form.
+  return <NoteForm key={note.id} note={note} isNew={isNew} onBack={onBack} pane={pane} />
 }
 
 interface Content {
@@ -45,7 +50,7 @@ interface Content {
  * Title and text are saved automatically half a second after typing stops, and right away when
  * leaving the note, so nothing typed can be lost.
  */
-function NoteForm({ note, isNew, onBack }: { note: Note; isNew?: boolean; onBack: () => void }) {
+function NoteForm({ note, isNew, onBack, pane }: { note: Note; isNew?: boolean; onBack: () => void; pane?: boolean }) {
   const [content, setContent] = useState<Content>({ title: note.title, body: note.body })
   const [saved, setSaved] = useState<Content>({ title: note.title, body: note.body })
   const [picking, setPicking] = useState(false)
@@ -58,6 +63,7 @@ function NoteForm({ note, isNew, onBack }: { note: Note; isNew?: boolean; onBack
   )
 
   const dirty = content.title !== saved.title || content.body !== saved.body
+  const Root = pane ? 'section' : 'main'
 
   // Full-screen writing: no ad banner over the text.
   useEffect(() => {
@@ -98,11 +104,14 @@ function NoteForm({ note, isNew, onBack }: { note: Note; isNew?: boolean; onBack
   }
 
   return (
-    <main className="screen note-editor">
+    <Root className={pane ? 'card note-editor note-editor--pane' : 'screen note-editor'}>
       <header className="subpage-header">
-        <button type="button" className="icon-btn" onClick={onBack} aria-label={t('notebooks.back')}>
-          <ChevronLeftIcon />
-        </button>
+        {/* Beside the list there is nothing to go back to. */}
+        {!pane && (
+          <button type="button" className="icon-btn" onClick={onBack} aria-label={t('notebooks.back')}>
+            <ChevronLeftIcon />
+          </button>
+        )}
         <span className="note-editor__status" aria-live="polite">
           {dirty ? t('notes.saving') : t('notes.saved')}
         </span>
@@ -165,6 +174,6 @@ function NoteForm({ note, isNew, onBack }: { note: Note; isNew?: boolean; onBack
           }}
         />
       </Sheet>
-    </main>
+    </Root>
   )
 }

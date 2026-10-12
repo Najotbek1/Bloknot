@@ -120,3 +120,20 @@
   align-items: flex-start;
   gap: 2px;
 }
+
+/* Computer-sized window: the settings sections flow in two columns. */
+@media (min-width: 960px) {
+  .settings-columns {
+    columns: 2;
+    column-gap: 32px;
+  }
+
+  .settings-columns > * {
+    break-inside: avoid;
+  }
+
+  .settings-columns > .section {
+    margin-top: 0;
+    padding-bottom: 28px;
+  }
+}

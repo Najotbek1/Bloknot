@@ -26,6 +26,7 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 3. Telefondagi ma'lumotlarni ko'chirish: telefonda **Sozlamalar → Eksport**, faylni kompyuterga yuboring (Telegram, USB), kompyuterda **Sozlamalar → Import**.
 4. Oynani yopsangiz, Maqsad ekran burchagidagi tepsida ishlab turadi va eslatmalarni yuboradi. Butunlay chiqish: tepsidagi belgi → o'ng tugma → «Chiqish».
 5. Kompyuter versiyasida reklama yo'q va bo'lmaydi: AdMob faqat telefon uchun.
+6. Kompyuterda menyu chap tomonda turadi, ekranlar ikki ustunli bo'ladi. Oyna tor qilinsa, telefondagi ko'rinishga qaytadi. Tezkor tugmalar: `Ctrl+N` — yangi reja yoki yozuv, `Ctrl+1…5` — bo'limlar.
 
 ### Telefon va kompyuterni Wi-Fi orqali sinxronlash
 1. Telefon va kompyuter **bitta Wi-Fi** tarmog'ida bo'lsin.

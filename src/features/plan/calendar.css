@@ -93,3 +93,31 @@
   inset-inline-end: 3px;
   color: var(--color-warning);
 }
+
+/* Computer-sized window: a big month beside the selected day. */
+@media (min-width: 960px) {
+  .calendar {
+    padding: 16px 12px 12px;
+  }
+
+  .calendar__grid {
+    row-gap: 6px;
+  }
+
+  .calendar__day {
+    height: 72px;
+    cursor: pointer;
+  }
+
+  .calendar__number {
+    width: 36px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 960px) and (hover: hover) {
+  .calendar__day:not(.calendar__day--range):hover {
+    background: var(--color-surface-2);
+  }
+}

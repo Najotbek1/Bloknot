@@ -383,6 +383,7 @@ export const ar: Messages = {
   'notebooks.in': 'في دفتر {notebook}',
 
   'notes.add': 'إضافة ملاحظة',
+  'notes.pick': 'اختر ملاحظة من القائمة أو أضف ملاحظة جديدة.',
   'notes.empty': 'لا ملاحظات في هذا الدفتر بعد. أضف ملاحظة بزر «+» في الأسفل.',
   'notes.untitled': 'بلا عنوان',
   'notes.emptyBody': 'لا يوجد نص',

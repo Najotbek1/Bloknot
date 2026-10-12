@@ -383,6 +383,7 @@ export const ja: Messages = {
   'notebooks.in': 'ノート「{notebook}」内',
 
   'notes.add': 'メモを追加',
+  'notes.pick': '左のメモを選ぶか、新しいメモを追加してください。',
   'notes.empty': 'このノートにはまだメモがありません。下の「+」で追加しましょう。',
   'notes.untitled': '無題',
   'notes.emptyBody': '本文なし',

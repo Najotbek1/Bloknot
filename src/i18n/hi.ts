@@ -383,6 +383,7 @@ export const hi: Messages = {
   'notebooks.in': '{notebook} नोटबुक में',
 
   'notes.add': 'नोट जोड़ें',
+  'notes.pick': 'बाईं ओर से कोई नोट चुनें या नया जोड़ें।',
   'notes.empty': 'इस नोटबुक में अभी कोई नोट नहीं। नीचे «+» से जोड़ें।',
   'notes.untitled': 'बिना शीर्षक',
   'notes.emptyBody': 'कोई टेक्स्ट नहीं',
