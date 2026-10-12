@@ -8,6 +8,7 @@ import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
 import { AdSettings } from '../ads/AdSettings'
 import { DesktopSettings } from './DesktopSettings'
+import { LanSync } from '../sync/LanSync'
 import { Switch } from '../../ui/Switch'
 import './settings.css'
 
@@ -116,6 +117,8 @@ export function SettingsScreen() {
         <h2 className="section__title">{t('backup.title')}</h2>
         <BackupSection />
       </section>
+
+      <LanSync />
 
       <AdSettings />
 

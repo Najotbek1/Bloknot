@@ -2,6 +2,8 @@
 // browser cannot do — notifications while the window is closed (the app stays in the tray) and
 // starting with Windows. All data stays in the app's own IndexedDB, as on the phone.
 const { app, BrowserWindow, ipcMain, Menu, Notification, Tray, net, protocol, shell, nativeImage } = require('electron')
+const http = require('node:http')
+const os = require('node:os')
 const path = require('node:path')
 const { pathToFileURL } = require('node:url')
 
@@ -163,6 +165,99 @@ ipcMain.handle('autostart:get', () => app.getLoginItemSettings().openAtLogin)
 
 ipcMain.handle('autostart:set', (_event, enabled) => {
   app.setLoginItemSettings({ openAtLogin: Boolean(enabled), args: ['--hidden'] })
+})
+
+// --- Wi-Fi sync with the phone (src/core/sync/lan.ts) ---
+// The main process only relays: the key, decryption and merging live in the web app.
+/** Phone backups are a few MB at most; anything larger is refused. */
+const SYNC_BODY_LIMIT = 30 * 1024 * 1024
+/** Safety net: the web app stops the server itself when the QR code expires. */
+const SYNC_MAX_MS = 6 * 60 * 1000
+const SYNC_ANSWER_MS = 60 * 1000
+
+let syncServer = null
+let syncTimer = null
+let nextRequestId = 1
+/** Requests waiting for the web app's answer: id → resolve({ status, body }). */
+const pendingSync = new Map()
+
+function isPrivate(ip) {
+  return /^10\./.test(ip) || /^192\.168\./.test(ip) || /^172\.(1[6-9]|2\d|3[01])\./.test(ip)
+}
+
+/** Local IPv4 addresses, home-network ones first. */
+function localAddresses() {
+  const all = []
+  for (const list of Object.values(os.networkInterfaces())) {
+    for (const entry of list ?? []) {
+      if (entry.family === 'IPv4' && !entry.internal && !/^169\.254\./.test(entry.address)) all.push(entry.address)
+    }
+  }
+  const rank = (ip) => (/^192\.168\./.test(ip) ? 0 : isPrivate(ip) ? 1 : 2)
+  return [...new Set(all)].sort((a, b) => rank(a) - rank(b))
+}
+
+function stopSync() {
+  clearTimeout(syncTimer)
+  syncTimer = null
+  if (syncServer) {
+    syncServer.close()
+    syncServer.closeAllConnections()
+  }
+  syncServer = null
+  for (const resolve of pendingSync.values()) resolve({ status: 503, body: '{"error":"closed"}' })
+  pendingSync.clear()
+}
+
+function handleSyncRequest(request, response) {
+  const reply = (status, body) => {
+    // Plain text: the phone's HTTP client would otherwise parse it before the web app sees it.
+    response.writeHead(status, { 'Content-Type': 'text/plain; charset=utf-8' })
+    response.end(body)
+  }
+  if (request.method !== 'POST' || request.url !== '/sync') return reply(404, '{"error":"notFound"}')
+  const chunks = []
+  let size = 0
+  request.on('data', (chunk) => {
+    size += chunk.length
+    if (size > SYNC_BODY_LIMIT) {
+      reply(413, '{"error":"tooLarge"}')
+      request.destroy()
+      return
+    }
+    chunks.push(chunk)
+  })
+  request.on('end', () => {
+    if (size > SYNC_BODY_LIMIT || !win) return
+    const id = nextRequestId++
+    const timer = setTimeout(() => pendingSync.get(id)?.({ status: 504, body: '{"error":"timeout"}' }), SYNC_ANSWER_MS)
+    pendingSync.set(id, (answer) => {
+      clearTimeout(timer)
+      pendingSync.delete(id)
+      reply(answer.status, answer.body)
+      // One successful exchange per QR code.
+      if (answer.status === 200) setTimeout(stopSync, 1000)
+    })
+    win.webContents.send('sync:request', { id, body: Buffer.concat(chunks).toString('utf8') })
+  })
+}
+
+ipcMain.handle('sync:start', async () => {
+  stopSync()
+  const server = http.createServer(handleSyncRequest)
+  await new Promise((resolve, reject) => {
+    server.once('error', reject)
+    server.listen(0, '0.0.0.0', resolve)
+  })
+  syncServer = server
+  syncTimer = setTimeout(stopSync, SYNC_MAX_MS)
+  return { hosts: localAddresses(), port: server.address().port }
+})
+
+ipcMain.handle('sync:stop', () => stopSync())
+
+ipcMain.handle('sync:respond', (_event, id, answer) => {
+  pendingSync.get(id)?.({ status: Number(answer?.status) || 500, body: String(answer?.body ?? '') })
 })
 
 app.on('before-quit', () => {

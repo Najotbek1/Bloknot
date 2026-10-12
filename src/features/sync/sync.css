@@ -1,0 +1,35 @@
+.lan-sync {
+  display: grid;
+  gap: 10px;
+}
+
+.lan-sync p {
+  margin: 0;
+}
+
+.pairing {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.qr {
+  display: block;
+  width: min(280px, 100%);
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.qr__bg {
+  fill: var(--color-qr-bg);
+}
+
+.qr__dots {
+  fill: var(--color-qr);
+}
+
+.pairing__hint {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
