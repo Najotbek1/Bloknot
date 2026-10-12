@@ -7,6 +7,8 @@ import { t } from '../../i18n'
 import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
 import { AdSettings } from '../ads/AdSettings'
+import { DesktopSettings } from './DesktopSettings'
+import { LanSync } from '../sync/LanSync'
 import { Switch } from '../../ui/Switch'
 import './settings.css'
 
@@ -116,7 +118,11 @@ export function SettingsScreen() {
         <BackupSection />
       </section>
 
+      <LanSync />
+
       <AdSettings />
+
+      <DesktopSettings />
 
       <section className="section">
         <h2 className="section__title">{t('settings.about')}</h2>

@@ -2,10 +2,12 @@ import { Capacitor } from '@capacitor/core'
 import { LocalNotifications } from '@capacitor/local-notifications'
 import type { PlannedNotification } from '../core/reminders/plan'
 import { t } from '../i18n'
+import { desktop } from './desktop'
 
 /**
- * Phone notifications. Only the Android app can show them; in the browser (and later the desktop
- * app) every function here does nothing and reports `unsupported`.
+ * Notifications. The Android app schedules them with the system; the Windows app hands the plan
+ * to its main process (desktop/main.cjs), which shows them while it runs (it keeps running in the
+ * tray). In the browser every function here does nothing and reports `unsupported`.
  */
 export type PermissionState = 'granted' | 'denied' | 'prompt' | 'unsupported'
 
@@ -14,7 +16,8 @@ const TASK_ACTION_TYPE = 'TASK'
 const DONE_ACTION = 'done'
 const SMALL_ICON = 'ic_stat_bloknot'
 
-export const notificationsSupported = Capacitor.isNativePlatform()
+const native = Capacitor.isNativePlatform()
+export const notificationsSupported = native || desktop !== undefined
 
 /** Fired after the permission may have changed, so the schedule is rebuilt right away. */
 export const NOTIFICATIONS_RESYNC_EVENT = 'bloknot:notifications-resync'
@@ -43,12 +46,14 @@ function toPermissionState(state: string): PermissionState {
 }
 
 export async function getPermission(): Promise<PermissionState> {
-  if (!notificationsSupported) return 'unsupported'
+  if (desktop) return 'granted'
+  if (!native) return 'unsupported'
   return toPermissionState((await LocalNotifications.checkPermissions()).display)
 }
 
 export async function requestPermission(): Promise<PermissionState> {
-  if (!notificationsSupported) return 'unsupported'
+  if (desktop) return 'granted'
+  if (!native) return 'unsupported'
   const state = toPermissionState((await LocalNotifications.requestPermissions()).display)
   window.dispatchEvent(new Event(NOTIFICATIONS_RESYNC_EVENT))
   return state
@@ -56,7 +61,8 @@ export async function requestPermission(): Promise<PermissionState> {
 
 /** Android 12+: whether notifications may fire at the exact minute (otherwise they can be late). */
 export async function getExactAlarmPermission(): Promise<PermissionState> {
-  if (!notificationsSupported) return 'unsupported'
+  if (desktop) return 'granted'
+  if (!native) return 'unsupported'
   try {
     return toPermissionState((await LocalNotifications.checkExactNotificationSetting()).exact_alarm)
   } catch {
@@ -65,12 +71,18 @@ export async function getExactAlarmPermission(): Promise<PermissionState> {
 }
 
 export async function openExactAlarmSettings(): Promise<void> {
-  if (notificationsSupported) await LocalNotifications.changeExactNotificationSetting()
+  if (native) await LocalNotifications.changeExactNotificationSetting()
 }
 
 /** Replaces every pending notification with `plan`. */
 export async function syncNotifications(plan: PlannedNotification[]): Promise<void> {
-  if (!notificationsSupported || (await getPermission()) !== 'granted') return
+  if (desktop) {
+    await desktop.scheduleNotifications(
+      plan.map((item) => ({ id: item.id, at: item.at.getTime(), title: item.title, body: item.body })),
+    )
+    return
+  }
+  if (!native || (await getPermission()) !== 'granted') return
   await ensureSetup()
   const pending = await LocalNotifications.getPending()
   if (pending.notifications.length > 0) {
@@ -95,7 +107,11 @@ export async function syncNotifications(plan: PlannedNotification[]): Promise<vo
 
 /** Shows a notification in a few seconds, to check that notifications work on this phone. */
 export async function sendTestNotification(): Promise<void> {
-  if (!notificationsSupported) return
+  if (desktop) {
+    window.setTimeout(() => void desktop?.notifyNow({ title: t('notify.test.title'), body: t('notify.test.body') }), 5000)
+    return
+  }
+  if (!native) return
   await ensureSetup()
   await LocalNotifications.schedule({
     notifications: [
@@ -113,7 +129,7 @@ export async function sendTestNotification(): Promise<void> {
 
 /** Calls `handler` when the "Bajarildi" button of a task notification is pressed. */
 export function onDoneAction(handler: (taskId: string, date: string | undefined) => void): () => void {
-  if (!notificationsSupported) return () => {}
+  if (!native) return () => {}
   const listener = LocalNotifications.addListener('localNotificationActionPerformed', (action) => {
     const extra = action.notification.extra as { taskId?: string; date?: string } | undefined
     if (action.actionId === DONE_ACTION && extra?.taskId) handler(extra.taskId, extra.date)

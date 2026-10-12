@@ -23,6 +23,8 @@ Har biri uchun: **Ephemeral emas**, **majburiy** (reklama SDK'si ishlashi uchun)
 
 Rejalar, yozuvlar, ism, email, kontaktlar, rasmlar va boshqa shaxsiy ma'lumotlar **yig'ilmaydi**.
 
+**Wi-Fi sinxronlash** ham «yig'ish» hisoblanmaydi: ma'lumot foydalanuvchining o'z telefonidan o'z kompyuteriga, faqat mahalliy tarmoqda va shifrlangan holda (AES-GCM) boradi. U bizga yoki uchinchi tomonga yetmaydi. Google ta'rifiga ko'ra bunday uzatish anketaga yozilmaydi. QR skaner Google Play xizmatlariniki, kamera ruxsati so'ralmaydi.
+
 ## Boshqa deklaratsiyalar
 - **Advertising ID:** ilova reklama ID'sini ishlatadi (AdMob). `com.google.android.gms.permission.AD_ID` ruxsati SDK orqali avtomatik qo'shiladi. «Advertising ID» deklaratsiyasida **«Ha, reklama uchun»** deb belgilang.
 - **Ads:** «Ilovada reklama bormi?» → **Ha**.

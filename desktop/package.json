@@ -1,0 +1,42 @@
+{
+  "name": "maqsad-desktop",
+  "private": true,
+  "version": "0.6.0",
+  "description": "Maqsad — reja va bloknot (Windows)",
+  "author": "Najotbek",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win nsis --publish never"
+  },
+  "devDependencies": {
+    "electron": "43.7.4",
+    "electron-builder": "26.16.1"
+  },
+  "build": {
+    "appId": "uz.najotbek.maqsad",
+    "productName": "Maqsad",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "web/**/*",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png",
+      "artifactName": "Maqsad-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Maqsad"
+    }
+  }
+}

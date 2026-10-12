@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { db } from '../core/db/schema'
 import { getSettings } from '../core/db/tasks'
 import type { Language } from '../core/models/types'
-import { getLanguage, setLanguage } from '../i18n'
+import { getLanguage, setLanguage, t } from '../i18n'
+import { desktop } from '../platform/desktop'
 import { resolveLanguage } from '../i18n/languages'
 import { todayKey } from '../core/dates'
 import { NotebooksScreen } from '../features/notebooks/NotebooksScreen'
@@ -54,6 +55,10 @@ function useLanguage(): Language {
   const settings = useLiveQuery(() => getSettings(db), [])
   const language = settings ? resolveLanguage(settings.language, navigator.languages) : getLanguage()
   if (getLanguage() !== language) setLanguage(language)
+  // The Windows app's tray menu speaks the same language.
+  useEffect(() => {
+    void desktop?.setLabels({ open: t('tray.open'), quit: t('tray.quit'), tooltip: t('app.name') })
+  }, [language])
   return language
 }
 
