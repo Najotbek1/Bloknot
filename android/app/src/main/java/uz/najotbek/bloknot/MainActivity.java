@@ -6,17 +6,39 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import com.getcapacitor.BridgeActivity;
 import uz.najotbek.bloknot.alarm.AlarmPlugin;
+import uz.najotbek.bloknot.alarm.AlarmService;
 
 public class MainActivity extends BridgeActivity {
 
     /** Set on the intent the ringing alarm opens the app with. */
     public static final String EXTRA_ALARM = "maqsad_alarm";
 
+    /** Whether the app is on screen; the ringing alarm uses it to call the user back. */
+    private static volatile boolean visible;
+
+    public static boolean isVisible() {
+        return visible;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(AlarmPlugin.class);
         super.onCreate(savedInstanceState);
         setAlarmWindow(isAlarmIntent(getIntent()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        visible = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        visible = false;
+        // Left while the alarm rings (home gesture, recents, another app): the service calls the user back.
+        AlarmService.onAppLeft(this);
     }
 
     @Override

@@ -233,6 +233,8 @@ export const en: Messages = {
   'alarm.perm.exact': 'Turn on the “Alarms & reminders” permission so the alarm rings on time.',
   'alarm.perm.fullScreen': 'Turn on the “Full-screen notifications” permission so it opens on the lock screen.',
   'alarm.perm.notifications': 'Allow notifications so the alarm can work.',
+  'alarm.perm.overlay': 'Turn on «Display over other apps» so the ringing alarm cannot be left. Without it, leaving the app keeps the alarm ringing as a notification at the top.',
+  'alarm.returnBody': 'The alarm is still ringing. Tap and type the text to stop it.',
   'alarm.perm.battery': 'On some phones (Xiaomi, Oppo, Vivo and others), turn on “No battery restrictions” or “Autostart” for Maqsad, otherwise the alarm may be late.',
   'alarm.perm.batteryTitle': 'What if the alarm is late?',
   'alarm.perm.open': 'Open settings',

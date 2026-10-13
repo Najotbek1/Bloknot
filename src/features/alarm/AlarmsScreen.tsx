@@ -41,6 +41,7 @@ export function AlarmsScreen({ onBack }: { onBack: () => void }) {
       label: t('alarm.testLabel'),
       title: t('alarm.ringing.title'),
       body: t('alarm.testLabel'),
+      returnBody: t('alarm.returnBody'),
       ringtone: null,
     })
     toast.show(t('alarm.testStarted'))
@@ -105,10 +106,11 @@ export function AlarmsScreen({ onBack }: { onBack: () => void }) {
   )
 }
 
-const NOTICES: { key: keyof AlarmStatus; screen: AlarmSettingsScreen; text: 'alarm.perm.exact' | 'alarm.perm.fullScreen' | 'alarm.perm.notifications' }[] = [
+const NOTICES: { key: keyof AlarmStatus; screen: AlarmSettingsScreen; text: 'alarm.perm.exact' | 'alarm.perm.fullScreen' | 'alarm.perm.notifications' | 'alarm.perm.overlay' }[] = [
   { key: 'notifications', screen: 'notifications', text: 'alarm.perm.notifications' },
   { key: 'exact', screen: 'exact', text: 'alarm.perm.exact' },
   { key: 'fullScreen', screen: 'fullScreen', text: 'alarm.perm.fullScreen' },
+  { key: 'overlay', screen: 'overlay', text: 'alarm.perm.overlay' },
 ]
 
 /** What the phone still has to allow for alarms to ring on time and over the lock screen. */

@@ -87,6 +87,7 @@ Uyg'otgich «Bugun» ekranidagi ⏰ tugmasi orqali ochiladi. Shu yerdagi ogohlan
 - **Bildirishnomalar** — yoqilgan bo'lishi kerak.
 - **Signal va eslatmalar** (Android 12–13) — aniq vaqtda chalish uchun.
 - **To'liq ekranli bildirishnomalar** (Android 14+) — qulflangan ekranda ochilish uchun.
+- **Boshqa ilovalar ustidan ko'rsatish** — chalayotgan uyg'otgichdan tepaga surib chiqib ketilsa, ekran 1–2 soniyada o'zi qaytadi. Ruxsatsiz ham uyg'otgich to'xtamaydi: tepada «Uyg'otgich hali chalinmoqda» bildirishnomasi tushadi.
 - **Xiaomi, Oppo, Vivo, Huawei** telefonlarida ilova sozlamalarida «Batareya cheklovi yo'q» va «Avtoishga tushish»ni yoqing. Aks holda tizim uyg'otgichni kechiktirishi mumkin.
 
 Cheklovlar:
