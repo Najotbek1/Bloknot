@@ -56,13 +56,14 @@ jobs:
           echo "KEY_ALIAS=test" >> "$GITHUB_ENV"
       - name: Encrypt the key for Google Play
         run: |
+          # PEPK takes the passwords as they are (a "file:" prefix is read as part of the password).
           mkdir -p out
           trap 'rm -f "$RUNNER_TEMP/release.jks" "$RUNNER_TEMP/store.pass" "$RUNNER_TEMP/key.pass"' EXIT
           java -jar "$RUNNER_TEMP/pepk.jar" \
             --keystore="$RUNNER_TEMP/release.jks" \
             --alias="$KEY_ALIAS" \
-            --keystore-pass="file:$RUNNER_TEMP/store.pass" \
-            --key-pass="file:$RUNNER_TEMP/key.pass" \
+            --keystore-pass="$(cat "$RUNNER_TEMP/store.pass")" \
+            --key-pass="$(cat "$RUNNER_TEMP/key.pass")" \
             --output=out/maqsad-play-signing-key.zip \
             --include-cert \
             --rsa-aes-encryption \
