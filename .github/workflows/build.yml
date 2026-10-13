@@ -192,6 +192,38 @@ jobs:
           name: ${{ matrix.artifact }}
           path: ${{ matrix.files }}
           if-no-files-found: error
+      # Microsoft Store package (the Store signs it). With the three identity values from Partner
+      # Center set as repository Variables (docs/msstore/PUBLISH.md) it is uploaded as maqsad-msstore;
+      # without them it is still built with placeholder values, only to prove the packaging works.
+      - name: Build the Microsoft Store package
+        if: matrix.name == 'Windows'
+        working-directory: desktop
+        env:
+          MSSTORE_IDENTITY_NAME: ${{ vars.MSSTORE_IDENTITY_NAME }}
+          MSSTORE_PUBLISHER: ${{ vars.MSSTORE_PUBLISHER }}
+          MSSTORE_PUBLISHER_NAME: ${{ vars.MSSTORE_PUBLISHER_NAME }}
+        run: |
+          if [ -n "$MSSTORE_IDENTITY_NAME" ] && [ -n "$MSSTORE_PUBLISHER" ] && [ -n "$MSSTORE_PUBLISHER_NAME" ]; then
+            echo "STORE_READY=1" >> "$GITHUB_ENV"
+          else
+            echo "::notice::Store identity not set yet (docs/msstore/PUBLISH.md): building with placeholders, not uploading."
+            MSSTORE_IDENTITY_NAME="Maqsad.Placeholder"
+            MSSTORE_PUBLISHER="CN=00000000-0000-0000-0000-000000000000"
+            MSSTORE_PUBLISHER_NAME="Maqsad"
+          fi
+          VERSION="$(node -p "require('../package.json').version")"
+          npx electron-builder --win appx --publish never \
+            -c.extraMetadata.version="$VERSION" \
+            -c.appx.identityName="$MSSTORE_IDENTITY_NAME" \
+            -c.appx.publisher="$MSSTORE_PUBLISHER" \
+            -c.appx.publisherDisplayName="$MSSTORE_PUBLISHER_NAME"
+          ls -la release/*.appx
+      - uses: actions/upload-artifact@v4
+        if: matrix.name == 'Windows' && env.STORE_READY == '1'
+        with:
+          name: maqsad-msstore
+          path: desktop/release/*.appx
+          if-no-files-found: error
 
   deploy-pages:
     name: Publish web version

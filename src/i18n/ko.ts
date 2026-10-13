@@ -296,6 +296,7 @@ export const ko: Messages = {
   'settings.desktop.autostart': 'Windows와 함께 시작',
   'settings.desktop.autostartMac': '로그인 시 열기',
   'settings.desktop.autostartLinux': '컴퓨터와 함께 시작',
+  'settings.desktop.autostartStore': 'Microsoft Store 버전은 스스로 시작 프로그램에 추가할 수 없습니다. Windows와 함께 열려면: 설정 → 앱 → 시작 프로그램 → Maqsad를 켜세요.',
   'settings.desktop.autostartHint': '컴퓨터를 켜면 Maqsad가 트레이에서 조용히 시작되어 알림이 제때 와요',
   'settings.desktop.trayNote': '창을 닫아도 Maqsad는 트레이(오른쪽 아래)에서 계속 실행되고 알림도 와요. 완전히 종료하려면 아이콘을 마우스 오른쪽 버튼으로 클릭하고 \'종료\'를 선택하세요.',
   'settings.desktop.trayNoteMac': '창을 닫아도 Maqsad는 화면 위쪽 메뉴 막대에서 계속 실행되며 알림이 옵니다. 완전히 종료하려면 아이콘을 클릭하고 \'종료\'를 선택하거나 Cmd+Q를 누르세요.',

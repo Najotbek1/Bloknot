@@ -12,7 +12,8 @@
     "start": "electron .",
     "dist:win": "electron-builder --win nsis --publish never",
     "dist:linux": "electron-builder --linux AppImage deb --publish never",
-    "dist:mac": "electron-builder --mac dmg --x64 --arm64 --publish never"
+    "dist:mac": "electron-builder --mac dmg --x64 --arm64 --publish never",
+    "dist:store": "electron-builder --win appx --publish never"
   },
   "devDependencies": {
     "electron": "43.7.4",
@@ -42,6 +43,23 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "shortcutName": "Maqsad"
+    },
+    "appx": {
+      "applicationId": "Maqsad",
+      "displayName": "Maqsad",
+      "backgroundColor": "#0E1017",
+      "showNameOnTiles": false,
+      "languages": [
+        "uz-Latn",
+        "en-US",
+        "ru-RU",
+        "de-DE",
+        "ja-JP",
+        "ko-KR",
+        "hi-IN",
+        "ar-SA"
+      ],
+      "artifactName": "Maqsad-Store-${version}.${ext}"
     },
     "mac": {
       "target": "dmg",

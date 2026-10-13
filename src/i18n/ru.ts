@@ -296,6 +296,7 @@ export const ru: Messages = {
   'settings.desktop.autostart': 'Запускать вместе с Windows',
   'settings.desktop.autostartMac': 'Запускать при входе в Mac',
   'settings.desktop.autostartLinux': 'Запускать вместе с компьютером',
+  'settings.desktop.autostartStore': 'Версия из Microsoft Store не может сама добавиться в автозагрузку. Чтобы открывать её вместе с Windows: Параметры → Приложения → Автозагрузка → включите Maqsad.',
   'settings.desktop.autostartHint': 'При включении компьютера Maqsad тихо запускается в трее, и напоминания приходят вовремя',
   'settings.desktop.trayNote': 'Если закрыть окно, Maqsad продолжит работать в трее (в правом нижнем углу), и напоминания будут приходить. Чтобы выйти полностью, нажми на значок правой кнопкой мыши и выбери «Выход».',
   'settings.desktop.trayNoteMac': 'Если закрыть окно, Maqsad продолжит работать в строке меню вверху экрана, и напоминания будут приходить. Чтобы выйти полностью, нажмите на значок там и выберите «Выход» или нажмите Cmd+Q.',

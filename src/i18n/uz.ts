@@ -294,6 +294,7 @@ export const uz = {
   'settings.desktop.autostart': 'Windows bilan birga ochilish',
   'settings.desktop.autostartMac': 'Mac bilan birga ochilish',
   'settings.desktop.autostartLinux': 'Kompyuter bilan birga ochilish',
+  'settings.desktop.autostartStore': 'Microsoft Store versiyasi o‘zini ishga tushirishga qo‘sha olmaydi. Kompyuter bilan birga ochilishi uchun: Windows sozlamalari → Ilovalar → Ishga tushirish (Startup) → Maqsad ni yoqing.',
   'settings.desktop.autostartHint': 'Kompyuter yoqilganda Maqsad tepsida jim ishga tushadi va eslatmalar o‘z vaqtida keladi',
   'settings.desktop.trayNote': 'Oynani yopsangiz, Maqsad ekranning pastki o‘ng burchagidagi tepsida ishlashda davom etadi va eslatmalar keladi. Butunlay chiqish uchun u yerdagi belgini sichqonchaning o‘ng tugmasi bilan bosib, «Chiqish»ni tanlang.',
   'settings.desktop.trayNoteMac': 'Oynani yopsangiz, Maqsad ekran tepasidagi menyu satrida ishlashda davom etadi va eslatmalar keladi. Butunlay chiqish uchun u yerdagi belgini bosib «Chiqish»ni tanlang yoki Cmd+Q ni bosing.',

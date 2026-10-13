@@ -15,6 +15,7 @@ const fakeWindowsApp = () => {
     setAutoStart: async (enabled: boolean) => {
       state.autoStart = enabled
     },
+    isStore: async () => false,
     getCloseToTray: async () => state.closeToTray,
     setCloseToTray: async (enabled: boolean) => {
       state.closeToTray = enabled
@@ -49,7 +50,10 @@ test('the menu is a full-height side panel and the calendar sits beside the day'
   // Ctrl+2: the calendar, with the selected day's plans to its side.
   await page.keyboard.press('Control+2')
   const calendar = (await page.locator('.calendar').boundingBox())!
-  const day = (await page.getByRole('heading', { name: /12-oktabr|oktabr/ }).first().boundingBox())!
+  const day = (await page
+    .getByRole('heading', { name: /12-oktabr|oktabr/ })
+    .first()
+    .boundingBox())!
   expect(day.x).toBeGreaterThan(calendar.x + calendar.width)
   expect(pageErrors).toEqual([])
 })
@@ -121,5 +125,19 @@ test('on a Mac the computer settings speak of the Mac and its menu bar', async (
   await expect(page.getByRole('switch', { name: /Mac bilan birga ochilish/ })).toBeVisible()
   await expect(page.getByText('menyu satrida', { exact: false })).toBeVisible()
   await expect(page.getByText('Windows', { exact: false })).toHaveCount(0)
+  expect(pageErrors).toEqual([])
+})
+
+test('the Microsoft Store version explains where Windows sets start-up', async ({ page, pageErrors }) => {
+  await page.addInitScript(fakeWindowsApp)
+  await page.addInitScript(() => {
+    ;(window as unknown as { maqsadDesktop: { isStore: () => Promise<boolean> } }).maqsadDesktop.isStore = async () =>
+      true
+  })
+  await page.goto('/')
+  await page.locator('.bottom-nav').getByRole('button', { name: 'Sozlamalar', exact: true }).click()
+  await expect(page.getByText('Microsoft Store versiyasi', { exact: false })).toBeVisible()
+  await expect(page.getByRole('switch', { name: /Windows bilan birga ochilish/ })).toHaveCount(0)
+  await expect(page.getByRole('switch', { name: /Yopganda tepsida qolsin/ })).toBeVisible()
   expect(pageErrors).toEqual([])
 })

@@ -296,6 +296,7 @@ export const ja: Messages = {
   'settings.desktop.autostart': 'Windows と一緒に起動',
   'settings.desktop.autostartMac': 'ログイン時に開く',
   'settings.desktop.autostartLinux': 'パソコンの起動時に開く',
+  'settings.desktop.autostartStore': 'Microsoft Store版は自分でスタートアップに登録できません。Windowsと一緒に開くには：設定 → アプリ → スタートアップ → Maqsad をオンにしてください。',
   'settings.desktop.autostartHint': 'パソコンの起動時に Maqsad がタスクトレイで静かに起動し、リマインダーが時間どおりに届きます',
   'settings.desktop.trayNote': 'ウィンドウを閉じても、Maqsad はタスクトレイ（右下）で動き続け、リマインダーも届きます。完全に終了するには、そのアイコンを右クリックして「終了」を選んでください。',
   'settings.desktop.trayNoteMac': 'ウィンドウを閉じても、Maqsadは画面上部のメニューバーで動作し続け、リマインダーが届きます。完全に終了するには、そのアイコンをクリックして「終了」を選ぶか、Cmd+Qを押してください。',

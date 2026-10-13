@@ -28,6 +28,9 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 5. Kompyuter versiyasida reklama yo'q va bo'lmaydi: AdMob faqat telefon uchun.
 6. Kompyuterda menyu chap tomonda turadi, ekranlar ikki ustunli bo'ladi. Oyna tor qilinsa, telefondagi ko'rinishga qaytadi. Tezkor tugmalar: `Ctrl+N` — yangi reja yoki yozuv, `Ctrl+1…5` — bo'limlar.
 
+### Microsoft Store
+Store versiyasida «xavfli ilova» ogohlantirishi bo'lmaydi va yangilanishlar o'zi keladi. Joylash qadamlari: `docs/msstore/PUBLISH.md` (hisob tekin; Partner Center'dagi 3 ta qiymatni GitHub Variables'ga yozasiz, Actions `maqsad-msstore` ni yig'adi, uni Partner Center'ga yuklaysiz).
+
 ### Mac
 1. **Artifacts** → `maqsad-mac` ni yuklab oling. Ichida ikkita fayl bor: `…-arm64.dmg` (M1/M2/M3/M4 — Apple Silicon) va `…-x64.dmg` (eski Intel Mac'lar). Mac'ingiz qaysiligini bilish: chap yuqoridagi  → **About This Mac** → «Chip: Apple M…» bo'lsa arm64.
 2. `.dmg` ni oching va Maqsad belgisini **Applications** papkasiga sudrang.

@@ -296,6 +296,7 @@ export const hi: Messages = {
   'settings.desktop.autostart': 'Windows के साथ शुरू करें',
   'settings.desktop.autostartMac': 'Mac के साथ खोलें',
   'settings.desktop.autostartLinux': 'कंप्यूटर के साथ शुरू करें',
+  'settings.desktop.autostartStore': 'Microsoft Store संस्करण खुद को स्टार्टअप में नहीं जोड़ सकता। Windows के साथ खोलने के लिए: सेटिंग्स → ऐप्स → स्टार्टअप → Maqsad चालू करें।',
   'settings.desktop.autostartHint': 'कंप्यूटर चालू होते ही Maqsad ट्रे में चुपचाप शुरू हो जाता है, ताकि रिमाइंडर समय पर आएँ',
   'settings.desktop.trayNote': 'विंडो बंद करने पर भी Maqsad ट्रे (नीचे दाएँ कोने) में चलता रहता है और रिमाइंडर आते रहते हैं। पूरी तरह बंद करने के लिए वहाँ आइकन पर राइट-क्लिक करें और “बाहर निकलें” चुनें।',
   'settings.desktop.trayNoteMac': 'विंडो बंद करने पर भी Maqsad स्क्रीन के ऊपर मेनू बार में चलता रहेगा और रिमाइंडर आते रहेंगे। पूरी तरह बंद करने के लिए वहाँ उसके आइकन पर क्लिक करके “Quit” चुनें या Cmd+Q दबाएँ।',

@@ -296,6 +296,7 @@ export const en: Messages = {
   'settings.desktop.autostart': 'Start with Windows',
   'settings.desktop.autostartMac': 'Open at login',
   'settings.desktop.autostartLinux': 'Start with the computer',
+  'settings.desktop.autostartStore': 'The Microsoft Store version cannot add itself to start-up. To open it with Windows: Settings → Apps → Startup → turn on Maqsad.',
   'settings.desktop.autostartHint': 'Maqsad starts quietly in the tray when your PC starts, so reminders arrive on time',
   'settings.desktop.trayNote': 'When you close the window, Maqsad keeps running in the tray (bottom-right corner) and reminders still arrive. To quit completely, right-click its icon there and choose “Quit”.',
   'settings.desktop.trayNoteMac': 'When you close the window, Maqsad keeps running in the menu bar at the top of the screen and reminders still arrive. To quit completely, click its icon there and choose “Quit”, or press Cmd+Q.',

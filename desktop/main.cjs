@@ -18,6 +18,8 @@ const TICK_MS = 15 * 1000
  */
 const LOGIN_ARGS = ['--hidden']
 const IS_MAC = process.platform === 'darwin'
+/** Installed from the Microsoft Store (an AppX package): Windows manages its start-up itself. */
+const IS_STORE = process.windowsStore === true
 const IS_LINUX = process.platform === 'linux'
 /** Notifications missed by more than this (the PC was off or asleep) are dropped, not shown late. */
 const LATE_LIMIT_MS = 10 * 60 * 1000
@@ -219,12 +221,15 @@ function startedHidden() {
 }
 
 function getAutoStart() {
+  if (IS_STORE) return false
   if (IS_LINUX) return fs.existsSync(linuxAutostartFile())
   if (IS_MAC) return app.getLoginItemSettings().openAtLogin
   return app.getLoginItemSettings({ args: LOGIN_ARGS }).openAtLogin
 }
 
 function setAutoStart(enabled) {
+  // A Store app cannot add itself to start-up; Settings shows where Windows lets the user do it.
+  if (IS_STORE) return
   if (IS_LINUX) {
     const file = linuxAutostartFile()
     if (!enabled) return fs.rmSync(file, { force: true })
@@ -242,6 +247,8 @@ function setAutoStart(enabled) {
 }
 
 ipcMain.handle('autostart:get', () => getAutoStart())
+
+ipcMain.handle('app:store', () => IS_STORE)
 
 ipcMain.handle('autostart:set', (_event, enabled) => {
   setAutoStart(Boolean(enabled))

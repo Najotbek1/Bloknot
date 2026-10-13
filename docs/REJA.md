@@ -173,6 +173,9 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Rejalarni ⋮⋮ tutqich bilan sudrab tartiblash (barmoq, sichqoncha yoki ↑/↓): Bugun, Kalendar (kun, hafta, oy) va Umumiy ro'yxatlarda; tartib `order` maydonida saqlanadi va boshqa qurilmaga sinxronlanadi. Yangi reja ro'yxat oxiriga tushadi.
    - Fokus taymer (Pomodoro): reja oynasidagi «Fokus taymer» → 15/25/45/60 daqiqa, pauza, to'xtatish; tugaganda bildirishnoma (ilova yopiq bo'lsa ham), «Bajarildi» yoki 5 daqiqa tanaffus. Taymer ishlab turganda pastda kichik tugma.
    - **Kelajak (egasi relizdan keyin eslatadi):** reja ichida kichik ro'yxat (bandlar) — mukammalroq ko'rinishda, yangilanish sifatida.
+16. **Microsoft Store.** ✅ tayyorgarlik (0.11.0); joylash — egasi (`docs/msstore/PUBLISH.md`).
+   - CI Windows qatorida `.appx` paketi: Partner Center'dagi uchta identity qiymati GitHub Variables'da (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`, `MSSTORE_PUBLISHER_NAME`) bo'lsa `maqsad-msstore` artefakti; bo'lmasa sinov qiymatlari bilan yig'ib tekshiradi, yuklamaydi. Tile ikonkalari: `node scripts/render-store.mjs` → `desktop/build/appx/`.
+   - Store versiyasi (`process.windowsStore`) o'zini autostartga qo'sha olmaydi — Sozlamalarda Windows «Startup» yo'li ko'rsatiladi. Sahifa matnlari va 1366×768 skrinshotlar `docs/msstore/`.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)

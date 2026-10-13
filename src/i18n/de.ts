@@ -296,6 +296,7 @@ export const de: Messages = {
   'settings.desktop.autostart': 'Mit Windows starten',
   'settings.desktop.autostartMac': 'Beim Anmelden öffnen',
   'settings.desktop.autostartLinux': 'Mit dem Computer starten',
+  'settings.desktop.autostartStore': 'Die Microsoft-Store-Version kann sich nicht selbst zum Autostart hinzufügen. Damit sie mit Windows startet: Einstellungen → Apps → Autostart → Maqsad einschalten.',
   'settings.desktop.autostartHint': 'Maqsad startet beim Hochfahren still im Infobereich, damit Erinnerungen pünktlich kommen',
   'settings.desktop.trayNote': 'Wenn du das Fenster schließt, läuft Maqsad im Infobereich (unten rechts) weiter und Erinnerungen kommen trotzdem. Zum vollständigen Beenden klicke dort mit der rechten Maustaste auf das Symbol und wähle „Beenden“.',
   'settings.desktop.trayNoteMac': 'Wenn du das Fenster schließt, läuft Maqsad in der Menüleiste oben weiter und Erinnerungen kommen weiterhin. Zum Beenden klicke dort auf das Symbol und wähle „Beenden“ oder drücke Cmd+Q.',

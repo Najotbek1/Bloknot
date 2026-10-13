@@ -7,6 +7,7 @@ import { Switch } from '../../ui/Switch'
 export function DesktopSettings() {
   const [autoStart, setAutoStart] = useState<boolean | null>(null)
   const [closeToTray, setCloseToTray] = useState<boolean | null>(null)
+  const [store, setStore] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -15,6 +16,9 @@ export function DesktopSettings() {
     })
     void desktop?.getCloseToTray().then((enabled) => {
       if (active) setCloseToTray(enabled)
+    })
+    void desktop?.isStore().then((fromStore) => {
+      if (active) setStore(fromStore)
     })
     return () => {
       active = false
@@ -28,21 +32,25 @@ export function DesktopSettings() {
     <section className="section">
       <h2 className="section__title">{t('settings.desktop')}</h2>
       <div className="card settings-list">
-        <Switch
-          label={t(
-            mac
-              ? 'settings.desktop.autostartMac'
-              : linux
-                ? 'settings.desktop.autostartLinux'
-                : 'settings.desktop.autostart',
-          )}
-          hint={t('settings.desktop.autostartHint')}
-          checked={autoStart ?? false}
-          onChange={(enabled) => {
-            setAutoStart(enabled)
-            void desktop?.setAutoStart(enabled)
-          }}
-        />
+        {store ? (
+          <p className="coach-info">{t('settings.desktop.autostartStore')}</p>
+        ) : (
+          <Switch
+            label={t(
+              mac
+                ? 'settings.desktop.autostartMac'
+                : linux
+                  ? 'settings.desktop.autostartLinux'
+                  : 'settings.desktop.autostart',
+            )}
+            hint={t('settings.desktop.autostartHint')}
+            checked={autoStart ?? false}
+            onChange={(enabled) => {
+              setAutoStart(enabled)
+              void desktop?.setAutoStart(enabled)
+            }}
+          />
+        )}
         <Switch
           label={t('settings.desktop.closeToTray')}
           hint={t('settings.desktop.closeToTrayHint')}

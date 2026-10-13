@@ -296,6 +296,7 @@ export const ar: Messages = {
   'settings.desktop.autostart': 'التشغيل مع Windows',
   'settings.desktop.autostartMac': 'الفتح مع تشغيل Mac',
   'settings.desktop.autostartLinux': 'التشغيل مع الكمبيوتر',
+  'settings.desktop.autostartStore': 'لا يمكن لإصدار Microsoft Store إضافة نفسه إلى بدء التشغيل. لفتحه مع Windows: الإعدادات ← التطبيقات ← بدء التشغيل ← فعّل Maqsad.',
   'settings.desktop.autostartHint': 'يبدأ Maqsad بهدوء في شريط المهام عند تشغيل الكمبيوتر، فتصل التذكيرات في وقتها',
   'settings.desktop.trayNote': 'عند إغلاق النافذة يبقى Maqsad يعمل في شريط المهام (الزاوية السفلية) وتستمر التذكيرات. للخروج نهائيا انقر بزر الفأرة الأيمن على أيقونته هناك واختر «خروج».',
   'settings.desktop.trayNoteMac': 'عند إغلاق النافذة يستمر Maqsad في العمل في شريط القوائم أعلى الشاشة وتصلك التذكيرات. للخروج تمامًا انقر على أيقونته هناك واختر «إنهاء» أو اضغط Cmd+Q.',
