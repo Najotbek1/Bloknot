@@ -52,6 +52,10 @@ Ishlamasa:
 - «QR skaner yuklanmoqda» — Google Play xizmatlari skanerni birinchi marta yuklayapti, bir daqiqadan keyin qayta urining.
 - Har doim zaxira yo'li bor: fayl orqali Eksport/Import.
 
+## 1c. Foydali imkoniyatlar
+- **Tartiblash:** reja qatoridagi ⋮⋮ belgini bosib turib yuqoriga yoki pastga suring.
+- **Fokus taymer:** rejani oching → **Fokus taymer** → vaqtni tanlang → **Boshlash**. Ekranni yopsangiz ham taymer ishlaydi, tugaganda bildirishnoma keladi.
+
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:
 1. AdMob'dan App ID va Banner ID olasiz.

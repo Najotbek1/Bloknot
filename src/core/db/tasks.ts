@@ -59,8 +59,23 @@ export function buildTask(input: TaskInput): Omit<Task, 'id' | 'createdAt' | 'up
   return task
 }
 
+/** New tasks go to the end of manually ordered lists (`reorderTasks` numbers from 0). */
 export function createTask(db: BloknotDB, input: TaskInput, now: number = Date.now()): Promise<Task> {
-  return createRecord(db.tasks, buildTask(input), now)
+  return createRecord(db.tasks, buildTask({ order: now, ...input }), now)
+}
+
+/**
+ * Saves a list's manual order: the tasks get positions 0, 1, 2… in the given order. Only tasks
+ * whose position changes are written, each with a new `updatedAt`, so the order syncs like any edit.
+ */
+export async function reorderTasks(db: BloknotDB, orderedIds: string[], now: number = Date.now()): Promise<void> {
+  const ids = [...new Set(orderedIds)]
+  await db.transaction('rw', db.tasks, async () => {
+    for (const [index, id] of ids.entries()) {
+      const task = await getActive(db.tasks, id)
+      if (task && task.order !== index) await updateRecord(db.tasks, id, { order: index }, now)
+    }
+  })
 }
 
 export function updateTask(

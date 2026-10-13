@@ -132,3 +132,21 @@ export const AlarmIcon = (props: IconProps) => (
     <path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3M6 19l-2 2M18 19l2 2" />
   </Icon>
 )
+
+export const GripIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="9" cy="6" r="1" fill="currentColor" />
+    <circle cx="15" cy="6" r="1" fill="currentColor" />
+    <circle cx="9" cy="12" r="1" fill="currentColor" />
+    <circle cx="15" cy="12" r="1" fill="currentColor" />
+    <circle cx="9" cy="18" r="1" fill="currentColor" />
+    <circle cx="15" cy="18" r="1" fill="currentColor" />
+  </Icon>
+)
+
+export const TimerIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 9v4l2.5 2.5M9.5 2h5M12 2v3" />
+  </Icon>
+)

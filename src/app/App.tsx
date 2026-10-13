@@ -16,6 +16,7 @@ import { TodayScreen } from '../features/today/TodayScreen'
 import { useAdBanner } from '../features/ads/useAdBanner'
 import { useAppOpenAd } from '../features/ads/useAppOpenAd'
 import { AlarmRinging } from '../features/alarm/AlarmRinging'
+import { FocusBar, FocusScreen } from '../features/focus/FocusScreen'
 import { useAlarmSync } from '../features/alarm/useAlarmSync'
 import { useNotificationSync } from '../features/notifications/useNotificationSync'
 import { initBackButton } from '../platform/backButton'
@@ -137,6 +138,8 @@ export default function App() {
       <ToastProvider key={language}>
         <GlobalErrors />
         <AlarmRinging />
+        <FocusScreen />
+        <FocusBar />
         <TaskEditorProvider>
           <div className="app-main">
             {tab === 'today' && <TodayScreen />}

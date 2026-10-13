@@ -169,6 +169,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
 14. **Linux va Mac ilovalari.** ✅ (0.9.0) Windows ilovasining o'zi, GitHub Actions'da uchala tizim uchun yig'iladi: `maqsad-linux` (AppImage + .deb), `maqsad-mac` (Intel va Apple Silicon uchun .dmg), `maqsad-windows`.
    - Mac ilovasi Apple imzosisiz (ad-hoc): birinchi ochishda «Baribir ochish» kerak. Imzo va notarizatsiya uchun Apple Developer hisobi (99 $/yil) kerak.
    - Autostart: Windows/Mac — tizim API'si, Linux — `~/.config/autostart/maqsad.desktop`. Mac'da tahrir menyusi (Cmd+C/V/Q) bor, Dock ikonkasi oynani ochadi.
+14.5. **Fokus taymer va tartiblash.** ✅ (0.10.0)
+   - Rejalarni ⋮⋮ tutqich bilan sudrab tartiblash (barmoq, sichqoncha yoki ↑/↓): Bugun, Kalendar (kun, hafta, oy) va Umumiy ro'yxatlarda; tartib `order` maydonida saqlanadi va boshqa qurilmaga sinxronlanadi. Yangi reja ro'yxat oxiriga tushadi.
+   - Fokus taymer (Pomodoro): reja oynasidagi «Fokus taymer» → 15/25/45/60 daqiqa, pauza, to'xtatish; tugaganda bildirishnoma (ilova yopiq bo'lsa ham), «Bajarildi» yoki 5 daqiqa tanaffus. Taymer ishlab turganda pastda kichik tugma.
+   - **Kelajak (egasi relizdan keyin eslatadi):** reja ichida kichik ro'yxat (bandlar) — mukammalroq ko'rinishda, yangilanish sifatida.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)

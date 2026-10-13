@@ -173,7 +173,7 @@ function PeriodTasks({ day }: { day: DateKey }) {
           <h2 className="section__title">
             {t('plan.tab.weekly')} · {formatWeek(weekStartOf(day))}
           </h2>
-          <TaskRows rows={taskRows(week)} />
+          <TaskRows rows={taskRows(week)} sortable />
         </section>
       )}
       {month && month.length > 0 && (
@@ -181,7 +181,7 @@ function PeriodTasks({ day }: { day: DateKey }) {
           <h2 className="section__title">
             {t('plan.tab.monthly')} · {formatMonth(monthKeyOf(day))}
           </h2>
-          <TaskRows rows={taskRows(month)} />
+          <TaskRows rows={taskRows(month)} sortable />
         </section>
       )}
     </>

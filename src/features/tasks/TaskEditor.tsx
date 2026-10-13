@@ -15,10 +15,11 @@ import type {
 import { t, type MessageKey } from '../../i18n'
 import { formatWeek, weekdayShort } from '../../i18n/format'
 import { getPermission, requestPermission } from '../../platform/notifications'
-import { CloseIcon } from '../../ui/icons'
+import { CloseIcon, TimerIcon } from '../../ui/icons'
 import { useToast } from '../../ui/toastContext'
 import { changeStatus, deleteTask } from './actions'
 import { describeTaskPlace } from './describe'
+import { openFocus } from '../focus/focusStore'
 import { TaskNotes } from './TaskNotes'
 
 /** Values a new task starts with, e.g. the tab and day the user was looking at. */
@@ -456,6 +457,21 @@ export function TaskForm({
           placeholder={t('task.notesPlaceholder')}
         />
       </label>
+
+      {task && (
+        <button
+          type="button"
+          className="btn btn--block focus-start"
+          disabled={dirty}
+          title={dirty ? t('focus.saveFirst') : undefined}
+          onClick={() => {
+            onDone()
+            openFocus(task)
+          }}
+        >
+          <TimerIcon size={18} /> {t('focus.start')}
+        </button>
+      )}
 
       {task && (
         <button type="button" className="btn btn--danger btn--block" onClick={remove}>

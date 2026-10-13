@@ -9,6 +9,9 @@ import { listDayRemindersBetween } from '../../core/db/dayReminders'
 import { planNotifications } from '../../core/reminders/plan'
 import { computeStats } from '../../core/stats'
 import { NOTIFICATIONS_RESYNC_EVENT, onDoneAction, syncNotifications } from '../../platform/notifications'
+import { focusNotification } from '../../core/focus'
+import { t } from '../../i18n'
+import { getFocus } from '../focus/focusStore'
 import { changeStatus } from '../tasks/actions'
 
 const DEBOUNCE_MS = 1000
@@ -31,6 +34,14 @@ export function useNotificationSync() {
         // The coach speaks according to the last 7 days' responsibility score.
         const tone = latest.settings.coachMode ? coachTone(computeStats(latest, todayKey(now), 7).score) : 'normal'
         const plan = planNotifications(latest, latest.settings, now, 30, tone)
+        // A running focus timer rings when it ends, even with the app closed.
+        const focus = getFocus()
+        const focusDone = focusNotification(
+          focus,
+          now.getTime(),
+          t(focus?.phase === 'break' ? 'focus.notify.breakDone' : 'focus.notify.workDone'),
+        )
+        if (focusDone) plan.push(focusDone)
         syncNotifications(plan).catch((err: unknown) => console.error('Notification sync failed', err))
       }, DEBOUNCE_MS)
     }
