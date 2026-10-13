@@ -40,15 +40,21 @@ export function TaskRows({ rows, sortable = false }: { rows: TaskRow[]; sortable
     )
   }
 
+  // The drag lives in a ref too: pointer events can arrive faster than React re-renders, and the
+  // release must save the order the last move produced, not the one of the last render.
+  const drag = useRef<{ key: string; order: string[] } | null>(null)
+
   function onPointerDown(event: PointerEvent<HTMLButtonElement>, key: string) {
     event.preventDefault()
     event.currentTarget.setPointerCapture(event.pointerId)
+    drag.current = { key, order }
     setDragging(key)
     setPending(order)
   }
 
   function onPointerMove(event: PointerEvent<HTMLButtonElement>, key: string) {
-    if (dragging !== key || !pending || !listRef.current) return
+    const current = drag.current
+    if (!current || current.key !== key || !listRef.current) return
     const items = [...listRef.current.children] as HTMLElement[]
     let target = items.length - 1
     for (const [index, item] of items.entries()) {
@@ -58,14 +64,18 @@ export function TaskRows({ rows, sortable = false }: { rows: TaskRow[]; sortable
         break
       }
     }
-    const from = pending.indexOf(key)
-    if (from !== target) setPending(moveItem(pending, from, target))
+    const from = current.order.indexOf(key)
+    if (from === target) return
+    current.order = moveItem(current.order, from, target)
+    setPending(current.order)
   }
 
   function onPointerUp(key: string) {
-    if (dragging !== key || !pending) return
+    const current = drag.current
+    if (!current || current.key !== key) return
+    drag.current = null
     setDragging(null)
-    if (!sameOrder(pending, keys)) save(pending)
+    if (!sameOrder(current.order, keys)) save(current.order)
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, key: string) {

@@ -22,7 +22,7 @@ test('plans can be dragged into a new order, which survives a reload', async ({ 
   const first = (await page.locator('.task').first().boundingBox())!
   await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2)
   await page.mouse.down()
-  await page.mouse.move(from.x + from.width / 2, first.y + 4, { steps: 8 })
+  await page.mouse.move(from.x + from.width / 2, first.y + 4, { steps: 1 })
   await page.mouse.up()
   await expect.poll(() => titles(page)).toEqual(['Uchinchi', 'Birinchi', 'Ikkinchi'])
 
@@ -30,6 +30,11 @@ test('plans can be dragged into a new order, which survives a reload', async ({ 
   await page.getByRole('button', { name: 'Tartibini o‘zgartirish: Uchinchi' }).press('ArrowDown')
   await expect.poll(() => titles(page)).toEqual(['Birinchi', 'Uchinchi', 'Ikkinchi'])
 
+  // Saved, not just shown: another screen and back reads the order from the database again.
+  const nav = page.locator('.bottom-nav')
+  await nav.getByRole('button', { name: 'Statistika', exact: true }).click()
+  await nav.getByRole('button', { name: 'Bugun', exact: true }).click()
+  await expect.poll(() => titles(page)).toEqual(['Birinchi', 'Uchinchi', 'Ikkinchi'])
   await page.reload()
   await expect.poll(() => titles(page)).toEqual(['Birinchi', 'Uchinchi', 'Ikkinchi'])
   expect(pageErrors).toEqual([])
