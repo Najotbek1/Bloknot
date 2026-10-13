@@ -230,6 +230,7 @@ export function TaskForm({
             </button>
           ))}
         </div>
+        <span className="field__hint">{t(`task.kindHint.${draft.kind}`)}</span>
       </div>
 
       {draft.kind === 'daily' && (
@@ -315,6 +316,7 @@ export function TaskForm({
               </button>
             ))}
           </div>
+          <span className="field__hint">{t(`task.repeatHint.${draft.repeat}`)}</span>
 
           {draft.repeat === 'weekly' && (
             <div className="chips" role="group" aria-label={t('repeat.weekly')}>

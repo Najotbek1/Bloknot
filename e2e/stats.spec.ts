@@ -25,7 +25,8 @@ test('statistics show the score, tiles, charts and table', async ({ page, pageEr
   await expect(page.locator('.score__value')).toHaveText('100')
   await expect(page.locator('.stat-tile', { hasText: 'Bajarildi' })).toContainText('100%')
   await expect(page.getByText('Bugun yana 1 ta reja kutilmoqda')).toBeVisible()
-  await expect(page.getByText('Murabbiy hozir ruhlantiryapti')).toBeVisible()
+  // The coach is off by default.
+  await expect(page.getByText('Murabbiy o‘chirilgan.')).toBeVisible()
   await expect(page.getByText('Kechikkan reja yo‘q')).toBeVisible()
   await expect(page.locator('.weekday-chart__col')).toHaveCount(7)
   await expect(page.getByText('Eng samarali vaqtingiz')).toBeVisible()

@@ -2,6 +2,7 @@ import { softDelete } from '../../core/db/repository'
 import type { BloknotDB } from '../../core/db/schema'
 import { setOccurrenceStatus, setTaskStatus } from '../../core/db/tasks'
 import type { DateKey, Task, TaskStatus } from '../../core/models/types'
+import { nextStatus } from '../../core/status'
 
 /**
  * Sets a task's status. For a recurring task the status belongs to one day, so `date` is required.
@@ -20,9 +21,15 @@ export async function changeStatus(
   }
 }
 
-/** Checkbox behaviour: anything not done becomes done, done goes back to "todo". */
-export function toggleDone(db: BloknotDB, task: Task, currentStatus: TaskStatus, date?: DateKey) {
-  return changeStatus(db, task, currentStatus === 'done' ? 'todo' : 'done', date)
+/** Tapping the circle: done at once, or one step of todo → in progress → done (Settings). */
+export function toggleDone(
+  db: BloknotDB,
+  task: Task,
+  currentStatus: TaskStatus,
+  date: DateKey | undefined,
+  oneTapDone: boolean,
+) {
+  return changeStatus(db, task, nextStatus(currentStatus, oneTapDone), date)
 }
 
 export function deleteTask(db: BloknotDB, id: string) {

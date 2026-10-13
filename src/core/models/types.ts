@@ -139,6 +139,8 @@ export interface Settings extends BaseRecord {
   /** Warn the day before and on the last day of a range task, at the morning time. */
   deadlineWarnings: boolean
   language: LanguagePreference
+  /** Tapping a task's circle marks it done at once; off = todo → in progress → done (src/core/status.ts). */
+  oneTapDone: boolean
 }
 
 /** Fields the caller provides when creating a record; the rest are filled in. */

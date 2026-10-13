@@ -148,3 +148,9 @@
   cursor: grabbing;
   color: var(--color-primary);
 }
+
+/* In progress: the circle is half filled. */
+.task--in_progress .task__check::before {
+  border-color: var(--color-primary);
+  background: linear-gradient(to top, var(--color-primary) 50%, transparent 50%);
+}

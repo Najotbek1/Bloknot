@@ -176,6 +176,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
 16. **Microsoft Store.** ✅ tayyorgarlik (0.11.0); joylash — egasi (`docs/msstore/PUBLISH.md`).
    - CI Windows qatorida `.appx` paketi: Partner Center'dagi uchta identity qiymati GitHub Variables'da (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`, `MSSTORE_PUBLISHER_NAME`) bo'lsa `maqsad-msstore` artefakti; bo'lmasa sinov qiymatlari bilan yig'ib tekshiradi, yuklamaydi. Tile ikonkalari: `node scripts/render-store.mjs` → `desktop/build/appx/`.
    - Store versiyasi (`process.windowsStore`) o'zini autostartga qo'sha olmaydi — Sozlamalarda Windows «Startup» yo'li ko'rsatiladi. Sahifa matnlari va 1366×768 skrinshotlar `docs/msstore/`.
+16.5. **Belgilash sozlamasi va izohlar.** ✅ (0.12.0)
+   - Sozlamalar → «Rejalarni belgilash» → «Bir bosishda bajarish» (default yoniq). O'chirilsa doira bosilganda: ochiq → «Jarayonda» → «Bajarildi» → yana ochiq (`src/core/status.ts` `nextStatus`). Jarayondagi reja doirasi yarim to'la.
+   - Murabbiy ohangi yangi o'rnatishlarda default o'chiq (egasining qarori); oldin o'rnatganlarda saqlangan tanlov o'zgarmaydi.
+   - Yangi reja oynasida «Turi» va «Takrorlash» tanloviga mos izoh, «Eslatmalar» izohi aniqroq.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)
