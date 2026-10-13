@@ -89,7 +89,9 @@ export function DesktopPairing({ api, onClose }: { api: DesktopApi; onClose: () 
         <>
           <QrCode text={pairing.text} label={t('sync.qrLabel')} />
           <p role="status">{phase === 'syncing' ? t('sync.syncing') : t('sync.waiting', { time })}</p>
-          <p className="pairing__hint">{t('sync.firewall')}</p>
+          {/* Windows and macOS may ask to let the app accept the phone's connection. */}
+          {api.platform === 'win32' && <p className="pairing__hint">{t('sync.firewall')}</p>}
+          {api.platform === 'darwin' && <p className="pairing__hint">{t('sync.firewallMac')}</p>}
         </>
       )}
       {phase === 'done' && report && (

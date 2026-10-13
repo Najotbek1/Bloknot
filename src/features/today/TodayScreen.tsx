@@ -70,7 +70,7 @@ function TodayMain({ onOpenAlarms }: { onOpenAlarms: () => void }) {
 
           <section className="section">
             {agenda?.length === 0 && <p className="card empty">{t('today.empty')}</p>}
-            {agenda && agenda.length > 0 && <TaskRows rows={agendaRows(agenda, today)} />}
+            {agenda && agenda.length > 0 && <TaskRows rows={agendaRows(agenda, today)} sortable />}
           </section>
         </div>
 
@@ -80,14 +80,14 @@ function TodayMain({ onOpenAlarms }: { onOpenAlarms: () => void }) {
           {week && week.length > 0 && (
             <section className="section">
               <h2 className="section__title">{t('today.thisWeek')}</h2>
-              <TaskRows rows={taskRows(week)} />
+              <TaskRows rows={taskRows(week)} sortable />
             </section>
           )}
 
           {month && month.length > 0 && (
             <section className="section">
               <h2 className="section__title">{t('today.thisMonth')}</h2>
-              <TaskRows rows={taskRows(month)} />
+              <TaskRows rows={taskRows(month)} sortable />
             </section>
           )}
         </div>

@@ -7,7 +7,7 @@ import { occurrencesBetween } from '../recurrence'
 import { t } from '../../i18n'
 import { formatDayShort, formatMonth, formatWeek } from '../../i18n/format'
 
-export type NotificationKind = 'task' | 'morning' | 'evening' | 'deadline' | 'day-reminder'
+export type NotificationKind = 'task' | 'morning' | 'evening' | 'deadline' | 'day-reminder' | 'focus'
 
 export interface PlannedNotification {
   /** 1-based position in the plan; the whole plan is rescheduled each time, so ids never clash. */

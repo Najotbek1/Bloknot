@@ -133,11 +133,34 @@ jobs:
           if-no-files-found: error
 
   desktop:
-    name: Build Windows app
+    name: Build ${{ matrix.name }} app
     needs: web
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            targets: --win nsis
+            artifact: maqsad-windows
+            files: desktop/release/*.exe
+          - name: Linux
+            os: ubuntu-latest
+            targets: --linux AppImage deb
+            artifact: maqsad-linux
+            files: |
+              desktop/release/*.AppImage
+              desktop/release/*.deb
+          - name: macOS
+            os: macos-latest
+            # Intel and Apple Silicon Macs each get their own .dmg.
+            targets: --mac dmg --x64 --arm64
+            artifact: maqsad-mac
+            files: desktop/release/*.dmg
+    runs-on: ${{ matrix.os }}
     env:
-      # No code-signing certificate: build an unsigned installer (Windows shows a SmartScreen note).
+      # No paid certificates: Windows gets an unsigned installer (SmartScreen note), the Mac app an
+      # ad-hoc signature (Apple Silicon refuses fully unsigned apps; the first open needs "Open Anyway").
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     defaults:
       run:
@@ -163,11 +186,43 @@ jobs:
         working-directory: desktop
         run: |
           VERSION="$(node -p "require('../package.json').version")"
-          npx electron-builder --win nsis --publish never -c.extraMetadata.version="$VERSION"
+          npx electron-builder ${{ matrix.targets }} --publish never -c.extraMetadata.version="$VERSION"
       - uses: actions/upload-artifact@v4
         with:
-          name: maqsad-windows
-          path: desktop/release/*.exe
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+      # Microsoft Store package (the Store signs it). With the three identity values from Partner
+      # Center set as repository Variables (docs/msstore/PUBLISH.md) it is uploaded as maqsad-msstore;
+      # without them it is still built with placeholder values, only to prove the packaging works.
+      - name: Build the Microsoft Store package
+        if: matrix.name == 'Windows'
+        working-directory: desktop
+        env:
+          MSSTORE_IDENTITY_NAME: ${{ vars.MSSTORE_IDENTITY_NAME }}
+          MSSTORE_PUBLISHER: ${{ vars.MSSTORE_PUBLISHER }}
+          MSSTORE_PUBLISHER_NAME: ${{ vars.MSSTORE_PUBLISHER_NAME }}
+        run: |
+          if [ -n "$MSSTORE_IDENTITY_NAME" ] && [ -n "$MSSTORE_PUBLISHER" ] && [ -n "$MSSTORE_PUBLISHER_NAME" ]; then
+            echo "STORE_READY=1" >> "$GITHUB_ENV"
+          else
+            echo "::notice::Store identity not set yet (docs/msstore/PUBLISH.md): building with placeholders, not uploading."
+            MSSTORE_IDENTITY_NAME="Maqsad.Placeholder"
+            MSSTORE_PUBLISHER="CN=00000000-0000-0000-0000-000000000000"
+            MSSTORE_PUBLISHER_NAME="Maqsad"
+          fi
+          VERSION="$(node -p "require('../package.json').version")"
+          npx electron-builder --win appx --publish never \
+            -c.extraMetadata.version="$VERSION" \
+            -c.appx.identityName="$MSSTORE_IDENTITY_NAME" \
+            -c.appx.publisher="$MSSTORE_PUBLISHER" \
+            -c.appx.publisherDisplayName="$MSSTORE_PUBLISHER_NAME"
+          ls -la release/*.appx
+      - uses: actions/upload-artifact@v4
+        if: matrix.name == 'Windows' && env.STORE_READY == '1'
+        with:
+          name: maqsad-msstore
+          path: desktop/release/*.appx
           if-no-files-found: error
 
   deploy-pages:

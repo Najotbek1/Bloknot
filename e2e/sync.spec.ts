@@ -11,6 +11,7 @@ test('the Windows app shows a QR code for Wi-Fi sync and ignores a stranger’s 
       setLabels: async () => {},
       getAutoStart: async () => false,
       setAutoStart: async () => {},
+      isStore: async () => false,
       getCloseToTray: async () => true,
       setCloseToTray: async () => {},
       startSync: async () => ({ hosts: ['192.168.1.5'], port: 47123 }),

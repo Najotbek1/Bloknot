@@ -1,0 +1,145 @@
+.focus {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  gap: 18px;
+  padding: calc(16px + env(safe-area-inset-top)) var(--space) calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body.focus-open {
+  overflow: hidden;
+}
+
+.focus > * {
+  width: 100%;
+  max-width: 420px;
+}
+
+.focus__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.focus__phase {
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.focus__task {
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+/* The ring fills clockwise as the time runs. */
+.focus__ring {
+  --focus-progress: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: min(280px, 72vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, var(--color-bg) 86%, transparent 87%),
+    conic-gradient(var(--color-primary) calc(var(--focus-progress) * 360deg), var(--chart-track) 0);
+}
+
+.focus__clock {
+  font-size: 56px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.focus__paused {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.focus__minutes {
+  justify-content: center;
+}
+
+.focus__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.focus__done {
+  display: grid;
+  gap: 10px;
+}
+
+.focus__done-title {
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* The pill that brings the timer back while it runs in the background: above the menu, beside the "+". */
+.focus-bar-region {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(var(--nav-height) + var(--ad-height) + var(--space) + 8px + env(safe-area-inset-bottom));
+  z-index: 30;
+  display: flex;
+  justify-content: flex-start;
+  padding-inline: var(--space) calc(var(--space) + 76px);
+  pointer-events: none;
+}
+
+.focus-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary);
+  font-weight: 700;
+  pointer-events: auto;
+}
+
+.focus-bar--paused {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  box-shadow: var(--shadow);
+}
+
+.focus-bar__time {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-bar__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+@media (min-width: 960px) {
+  .focus-bar-region {
+    bottom: 40px;
+    padding-inline-start: calc(var(--sidebar-width) + 40px);
+  }
+
+  .focus-bar {
+    cursor: pointer;
+  }
+}

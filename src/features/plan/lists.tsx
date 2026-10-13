@@ -10,11 +10,10 @@ import { TaskRows } from '../tasks/TaskRows'
 
 /** Plan lists shared by the list view and the calendar view of the Calendar tab. */
 
-
 export function Rows({ rows, empty }: { rows: TaskRow[] | undefined; empty: string }) {
   if (!rows) return null
   if (rows.length === 0) return <p className="card empty">{empty}</p>
-  return <TaskRows rows={rows} />
+  return <TaskRows rows={rows} sortable />
 }
 
 export function DayList({ day, today }: { day: DateKey; today: DateKey }) {

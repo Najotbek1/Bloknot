@@ -20,6 +20,8 @@ export interface DesktopApi {
   setLabels(labels: { open: string; quit: string; tooltip: string }): Promise<void>
   getAutoStart(): Promise<boolean>
   setAutoStart(enabled: boolean): Promise<void>
+  /** Installed from the Microsoft Store: it cannot add itself to start-up. */
+  isStore(): Promise<boolean>
   /** Whether closing the window keeps the app running in the tray (default) or quits it. */
   getCloseToTray(): Promise<boolean>
   setCloseToTray(enabled: boolean): Promise<void>

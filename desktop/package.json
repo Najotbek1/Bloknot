@@ -2,12 +2,18 @@
   "name": "maqsad-desktop",
   "private": true,
   "version": "0.6.0",
-  "description": "Maqsad — reja va bloknot (Windows)",
-  "author": "Najotbek",
+  "description": "Maqsad — reja va bloknot (Windows, macOS, Linux)",
+  "author": {
+    "name": "Najotbek",
+    "email": "contact.najotbek@gmail.com"
+  },
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "dist:win": "electron-builder --win nsis --publish never"
+    "dist:win": "electron-builder --win nsis --publish never",
+    "dist:linux": "electron-builder --linux AppImage deb --publish never",
+    "dist:mac": "electron-builder --mac dmg --x64 --arm64 --publish never",
+    "dist:store": "electron-builder --win appx --publish never"
   },
   "devDependencies": {
     "electron": "43.7.4",
@@ -37,6 +43,43 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "shortcutName": "Maqsad"
+    },
+    "appx": {
+      "applicationId": "Maqsad",
+      "displayName": "Maqsad",
+      "backgroundColor": "#0E1017",
+      "showNameOnTiles": false,
+      "languages": [
+        "uz-Latn",
+        "en-US",
+        "ru-RU",
+        "de-DE",
+        "ja-JP",
+        "ko-KR",
+        "hi-IN",
+        "ar-SA"
+      ],
+      "artifactName": "Maqsad-Store-${version}.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.png",
+      "category": "public.app-category.productivity",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "artifactName": "Maqsad-${version}-${arch}.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "build/icon.png",
+      "category": "Office",
+      "maintainer": "Najotbek <contact.najotbek@gmail.com>",
+      "synopsis": "Reja, kalendar va bloknot",
+      "artifactName": "Maqsad-${version}-${arch}.${ext}"
     }
-  }
+  },
+  "homepage": "https://najotbek1.github.io/Bloknot/"
 }

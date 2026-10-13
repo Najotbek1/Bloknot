@@ -22,7 +22,7 @@ describe('getDayAgenda', () => {
       date: '2026-10-05',
       recurrence: { freq: 'weekly', interval: 1, weekdays: [1] },
     })
-    await createTask(db, { title: 'Loyiha', kind: 'range', startDate: '2026-10-01', endDate: '2026-10-31' })
+    await createTask(db, { title: 'Loyiha', kind: 'range', startDate: '2026-10-01', endDate: '2026-10-31', order: 0 })
     await createTask(db, { title: 'O‘tgan', kind: 'range', startDate: '2026-09-01', endDate: '2026-09-30' })
     await createTask(db, { title: 'Haftalik', kind: 'weekly', weekStart: '2026-10-05' })
     await setOccurrenceStatus(db, sport.id, '2026-10-07', 'done', 5000)

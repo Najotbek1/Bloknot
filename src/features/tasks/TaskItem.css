@@ -120,3 +120,31 @@
   align-items: center;
   gap: 3px;
 }
+
+/* Drag grip: the only part of a row that starts a drag, so the list still scrolls by touch. */
+.task__grip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  touch-action: none;
+  cursor: grab;
+}
+
+.task--dragging {
+  position: relative;
+  z-index: 1;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.task--dragging .task__grip {
+  cursor: grabbing;
+  color: var(--color-primary);
+}

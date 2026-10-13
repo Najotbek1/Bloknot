@@ -20,13 +20,29 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 3. Yangisini o‘rnating.
 4. **Import** qiling.
 
-## 1b. Kompyuter (Windows) ilovasi
+## 1b. Kompyuter ilovasi (Windows, Mac, Linux)
 1. **Actions → Build** → oxirgi yashil ish → **Artifacts** → `maqsad-windows` ni yuklab oling va zip ichidagi `Maqsad-Setup-….exe` ni oching.
 2. Windows «Windows protected your PC» deb ogohlantirishi mumkin, chunki o'rnatuvchi raqamli sertifikat bilan imzolanmagan (u pullik). **More info → Run anyway** bosing.
 3. Telefondagi ma'lumotlarni ko'chirish: telefonda **Sozlamalar → Eksport**, faylni kompyuterga yuboring (Telegram, USB), kompyuterda **Sozlamalar → Import**.
 4. Oynani yopsangiz, Maqsad ekran burchagidagi tepsida ishlab turadi va eslatmalarni yuboradi. Butunlay chiqish: tepsidagi belgi → o'ng tugma → «Chiqish». Buni xohlamasangiz: **Sozlamalar → Kompyuter → «Yopganda tepsida qolsin»** ni o'chiring, shunda oyna yopilganda ilova to'liq yopiladi (eslatmalar kelmaydi). «Windows bilan birga ochilish» alohida sozlama: kompyuter yoqilganda ilovani o'zi ishga tushiradi.
 5. Kompyuter versiyasida reklama yo'q va bo'lmaydi: AdMob faqat telefon uchun.
 6. Kompyuterda menyu chap tomonda turadi, ekranlar ikki ustunli bo'ladi. Oyna tor qilinsa, telefondagi ko'rinishga qaytadi. Tezkor tugmalar: `Ctrl+N` — yangi reja yoki yozuv, `Ctrl+1…5` — bo'limlar.
+
+### Microsoft Store
+Store versiyasida «xavfli ilova» ogohlantirishi bo'lmaydi va yangilanishlar o'zi keladi. Joylash qadamlari: `docs/msstore/PUBLISH.md` (hisob tekin; Partner Center'dagi 3 ta qiymatni GitHub Variables'ga yozasiz, Actions `maqsad-msstore` ni yig'adi, uni Partner Center'ga yuklaysiz).
+
+### Mac
+1. **Artifacts** → `maqsad-mac` ni yuklab oling. Ichida ikkita fayl bor: `…-arm64.dmg` (M1/M2/M3/M4 — Apple Silicon) va `…-x64.dmg` (eski Intel Mac'lar). Mac'ingiz qaysiligini bilish: chap yuqoridagi  → **About This Mac** → «Chip: Apple M…» bo'lsa arm64.
+2. `.dmg` ni oching va Maqsad belgisini **Applications** papkasiga sudrang.
+3. Birinchi ochishda Mac «Apple tekshira olmadi» deydi, chunki ilova Apple'ning pullik imzosisiz. **Done** bosing, keyin **System Settings → Privacy & Security** → pastda «Maqsad was blocked…» yonidagi **Open Anyway** → parolingiz.
+4. Agar «Maqsad is damaged» deb chiqsa: **Terminal**ni oching va `xattr -cr /Applications/Maqsad.app` ni yozib Enter bosing, keyin qayta oching.
+5. Oyna yopilganda Maqsad ekran tepasidagi menyu satrida qoladi; to'liq chiqish — Cmd+Q.
+
+### Linux
+1. **Artifacts** → `maqsad-linux`: `.AppImage` (hamma distributivlar) va `.deb` (Ubuntu, Debian, Mint).
+2. `.deb`: ikki marta bosing va «O'rnatish»; yoki terminalda `sudo apt install ./Maqsad-….deb`.
+3. `.AppImage`: fayl ustida o'ng tugma → **Properties → Permissions → «Allow executing file as program»** (yoki `chmod +x Maqsad-….AppImage`), keyin ikki marta bosing. Ubuntu 22.04+ da ishlamasa: `sudo apt install libfuse2`.
+4. GNOME'da tepsi belgisi ko'rinmasa, «AppIndicator» kengaytmasini yoqing.
 
 ### Telefon va kompyuterni Wi-Fi orqali sinxronlash
 1. Telefon va kompyuter **bitta Wi-Fi** tarmog'ida bo'lsin.
@@ -38,6 +54,10 @@ Ishlamasa:
 - «Kompyuterga ulanib bo'lmadi» — mehmon yoki ofis Wi-Fi'lari qurilmalarni bir-biridan ajratib qo'yadi. Uy Wi-Fi'sida yoki telefon hotspotiga kompyuterni ulab sinang. Firewall'da ruxsat bermagan bo'lsangiz: Windows qidiruvida «Allow an app through Windows Firewall» → Maqsad → Private belgisini qo'ying.
 - «QR skaner yuklanmoqda» — Google Play xizmatlari skanerni birinchi marta yuklayapti, bir daqiqadan keyin qayta urining.
 - Har doim zaxira yo'li bor: fayl orqali Eksport/Import.
+
+## 1c. Foydali imkoniyatlar
+- **Tartiblash:** reja qatoridagi ⋮⋮ belgini bosib turib yuqoriga yoki pastga suring.
+- **Fokus taymer:** rejani oching → **Fokus taymer** → vaqtni tanlang → **Boshlash**. Ekranni yopsangiz ham taymer ishlaydi, tugaganda bildirishnoma keladi.
 
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:
