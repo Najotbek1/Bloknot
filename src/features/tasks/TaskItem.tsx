@@ -13,14 +13,31 @@ interface TaskItemProps {
   progress?: number
   onToggle: () => void
   onOpen: () => void
+  /** Settings → one-tap done; off = the circle steps todo → in progress → done. */
+  oneTapDone?: boolean
   /** Drag grip, shown at the end of the row when the list can be reordered. */
   handle?: ReactNode
   /** This row is being dragged. */
   dragging?: boolean
 }
 
-export function TaskItem({ task, status, meta, progress, onToggle, onOpen, handle, dragging }: TaskItemProps) {
+export function TaskItem({
+  task,
+  status,
+  meta,
+  progress,
+  onToggle,
+  onOpen,
+  oneTapDone = true,
+  handle,
+  dragging,
+}: TaskItemProps) {
   const done = status === 'done'
+  const toggleLabel = done
+    ? t('task.markTodo')
+    : oneTapDone || status === 'in_progress'
+      ? t('task.markDone')
+      : t('task.markInProgress')
   const reminderTimes = [...new Set(task.reminders.map((reminder) => reminder.time))].sort().join(', ')
   return (
     <li className={`task task--${status} task--priority-${task.priority}${dragging ? ' task--dragging' : ''}`}>
@@ -28,7 +45,8 @@ export function TaskItem({ task, status, meta, progress, onToggle, onOpen, handl
         type="button"
         className="task__check"
         aria-pressed={done}
-        aria-label={done ? t('task.markTodo') : t('task.markDone')}
+        aria-label={toggleLabel}
+        title={toggleLabel}
         onClick={onToggle}
       >
         {done && <CheckIcon size={16} strokeWidth={3} />}

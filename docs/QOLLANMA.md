@@ -58,6 +58,7 @@ Ishlamasa:
 ## 1c. Foydali imkoniyatlar
 - **Tartiblash:** reja qatoridagi ⋮⋮ belgini bosib turib yuqoriga yoki pastga suring.
 - **Fokus taymer:** rejani oching → **Fokus taymer** → vaqtni tanlang → **Boshlash**. Ekranni yopsangiz ham taymer ishlaydi, tugaganda bildirishnoma keladi.
+- **Bir bosishda bajarish:** Sozlamalar → Rejalarni belgilash. O'chirsangiz reja avval «Jarayonda», keyingi bosishda «Bajarildi» bo'ladi. Murabbiy ohangi esa Sozlamalarda o'zingiz yoqmaguncha o'chiq.
 
 ## 2. Reklamadan daromad (AdMob)
 `docs/ADMOB.md` da qadam-baqadam yozilgan. Qisqasi:

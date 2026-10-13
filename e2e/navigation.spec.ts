@@ -98,9 +98,10 @@ test('a reminder can be pinned to a calendar day and shows on Today', async ({ p
   await expect(page.locator('.reminder-row')).toHaveCount(0)
 
   await nav('Sozlamalar').click()
+  // The coach is off until the user turns it on.
   const coach = page.getByRole('switch', { name: /Murabbiy ohangi/ })
-  await expect(coach).toHaveAttribute('aria-checked', 'true')
-  await coach.click()
   await expect(coach).toHaveAttribute('aria-checked', 'false')
+  await coach.click()
+  await expect(coach).toHaveAttribute('aria-checked', 'true')
   expect(pageErrors).toEqual([])
 })

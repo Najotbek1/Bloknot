@@ -1,6 +1,7 @@
 import { useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import { db } from '../../core/db/schema'
-import { reorderTasks } from '../../core/db/tasks'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { getSettings, reorderTasks } from '../../core/db/tasks'
 import { moveItem } from '../../core/order'
 import { t } from '../../i18n'
 import { GripIcon } from '../../ui/icons'
@@ -19,6 +20,7 @@ const sameOrder = (a: readonly string[], b: readonly string[]) =>
  */
 export function TaskRows({ rows, sortable = false }: { rows: TaskRow[]; sortable?: boolean }) {
   const editor = useTaskEditor()
+  const oneTapDone = useLiveQuery(() => getSettings(db), [])?.oneTapDone ?? true
   const listRef = useRef<HTMLUListElement>(null)
   /** The order being dragged, or just saved and not yet back from the database. */
   const [pending, setPending] = useState<string[] | null>(null)
@@ -99,7 +101,8 @@ export function TaskRows({ rows, sortable = false }: { rows: TaskRow[]; sortable
             meta={row.meta}
             progress={row.progress}
             dragging={dragging === key}
-            onToggle={() => void toggleDone(db, row.task, row.status, row.date)}
+            oneTapDone={oneTapDone}
+            onToggle={() => void toggleDone(db, row.task, row.status, row.date, oneTapDone)}
             onOpen={() => editor.openEdit(row.task)}
             handle={
               sortable && rows.length > 1 ? (

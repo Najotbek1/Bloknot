@@ -150,13 +150,15 @@ export const DEFAULT_SETTINGS: Settings = {
   deletedAt: null,
   theme: 'system',
   planView: 'calendar',
-  coachMode: true,
+  // Off until the user turns it on (owner's decision): plain wording by default.
+  coachMode: false,
   morningSummary: true,
   morningSummaryTime: '08:00',
   eveningSummary: true,
   eveningSummaryTime: '21:00',
   deadlineWarnings: true,
   language: 'auto',
+  oneTapDone: true,
 }
 
 export async function getSettings(db: BloknotDB): Promise<Settings> {

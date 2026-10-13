@@ -91,6 +91,19 @@ export function SettingsScreen() {
         </section>
 
         <section className="section">
+          <h2 className="section__title">{t('settings.tasks')}</h2>
+          <div className="card settings-list">
+            <Switch
+              label={t('settings.oneTap')}
+              hint={t('settings.oneTapHint')}
+              checked={settings?.oneTapDone ?? true}
+              onChange={(oneTapDone) => void updateSettings(db, { oneTapDone })}
+            />
+            <p className="coach-info">{t('settings.oneTapInfo')}</p>
+          </div>
+        </section>
+
+        <section className="section">
           <h2 className="section__title">{t('settings.notifications')}</h2>
           {settings && (
             <NotificationSettings settings={settings} onChange={(changes) => void updateSettings(db, changes)} />
@@ -103,7 +116,7 @@ export function SettingsScreen() {
             <Switch
               label={t('settings.coach.toggle')}
               hint={t('settings.coach.toggleHint')}
-              checked={settings?.coachMode ?? true}
+              checked={settings?.coachMode ?? false}
               onChange={(coachMode) => void updateSettings(db, { coachMode })}
             />
             <div className="coach-info">
