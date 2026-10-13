@@ -9,8 +9,8 @@ Bu qo‘llanma ilovani Claude yordamisiz ham boshqarish uchun yozilgan. Hamma na
 
 | Fayl | Nima uchun |
 |---|---|
-| `maqsad-apk` | Telefonda sinash uchun. Eski versiya ustiga o‘rnatiladi, ma'lumotlar saqlanadi. |
-| `maqsad-release` | Google Play uchun `.aab` fayl va imzolangan `.apk`. |
+| `maqsad-apk` | Faqat o‘zingiz sinash uchun (ochiq «dev» kalit). Boshqalarga tarqatmang. |
+| `maqsad-release` | Google Play uchun `.aab` va **Telegram'da tarqatish uchun** imzolangan `.apk`. |
 
 Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisini yig‘dirasiz.
 
@@ -98,6 +98,7 @@ Cheklovlar:
 ## 6. Maxfiy kalit (juda muhim)
 - `maqsad-release.jks` va `release-secrets.txt` fayllari Play'ga yangilanish yuklash uchun kerak. Ularni ikki joyda saqlang va hech kimga bermang.
 - Ular GitHub **Secrets**'da ham turibdi (`RELEASE_*`). Secrets'ni o‘chirmang.
+- Play'da ilova imzosi uchun ham shu kalit ishlatiladi (`docs/play/PUBLISH.md`, 2-bosqich). Yo‘qolsa Google ham tiklab bera olmaydi va ilovani yangilab bo‘lmaydi.
 
 ## 7. Keyin Claude bilan davom etish
 Loyihaning butun konteksti repozitoriyada saqlangan:

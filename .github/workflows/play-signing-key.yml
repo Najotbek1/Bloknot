@@ -1,0 +1,78 @@
+name: Play signing key
+
+# Wraps the release key for Google Play App Signing ("Export and upload a key from Java keystore"),
+# so the Play version and the Telegram APK share one signature (docs/play/PUBLISH.md, step 2).
+# The zip is encrypted with Google's public key: only Google can open it.
+# Run by hand; a pull request that changes this file runs it with a throwaway key as a self-test.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/play-signing-key.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    name: Export the key for Play
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Download Google's PEPK tool
+        run: curl -fsSL -o "$RUNNER_TEMP/pepk.jar" https://www.gstatic.com/play-apps-publisher-rapid/signing-tool/prod/pepk.jar
+      - name: Prepare the release key
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          PLAY_ENCRYPTION_PUBLIC_KEY: ${{ vars.PLAY_ENCRYPTION_PUBLIC_KEY }}
+        run: |
+          if [ -z "$RELEASE_KEYSTORE_BASE64" ]; then echo "::error::RELEASE_* secrets are not set."; exit 1; fi
+          if [ -z "$PLAY_ENCRYPTION_PUBLIC_KEY" ]; then
+            echo "::error::Variable PLAY_ENCRYPTION_PUBLIC_KEY is not set: paste the text of encryption_public_key.pem from Play Console (docs/play/PUBLISH.md)."
+            exit 1
+          fi
+          echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          printf '%s' "$RELEASE_KEYSTORE_PASSWORD" > "$RUNNER_TEMP/store.pass"
+          printf '%s' "$RELEASE_KEY_PASSWORD" > "$RUNNER_TEMP/key.pass"
+          printf '%s\n' "$PLAY_ENCRYPTION_PUBLIC_KEY" > "$RUNNER_TEMP/encryption_public_key.pem"
+          echo "KEY_ALIAS=$RELEASE_KEY_ALIAS" >> "$GITHUB_ENV"
+      - name: Prepare a throwaway key (self-test)
+        if: github.event_name != 'workflow_dispatch'
+        run: |
+          keytool -genkeypair -keystore "$RUNNER_TEMP/release.jks" -storepass test-pass -keypass test-pass \
+            -alias test -keyalg RSA -keysize 2048 -validity 1 -dname CN=test
+          printf 'test-pass' > "$RUNNER_TEMP/store.pass"
+          printf 'test-pass' > "$RUNNER_TEMP/key.pass"
+          openssl genrsa -out "$RUNNER_TEMP/google.key" 2048
+          openssl rsa -in "$RUNNER_TEMP/google.key" -pubout -out "$RUNNER_TEMP/encryption_public_key.pem"
+          echo "KEY_ALIAS=test" >> "$GITHUB_ENV"
+      - name: Encrypt the key for Google Play
+        run: |
+          mkdir -p out
+          trap 'rm -f "$RUNNER_TEMP/release.jks" "$RUNNER_TEMP/store.pass" "$RUNNER_TEMP/key.pass"' EXIT
+          java -jar "$RUNNER_TEMP/pepk.jar" \
+            --keystore="$RUNNER_TEMP/release.jks" \
+            --alias="$KEY_ALIAS" \
+            --keystore-pass="file:$RUNNER_TEMP/store.pass" \
+            --key-pass="file:$RUNNER_TEMP/key.pass" \
+            --output=out/maqsad-play-signing-key.zip \
+            --include-cert \
+            --rsa-aes-encryption \
+            --encryption-key-path="$RUNNER_TEMP/encryption_public_key.pem"
+          test -s out/maqsad-play-signing-key.zip
+          ls -l out
+      - name: Upload the encrypted key
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: play-signing-key
+          path: out/maqsad-play-signing-key.zip
+          retention-days: 7
