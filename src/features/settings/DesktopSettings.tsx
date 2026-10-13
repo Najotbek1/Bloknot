@@ -3,14 +3,18 @@ import { t } from '../../i18n'
 import { desktop } from '../../platform/desktop'
 import { Switch } from '../../ui/Switch'
 
-/** Settings → Kompyuter: only in the Windows app. Start with Windows, and how the tray works. */
+/** Settings → Kompyuter: only in the Windows app. Start with Windows, and whether closing keeps it in the tray. */
 export function DesktopSettings() {
   const [autoStart, setAutoStart] = useState<boolean | null>(null)
+  const [closeToTray, setCloseToTray] = useState<boolean | null>(null)
 
   useEffect(() => {
     let active = true
     void desktop?.getAutoStart().then((enabled) => {
       if (active) setAutoStart(enabled)
+    })
+    void desktop?.getCloseToTray().then((enabled) => {
+      if (active) setCloseToTray(enabled)
     })
     return () => {
       active = false
@@ -31,7 +35,18 @@ export function DesktopSettings() {
             void desktop?.setAutoStart(enabled)
           }}
         />
-        <p className="coach-info">{t('settings.desktop.trayNote')}</p>
+        <Switch
+          label={t('settings.desktop.closeToTray')}
+          hint={t('settings.desktop.closeToTrayHint')}
+          checked={closeToTray ?? true}
+          onChange={(enabled) => {
+            setCloseToTray(enabled)
+            void desktop?.setCloseToTray(enabled)
+          }}
+        />
+        <p className="coach-info">
+          {closeToTray === false ? t('settings.desktop.trayOffNote') : t('settings.desktop.trayNote')}
+        </p>
       </div>
     </section>
   )

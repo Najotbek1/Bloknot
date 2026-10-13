@@ -4,6 +4,7 @@ import { getSettings, updateSettings } from '../../core/db/tasks'
 import type { LanguagePreference, PlanView, ThemePreference } from '../../core/models/types'
 import { LANGUAGES } from '../../i18n/languages'
 import { t } from '../../i18n'
+import { isDesktop } from '../../platform/desktop'
 import { BackupSection } from '../backup/BackupSection'
 import { NotificationSettings } from '../notifications/NotificationSettings'
 import { AdSettings } from '../ads/AdSettings'
@@ -37,7 +38,7 @@ export function SettingsScreen() {
             value={settings?.language ?? 'auto'}
             onChange={(event) => void updateSettings(db, { language: event.target.value as LanguagePreference })}
           >
-            <option value="auto">{t('settings.language.auto')}</option>
+            <option value="auto">{t(isDesktop ? 'settings.language.autoComputer' : 'settings.language.auto')}</option>
             {LANGUAGES.map((language) => (
               <option key={language.code} value={language.code} lang={language.locale}>
                 {language.name}
@@ -63,7 +64,9 @@ export function SettingsScreen() {
                   <i />
                   <i />
                 </span>
-                <span className="theme-option__name">{t(`settings.theme.${theme}`)}</span>
+                <span className="theme-option__name">
+                  {t(theme === 'system' && isDesktop ? 'settings.theme.systemComputer' : `settings.theme.${theme}`)}
+                </span>
               </button>
             ))}
           </div>

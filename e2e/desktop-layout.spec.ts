@@ -4,13 +4,21 @@ import { expect, test } from './fixtures'
 test.use({ viewport: { width: 1280, height: 800 }, isMobile: false, hasTouch: false })
 
 const fakeWindowsApp = () => {
+  // The main process keeps these between screens, as the real one does.
+  const state = { autoStart: false, closeToTray: true }
   ;(window as unknown as Record<string, unknown>).maqsadDesktop = {
     platform: 'win32',
     scheduleNotifications: async () => {},
     notifyNow: async () => {},
     setLabels: async () => {},
-    getAutoStart: async () => false,
-    setAutoStart: async () => {},
+    getAutoStart: async () => state.autoStart,
+    setAutoStart: async (enabled: boolean) => {
+      state.autoStart = enabled
+    },
+    getCloseToTray: async () => state.closeToTray,
+    setCloseToTray: async (enabled: boolean) => {
+      state.closeToTray = enabled
+    },
     startSync: async () => ({ hosts: ['192.168.1.5'], port: 47123 }),
     stopSync: async () => {},
     onSyncRequest: () => () => {},
@@ -78,4 +86,27 @@ test('the Windows app has no alarm button, and Arabic puts the menu on the right
       return box && box.x + box.width
     })
     .toBe(1280)
+})
+
+test('Windows settings speak of the computer and remember their switches', async ({ page, pageErrors }) => {
+  await page.addInitScript(fakeWindowsApp)
+  await page.goto('/')
+  const nav = page.locator('.bottom-nav')
+  await nav.getByRole('button', { name: 'Sozlamalar', exact: true }).click()
+  await expect(page.getByLabel('Til').locator('option[value="auto"]')).toHaveText('Kompyuter tili')
+  await expect(page.getByRole('radio', { name: 'Kompyuter bo‘yicha' })).toBeVisible()
+
+  const autoStart = page.getByRole('switch', { name: /Windows bilan birga ochilish/ })
+  const tray = page.getByRole('switch', { name: /Yopganda tepsida qolsin/ })
+  await expect(tray).toHaveAttribute('aria-checked', 'true')
+  await autoStart.click()
+  await tray.click()
+  await expect(page.getByText('Oynani yopsangiz, Maqsad to‘liq yopiladi', { exact: false })).toBeVisible()
+
+  // Away and back: both switches still show what was chosen.
+  await nav.getByRole('button', { name: 'Bugun', exact: true }).click()
+  await nav.getByRole('button', { name: 'Sozlamalar', exact: true }).click()
+  await expect(autoStart).toHaveAttribute('aria-checked', 'true')
+  await expect(tray).toHaveAttribute('aria-checked', 'false')
+  expect(pageErrors).toEqual([])
 })

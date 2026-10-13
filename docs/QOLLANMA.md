@@ -24,7 +24,7 @@ Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisi
 1. **Actions → Build** → oxirgi yashil ish → **Artifacts** → `maqsad-windows` ni yuklab oling va zip ichidagi `Maqsad-Setup-….exe` ni oching.
 2. Windows «Windows protected your PC» deb ogohlantirishi mumkin, chunki o'rnatuvchi raqamli sertifikat bilan imzolanmagan (u pullik). **More info → Run anyway** bosing.
 3. Telefondagi ma'lumotlarni ko'chirish: telefonda **Sozlamalar → Eksport**, faylni kompyuterga yuboring (Telegram, USB), kompyuterda **Sozlamalar → Import**.
-4. Oynani yopsangiz, Maqsad ekran burchagidagi tepsida ishlab turadi va eslatmalarni yuboradi. Butunlay chiqish: tepsidagi belgi → o'ng tugma → «Chiqish».
+4. Oynani yopsangiz, Maqsad ekran burchagidagi tepsida ishlab turadi va eslatmalarni yuboradi. Butunlay chiqish: tepsidagi belgi → o'ng tugma → «Chiqish». Buni xohlamasangiz: **Sozlamalar → Kompyuter → «Yopganda tepsida qolsin»** ni o'chiring, shunda oyna yopilganda ilova to'liq yopiladi (eslatmalar kelmaydi). «Windows bilan birga ochilish» alohida sozlama: kompyuter yoqilganda ilovani o'zi ishga tushiradi.
 5. Kompyuter versiyasida reklama yo'q va bo'lmaydi: AdMob faqat telefon uchun.
 6. Kompyuterda menyu chap tomonda turadi, ekranlar ikki ustunli bo'ladi. Oyna tor qilinsa, telefondagi ko'rinishga qaytadi. Tezkor tugmalar: `Ctrl+N` — yangi reja yoki yozuv, `Ctrl+1…5` — bo'limlar.
 

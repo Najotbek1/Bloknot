@@ -165,6 +165,7 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
      - Bloknot ichida yozuvlar ro'yxati va ochiq yozuv yonma-yon;
      - oynalar ekran o'rtasida ochiladi, «+» tugma yozuvli; `Ctrl+N` — yangi reja/yozuv, `Ctrl+1…5` — bo'limlar;
      - Windows ilovasida ⏰ uyg'otgich tugmasi yo'q. Telefon ko'rinishi o'zgarmadi.
+     - 0.8.1: «Windows bilan birga ochilish» tugmasi doim «o'chiq» ko'rinardi (Windows yozuvi `--hidden` argumenti bilan solishtiriladi) — tuzatildi; yangi «Yopganda tepsida qolsin» sozlamasi (o'chirilsa, oyna yopilganda ilova to'liq yopiladi); kompyuterda «Kompyuter tili» va «Kompyuter bo'yicha» yozuvlari.
    - Keyin xohlasa: Linux (AppImage) va macOS uchun ham yig'ish (bir xil kod, faqat build sozlamasi).
 
 ## Tekshirish (har bosqichda)
