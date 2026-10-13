@@ -25,6 +25,7 @@ export function useAlarmSync() {
         label: ring.label,
         title: t('alarm.ringing.title'),
         body: ring.label || t('alarm.title'),
+        returnBody: t('alarm.returnBody'),
         ringtone: byId.get(ring.alarmId)?.ringtoneUri ?? '',
       }))
       void setAlarmSchedule(plan)

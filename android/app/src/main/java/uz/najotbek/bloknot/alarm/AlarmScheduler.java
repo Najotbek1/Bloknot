@@ -23,6 +23,7 @@ final class AlarmScheduler {
     static final String EXTRA_LABEL = "label";
     static final String EXTRA_TITLE = "title";
     static final String EXTRA_BODY = "body";
+    static final String EXTRA_RETURN_BODY = "returnBody";
     static final String EXTRA_RINGTONE = "ringtone";
 
     private AlarmScheduler() {}
@@ -74,6 +75,7 @@ final class AlarmScheduler {
             .putExtra(EXTRA_LABEL, item.optString("label", ""))
             .putExtra(EXTRA_TITLE, item.optString("title", ""))
             .putExtra(EXTRA_BODY, item.optString("body", ""))
+            .putExtra(EXTRA_RETURN_BODY, item.optString("returnBody", ""))
             .putExtra(EXTRA_RINGTONE, item.optString("ringtone", ""));
     }
 

@@ -105,6 +105,7 @@ public class AlarmPlugin extends Plugin {
             item.put("label", call.getString("label", ""));
             item.put("title", call.getString("title", ""));
             item.put("body", call.getString("body", ""));
+            item.put("returnBody", call.getString("returnBody", ""));
             item.put("ringtone", call.getString("ringtone", ""));
         } catch (JSONException ignored) {}
         AlarmScheduler.schedule(
@@ -169,10 +170,11 @@ public class AlarmPlugin extends Plugin {
         result.put("exact", exact);
         result.put("fullScreen", fullScreen);
         result.put("notifications", NotificationManagerCompat.from(context).areNotificationsEnabled());
+        result.put("overlay", Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context));
         call.resolve(result);
     }
 
-    /** Opens the system screen for one of: exact, fullScreen, notifications, app. */
+    /** Opens the system screen for one of: exact, fullScreen, notifications, overlay, app. */
     @PluginMethod
     public void openSettings(PluginCall call) {
         Context context = getContext();
@@ -183,6 +185,8 @@ public class AlarmPlugin extends Plugin {
             intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, packageUri);
         } else if ("fullScreen".equals(which) && Build.VERSION.SDK_INT >= 34) {
             intent = new Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, packageUri);
+        } else if ("overlay".equals(which) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, packageUri);
         } else if ("notifications".equals(which) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
         } else {

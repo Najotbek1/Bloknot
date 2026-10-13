@@ -180,6 +180,9 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Sozlamalar → «Rejalarni belgilash» → «Bir bosishda bajarish» (default yoniq). O'chirilsa doira bosilganda: ochiq → «Jarayonda» → «Bajarildi» → yana ochiq (`src/core/status.ts` `nextStatus`). Jarayondagi reja doirasi yarim to'la.
    - Murabbiy ohangi yangi o'rnatishlarda default o'chiq (egasining qarori); oldin o'rnatganlarda saqlangan tanlov o'zgarmaydi.
    - Yangi reja oynasida «Turi» va «Takrorlash» tanloviga mos izoh, «Eslatmalar» izohi aniqroq.
+16.6. **Uyg'otgichdan chiqib ketib bo'lmaydi.** ✅ (0.13.0)
+   - Android tepaga surish imo-ishorasini bloklatmaydi. Shuning uchun chiqib ketilsa: «Boshqa ilovalar ustidan ko'rsatish» ruxsati bor bo'lsa — uyg'otgich ekrani 1–2 soniyada o'zi qaytadi; yo'q bo'lsa — tepada «Uyg'otgich hali chalinmoqda» bildirishnomasi tushadi (har 30 s qayta), musiqa to'xtamaydi.
+   - Uyg'otgich bo'limida ruxsat yoqilmagan bo'lsa ogohlantirish va «Sozlamalarni ochish» tugmasi.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)

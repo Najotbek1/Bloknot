@@ -24,6 +24,8 @@ export interface NativeAlarm {
   /** Shown in the ringing notification. */
   title: string
   body: string
+  /** Shown again at the top when the user leaves the app while it rings. */
+  returnBody: string
   ringtone: string
 }
 
@@ -31,15 +33,17 @@ export interface AlarmStatus {
   exact: boolean
   fullScreen: boolean
   notifications: boolean
+  /** «Display over other apps»: lets the ringing screen come back when the user leaves it. */
+  overlay: boolean
 }
 
-export type AlarmSettingsScreen = 'exact' | 'fullScreen' | 'notifications' | 'app'
+export type AlarmSettingsScreen = 'exact' | 'fullScreen' | 'notifications' | 'overlay' | 'app'
 
 interface MaqsadAlarmPlugin {
   setSchedule(options: { alarms: NativeAlarm[] }): Promise<void>
   getRinging(): Promise<{ ringing?: RingingAlarm | null }>
   stop(): Promise<void>
-  testRing(options: { seconds: number; label: string; title: string; body: string; ringtone: string }): Promise<void>
+  testRing(options: { seconds: number; label: string; title: string; body: string; returnBody: string; ringtone: string }): Promise<void>
   pickRingtone(options: { current?: string }): Promise<{ cancelled: boolean; uri?: string | null; title?: string | null }>
   getStatus(): Promise<AlarmStatus>
   openSettings(options: { which: AlarmSettingsScreen }): Promise<void>
@@ -83,7 +87,14 @@ export async function stopAlarm(): Promise<void> {
   await native.stop()
 }
 
-export async function testAlarm(options: { seconds: number; label: string; title: string; body: string; ringtone: string | null }) {
+export async function testAlarm(options: {
+  seconds: number
+  label: string
+  title: string
+  body: string
+  returnBody: string
+  ringtone: string | null
+}) {
   if (alarmsSupported) {
     await native.testRing({ ...options, ringtone: options.ringtone ?? '' })
     return

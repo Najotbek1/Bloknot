@@ -233,6 +233,8 @@ export const de: Messages = {
   'alarm.perm.exact': 'Aktiviere „Wecker und Erinnerungen“, damit der Wecker pünktlich klingelt.',
   'alarm.perm.fullScreen': 'Aktiviere „Vollbild-Benachrichtigungen“, damit er auf dem Sperrbildschirm erscheint.',
   'alarm.perm.notifications': 'Erlaube Benachrichtigungen, damit der Wecker funktioniert.',
+  'alarm.perm.overlay': 'Aktiviere «Über anderen Apps einblenden», damit man den klingelnden Wecker nicht verlassen kann. Ohne diese Berechtigung klingelt der Wecker beim Verlassen weiter und bleibt oben als Benachrichtigung.',
+  'alarm.returnBody': 'Der Wecker klingelt noch. Tippe und gib den Text ein, um ihn auszuschalten.',
   'alarm.perm.battery': 'Auf manchen Handys (Xiaomi, Oppo, Vivo u. a.) solltest du für Maqsad „Keine Akku-Beschränkung“ oder „Autostart“ aktivieren, sonst kann sich der Wecker verspäten.',
   'alarm.perm.batteryTitle': 'Wecker klingelt zu spät?',
   'alarm.perm.open': 'Einstellungen öffnen',

@@ -233,6 +233,8 @@ export const ko: Messages = {
   'alarm.perm.exact': '알람이 정확한 시간에 울리도록 «알람 및 리마인더» 권한을 켜 주세요.',
   'alarm.perm.fullScreen': '잠금 화면에서 열리도록 «전체 화면 알림» 권한을 켜 주세요.',
   'alarm.perm.notifications': '알람이 작동하려면 알림을 허용해 주세요.',
+  'alarm.perm.overlay': '울리는 알람에서 나갈 수 없도록 «다른 앱 위에 표시»를 허용해 주세요. 허용하지 않으면 앱을 나가도 알람은 계속 울리고 위쪽에 알림이 표시됩니다.',
+  'alarm.returnBody': '알람이 아직 울리고 있어요. 눌러서 텍스트를 입력하면 꺼집니다.',
   'alarm.perm.battery': '일부 휴대폰(Xiaomi, Oppo, Vivo 등)에서는 Maqsad에 대해 «배터리 제한 없음» 또는 «자동 실행»을 켜 주세요. 그렇지 않으면 알람이 늦게 울릴 수 있어요.',
   'alarm.perm.batteryTitle': '알람이 늦게 울린다면?',
   'alarm.perm.open': '설정 열기',

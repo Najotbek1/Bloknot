@@ -233,6 +233,8 @@ export const ja: Messages = {
   'alarm.perm.exact': 'アラームを正確な時刻に鳴らすには「アラームとリマインダー」の権限をオンにしてください。',
   'alarm.perm.fullScreen': 'ロック画面で表示するには「全画面通知」の権限をオンにしてください。',
   'alarm.perm.notifications': 'アラームを動作させるには通知を許可してください。',
+  'alarm.perm.overlay': '鳴っているアラームから離れられないように、「他のアプリの上に重ねて表示」を許可してください。許可しない場合、アプリを離れてもアラームは鳴り続け、上部に通知が表示されます。',
+  'alarm.returnBody': 'アラームはまだ鳴っています。タップしてテキストを入力すると止まります。',
   'alarm.perm.battery': '一部のスマホ（Xiaomi、Oppo、Vivo など）では、Maqsad の「バッテリー制限なし」や「自動起動」をオンにしてください。オフのままだとアラームが遅れることがあります。',
   'alarm.perm.batteryTitle': 'アラームが遅れるときは？',
   'alarm.perm.open': '設定を開く',

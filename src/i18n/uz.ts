@@ -231,6 +231,8 @@ export const uz = {
   'alarm.perm.exact': 'Uyg‘otgich aniq vaqtda chalishi uchun «Signal va eslatmalar» ruxsatini yoqing.',
   'alarm.perm.fullScreen': 'Qulflangan ekranda ochilishi uchun «To‘liq ekranli bildirishnomalar» ruxsatini yoqing.',
   'alarm.perm.notifications': 'Uyg‘otgich ishlashi uchun bildirishnomalarga ruxsat bering.',
+  'alarm.perm.overlay': 'Uyg‘otgich chalayotganda ilovadan chiqib ketib bo‘lmasligi uchun «Boshqa ilovalar ustidan ko‘rsatish» ruxsatini yoqing. Ruxsatsiz chiqib ketilsa, uyg‘otgich tepada bildirishnoma bo‘lib chalishda davom etadi.',
+  'alarm.returnBody': 'Uyg‘otgich hali chalinmoqda. O‘chirish uchun bosing va matnni yozing.',
   'alarm.perm.battery': 'Ba’zi telefonlarda (Xiaomi, Oppo, Vivo va boshqalar) Maqsad uchun «Batareya cheklovi yo‘q» yoki «Avtoishga tushish»ni yoqing, aks holda uyg‘otgich kechikishi mumkin.',
   'alarm.perm.batteryTitle': 'Uyg‘otgich kechiksa nima qilish kerak?',
   'alarm.perm.open': 'Sozlamalarni ochish',
