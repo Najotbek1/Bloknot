@@ -9,10 +9,12 @@ interface NoteCardProps {
   /** Extra grey line, e.g. which notebook a search result is in. */
   caption?: string
   color?: string
+  /** The note open beside the list (computer-sized window). */
+  active?: boolean
   onOpen: () => void
 }
 
-export function NoteCard({ note, preview, caption, color, onOpen }: NoteCardProps) {
+export function NoteCard({ note, preview, caption, color, active, onOpen }: NoteCardProps) {
   const text = preview ?? note.body.replace(/\s+/g, ' ').trim()
   return (
     <li>
@@ -20,6 +22,7 @@ export function NoteCard({ note, preview, caption, color, onOpen }: NoteCardProp
         type="button"
         className="note-card card"
         style={color ? { borderLeftColor: color } : undefined}
+        aria-current={active ? 'true' : undefined}
         onClick={onOpen}
       >
         <span className="note-card__title">{note.title.trim() || t('notes.untitled')}</span>

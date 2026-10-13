@@ -8,6 +8,8 @@ contextBridge.exposeInMainWorld('maqsadDesktop', {
   setLabels: (labels) => ipcRenderer.invoke('labels:set', labels),
   getAutoStart: () => ipcRenderer.invoke('autostart:get'),
   setAutoStart: (enabled) => ipcRenderer.invoke('autostart:set', enabled),
+  getCloseToTray: () => ipcRenderer.invoke('tray:get'),
+  setCloseToTray: (enabled) => ipcRenderer.invoke('tray:set', enabled),
   startSync: () => ipcRenderer.invoke('sync:start'),
   stopSync: () => ipcRenderer.invoke('sync:stop'),
   onSyncRequest: (handler) => {

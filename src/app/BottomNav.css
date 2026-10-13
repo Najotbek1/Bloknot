@@ -43,3 +43,80 @@
   background: var(--color-primary);
   color: var(--color-on-primary);
 }
+
+.bottom-nav__brand {
+  display: none;
+}
+
+/* Computer-sized window: the bottom bar becomes the side menu (on the right in Arabic). */
+@media (min-width: 960px) {
+  .bottom-nav {
+    inset-block: 0;
+    inset-inline: 0 auto;
+    width: var(--sidebar-width);
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 20px 14px;
+    border-top: 0;
+    border-inline-end: 1px solid var(--color-border);
+    background: var(--color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .bottom-nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 10px 24px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .bottom-nav__brand img {
+    border-radius: 9px;
+  }
+
+  .bottom-nav__item {
+    flex: none;
+    max-width: none;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .bottom-nav__item > svg,
+  .bottom-nav__item[aria-current='page'] > svg {
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: none;
+    color: inherit;
+  }
+
+  .bottom-nav__item[aria-current='page'] {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+
+  /* Settings sits at the bottom of the side menu. */
+  .bottom-nav__item:last-child {
+    margin-top: auto;
+  }
+}
+
+@media (min-width: 960px) and (hover: hover) {
+  .bottom-nav__item:not([aria-current='page']):hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+  }
+}

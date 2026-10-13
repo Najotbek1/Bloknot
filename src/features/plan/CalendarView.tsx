@@ -65,23 +65,27 @@ export function CalendarView({ state, onChange }: CalendarViewProps) {
       </div>
 
       {tab === 'calendar' && (
-        <>
-          <PeriodNav
-            label={formatMonth(month)}
-            isCurrent={month === monthKeyOf(today) && day === today}
-            onPrevious={() => setDay(shiftMonth(month, -1))}
-            onNext={() => setDay(shiftMonth(month, 1))}
-            onCurrent={() => setDay(today)}
-          />
-          <MonthGrid month={month} selected={day} today={today} onSelect={setDay} />
+        <div className="columns calendar-columns">
+          <div>
+            <PeriodNav
+              label={formatMonth(month)}
+              isCurrent={month === monthKeyOf(today) && day === today}
+              onPrevious={() => setDay(shiftMonth(month, -1))}
+              onNext={() => setDay(shiftMonth(month, 1))}
+              onCurrent={() => setDay(today)}
+            />
+            <MonthGrid month={month} selected={day} today={today} onSelect={setDay} />
+          </div>
 
-          <section className="section">
-            <h2 className="section__title">{formatDayLong(day)}</h2>
-            <DayList day={day} today={today} />
-          </section>
-          <DayReminders date={day} />
-          <PeriodTasks day={day} />
-        </>
+          <div>
+            <section className="section">
+              <h2 className="section__title">{formatDayLong(day)}</h2>
+              <DayList day={day} today={today} />
+            </section>
+            <DayReminders date={day} />
+            <PeriodTasks day={day} />
+          </div>
+        </div>
       )}
 
       {tab === 'range' && <RangeList today={today} />}
@@ -138,7 +142,9 @@ function MonthGrid({ month, selected, today, onSelect }: MonthGridProps) {
               type="button"
               className={classes.filter(Boolean).join(' ')}
               aria-pressed={date === selected}
-              aria-label={reminders > 0 ? t('plan.calendar.labelReminders', { label: dayLabel, count: reminders }) : dayLabel}
+              aria-label={
+                reminders > 0 ? t('plan.calendar.labelReminders', { label: dayLabel, count: reminders }) : dayLabel
+              }
               onClick={() => onSelect(date)}
             >
               <span className="calendar__number">{parseDateKey(date).getDate()}</span>

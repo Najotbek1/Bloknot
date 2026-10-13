@@ -52,3 +52,30 @@
   margin: 0;
   font-size: 20px;
 }
+
+/* Computer-sized window: a centred dialog instead of a sheet from the bottom. */
+@media (min-width: 960px) {
+  .sheet {
+    max-width: 560px;
+    max-height: 86dvh;
+    margin: auto;
+    border-radius: 24px;
+  }
+
+  .sheet__content {
+    padding: 8px 24px 24px;
+  }
+}
+
+@media (min-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .sheet[open] {
+    animation: dialog-in 0.16s ease-out;
+  }
+
+  @keyframes dialog-in {
+    from {
+      transform: scale(0.96);
+      opacity: 0;
+    }
+  }
+}

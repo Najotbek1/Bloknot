@@ -6,11 +6,17 @@ const http = require('node:http')
 const os = require('node:os')
 const path = require('node:path')
 const { pathToFileURL } = require('node:url')
+const fs = require('node:fs')
 
 const APP_ID = 'uz.najotbek.maqsad'
 const ICON = path.join(__dirname, 'build', 'icon.png')
 /** How often due notifications are checked. */
 const TICK_MS = 15 * 1000
+/**
+ * Arguments of the "start with Windows" entry. Windows matches the entry by these, so reading the
+ * setting must pass the same ones — without them it always read "off" while the entry stayed on.
+ */
+const LOGIN_ARGS = ['--hidden']
 /** Notifications missed by more than this (the PC was off or asleep) are dropped, not shown late. */
 const LATE_LIMIT_MS = 10 * 60 * 1000
 
@@ -21,6 +27,29 @@ const APP_URL = 'app://maqsad/index.html'
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true } },
 ])
+
+/** Small preferences the main process needs before the web app loads; kept in userData/prefs.json. */
+let prefs = { closeToTray: true }
+
+function prefsFile() {
+  return path.join(app.getPath('userData'), 'prefs.json')
+}
+
+function loadPrefs() {
+  try {
+    prefs = { ...prefs, ...JSON.parse(fs.readFileSync(prefsFile(), 'utf8')) }
+  } catch {
+    // First start, or an unreadable file: keep the defaults.
+  }
+}
+
+function savePrefs() {
+  try {
+    fs.writeFileSync(prefsFile(), JSON.stringify(prefs))
+  } catch {
+    // Not fatal: the choice just lasts until the app quits.
+  }
+}
 
 let win = null
 let tray = null
@@ -40,6 +69,7 @@ if (!app.requestSingleInstanceLock()) {
 
 function start() {
   app.setAppUserModelId(APP_ID)
+  loadPrefs()
   Menu.setApplicationMenu(null)
   protocol.handle('app', (request) => {
     const pathname = decodeURIComponent(new URL(request.url).pathname)
@@ -54,8 +84,8 @@ function start() {
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 1100,
-    height: 800,
+    width: 1280,
+    height: 820,
     minWidth: 380,
     minHeight: 560,
     title: 'Maqsad',
@@ -85,9 +115,10 @@ function createWindow() {
     }
   })
 
-  // Closing the window keeps Maqsad in the tray so reminders still arrive; "Quit" ends it.
+  // Closing the window keeps Maqsad in the tray so reminders still arrive ("Quit" ends it),
+  // unless the user turned that off in Settings → Kompyuter.
   win.on('close', (event) => {
-    if (!quitting) {
+    if (!quitting && prefs.closeToTray) {
       event.preventDefault()
       win.hide()
     }
@@ -161,10 +192,17 @@ ipcMain.handle('labels:set', (_event, next) => {
   updateTray()
 })
 
-ipcMain.handle('autostart:get', () => app.getLoginItemSettings().openAtLogin)
+ipcMain.handle('autostart:get', () => app.getLoginItemSettings({ args: LOGIN_ARGS }).openAtLogin)
 
 ipcMain.handle('autostart:set', (_event, enabled) => {
-  app.setLoginItemSettings({ openAtLogin: Boolean(enabled), args: ['--hidden'] })
+  app.setLoginItemSettings({ openAtLogin: Boolean(enabled), args: LOGIN_ARGS })
+})
+
+ipcMain.handle('tray:get', () => prefs.closeToTray)
+
+ipcMain.handle('tray:set', (_event, enabled) => {
+  prefs = { ...prefs, closeToTray: Boolean(enabled) }
+  savePrefs()
 })
 
 // --- Wi-Fi sync with the phone (src/core/sync/lan.ts) ---
@@ -264,5 +302,8 @@ app.on('before-quit', () => {
   quitting = true
 })
 
-// The tray keeps the app alive; quitting happens only from its menu.
-app.on('window-all-closed', () => {})
+// With "keep in the tray" the app stays alive and quits only from the tray menu; without it,
+// closing the window ends the app.
+app.on('window-all-closed', () => {
+  if (!prefs.closeToTray) app.quit()
+})

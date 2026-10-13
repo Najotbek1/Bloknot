@@ -121,66 +121,70 @@ export function StatsScreen() {
                 />
               </div>
 
-              <section className="section">
-                <h2 className="section__title">{t('stats.daily')}</h2>
-                <div className="card chart-card">
-                  <DailyBars series={stats.series} />
-                </div>
-              </section>
-
-              <section className="section">
-                <h2 className="section__title">{t('stats.byKind')}</h2>
-                <KindBreakdown byKind={stats.byKind} />
-              </section>
-
-              <section className="section">
-                <h2 className="section__title">{t('stats.weekdays')}</h2>
-                <div className="card">
-                  <WeekdayChart rows={extra.weekdays} />
-                </div>
-              </section>
-
-              {Object.values(extra.dayParts).some((count) => count > 0) && (
+              <div className="stats-charts">
                 <section className="section">
-                  <h2 className="section__title">{t('stats.dayParts')}</h2>
-                  <DayParts counts={extra.dayParts} />
+                  <h2 className="section__title">{t('stats.daily')}</h2>
+                  <div className="card chart-card">
+                    <DailyBars series={stats.series} />
+                  </div>
                 </section>
-              )}
+
+                <section className="section">
+                  <h2 className="section__title">{t('stats.byKind')}</h2>
+                  <KindBreakdown byKind={stats.byKind} />
+                </section>
+
+                <section className="section">
+                  <h2 className="section__title">{t('stats.weekdays')}</h2>
+                  <div className="card">
+                    <WeekdayChart rows={extra.weekdays} />
+                  </div>
+                </section>
+
+                {Object.values(extra.dayParts).some((count) => count > 0) && (
+                  <section className="section">
+                    <h2 className="section__title">{t('stats.dayParts')}</h2>
+                    <DayParts counts={extra.dayParts} />
+                  </section>
+                )}
+              </div>
             </>
           )}
 
-          <section className="section">
-            <h2 className="section__title">{t('stats.overdue')}</h2>
-            {extra.overdue.length === 0 ? (
-              <p className="card empty">{t('stats.overdueNone')}</p>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  className="card overdue-card"
-                  aria-expanded={showOverdue}
-                  onClick={() => setShowOverdue(!showOverdue)}
-                >
-                  <span className="overdue-card__count">{extra.overdue.length}</span>
-                  <span className="overdue-card__text">
-                    {t('stats.overdueCount', { count: extra.overdue.length })}
-                  </span>
-                </button>
-                {showOverdue && (
-                  <div className="overdue-list">
-                    <TaskRows rows={taskRows(extra.overdue)} />
-                  </div>
-                )}
-              </>
-            )}
-          </section>
+          <div className="stats-charts">
+            <section className="section">
+              <h2 className="section__title">{t('stats.overdue')}</h2>
+              {extra.overdue.length === 0 ? (
+                <p className="card empty">{t('stats.overdueNone')}</p>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="card overdue-card"
+                    aria-expanded={showOverdue}
+                    onClick={() => setShowOverdue(!showOverdue)}
+                  >
+                    <span className="overdue-card__count">{extra.overdue.length}</span>
+                    <span className="overdue-card__text">
+                      {t('stats.overdueCount', { count: extra.overdue.length })}
+                    </span>
+                  </button>
+                  {showOverdue && (
+                    <div className="overdue-list">
+                      <TaskRows rows={taskRows(extra.overdue)} />
+                    </div>
+                  )}
+                </>
+              )}
+            </section>
 
-          <section className="section">
-            <h2 className="section__title">{t('stats.heatmap')}</h2>
-            <div className="card chart-card">
-              <Heatmap columns={cells} />
-            </div>
-          </section>
+            <section className="section">
+              <h2 className="section__title">{t('stats.heatmap')}</h2>
+              <div className="card chart-card">
+                <Heatmap columns={cells} />
+              </div>
+            </section>
+          </div>
 
           <section className="section">
             <button type="button" className="btn btn--block" onClick={() => setShowTable(!showTable)}>

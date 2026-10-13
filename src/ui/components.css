@@ -243,6 +243,10 @@ textarea.input {
   transform: scale(0.96);
 }
 
+.fab__label {
+  display: none;
+}
+
 /* Prev / label / next row for days, weeks and months */
 .period-nav {
   display: flex;
@@ -581,4 +585,87 @@ textarea.input {
 /* Fields on a card sit on the second surface so they stay visible without borders. */
 .card .input {
   background: var(--color-surface-2);
+}
+
+/*
+ * Computer-sized window (≥ 960px, also useWideLayout): side menu instead of the bottom bar, wider
+ * screens, two columns, a labelled "+" button. The phone layout above stays as it is.
+ */
+@media (min-width: 960px) {
+  .app-main {
+    padding-inline-start: var(--sidebar-width);
+  }
+
+  .screen {
+    max-width: 1160px;
+    padding: 36px 40px 120px;
+  }
+
+  .screen__title {
+    font-size: 32px;
+  }
+
+  /* Tabs like "7 kun / 30 kun" stay a compact switch instead of stretching across the screen. */
+  .segmented {
+    max-width: 520px;
+  }
+
+  .fab {
+    inset-inline-end: 40px;
+    bottom: 32px;
+    width: auto;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-inline: 16px 24px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .fab svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .fab__label {
+    display: inline;
+  }
+
+  /* Two columns: the main list and what goes beside it. On a phone they simply stack. */
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .columns > * > :first-child,
+  .columns > * > .section:first-child {
+    margin-top: 0;
+  }
+
+  /* Nothing to show beside the list: let it use one comfortable column. */
+  .columns:has(> :last-child:empty) {
+    grid-template-columns: minmax(0, 760px);
+  }
+
+  .columns > :last-child:empty {
+    display: none;
+  }
+}
+
+@media (min-width: 960px) and (hover: hover) {
+  .btn,
+  .chip,
+  .icon-btn,
+  button.card {
+    cursor: pointer;
+  }
+
+  .fab:hover {
+    filter: brightness(1.08);
+  }
 }

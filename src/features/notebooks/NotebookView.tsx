@@ -14,21 +14,26 @@ interface NotebookViewProps {
   notebookId: string
   onBack: () => void
   onOpenNote: (noteId: string, isNew?: boolean) => void
+  /** Computer-sized window: the note list beside the editor, with the open note marked. */
+  pane?: boolean
+  openNoteId?: string
 }
 
-export function NotebookView({ notebookId, onBack, onOpenNote }: NotebookViewProps) {
+export function NotebookView({ notebookId, onBack, onOpenNote, pane, openNoteId }: NotebookViewProps) {
   // `null` = loaded but missing (e.g. deleted on another screen); `undefined` = still loading.
   const notebook = useLiveQuery(async () => (await getActive(db.notebooks, notebookId)) ?? null, [notebookId])
   const notes = useLiveQuery(() => listNotes(db, notebookId), [notebookId])
   const [editing, setEditing] = useState(false)
+  const Root = pane ? 'section' : 'main'
+  const rootClass = pane ? 'notes-split__list' : 'screen'
 
   if (notebook === null) {
     return (
-      <main className="screen">
+      <Root className={rootClass}>
         <button type="button" className="btn" onClick={onBack}>
           {t('notebooks.back')}
         </button>
-      </main>
+      </Root>
     )
   }
 
@@ -38,7 +43,7 @@ export function NotebookView({ notebookId, onBack, onOpenNote }: NotebookViewPro
   }
 
   return (
-    <main className="screen">
+    <Root className={rootClass}>
       <header className="screen__header subpage-header">
         <button type="button" className="icon-btn" onClick={onBack} aria-label={t('notebooks.back')}>
           <ChevronLeftIcon />
@@ -61,7 +66,7 @@ export function NotebookView({ notebookId, onBack, onOpenNote }: NotebookViewPro
         {notes && notes.length > 0 && (
           <ul className="note-list">
             {notes.map((note) => (
-              <NoteCard key={note.id} note={note} onOpen={() => onOpenNote(note.id)} />
+              <NoteCard key={note.id} note={note} active={note.id === openNoteId} onOpen={() => onOpenNote(note.id)} />
             ))}
           </ul>
         )}
@@ -70,7 +75,12 @@ export function NotebookView({ notebookId, onBack, onOpenNote }: NotebookViewPro
       <Fab label={t('notes.add')} onClick={() => void addNote()} />
 
       {notebook && (
-        <Sheet open={editing} title={t('notebooks.edit')} onClose={() => setEditing(false)} closeLabel={t('task.cancel')}>
+        <Sheet
+          open={editing}
+          title={t('notebooks.edit')}
+          onClose={() => setEditing(false)}
+          closeLabel={t('task.cancel')}
+        >
           <NotebookForm
             notebook={notebook}
             noteCount={notes?.length ?? 0}
@@ -81,6 +91,6 @@ export function NotebookView({ notebookId, onBack, onOpenNote }: NotebookViewPro
           />
         </Sheet>
       )}
-    </main>
+    </Root>
   )
 }
