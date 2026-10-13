@@ -110,3 +110,16 @@ test('Windows settings speak of the computer and remember their switches', async
   await expect(tray).toHaveAttribute('aria-checked', 'false')
   expect(pageErrors).toEqual([])
 })
+
+test('on a Mac the computer settings speak of the Mac and its menu bar', async ({ page, pageErrors }) => {
+  await page.addInitScript(fakeWindowsApp)
+  await page.addInitScript(() => {
+    ;(window as unknown as { maqsadDesktop: { platform: string } }).maqsadDesktop.platform = 'darwin'
+  })
+  await page.goto('/')
+  await page.locator('.bottom-nav').getByRole('button', { name: 'Sozlamalar', exact: true }).click()
+  await expect(page.getByRole('switch', { name: /Mac bilan birga ochilish/ })).toBeVisible()
+  await expect(page.getByText('menyu satrida', { exact: false })).toBeVisible()
+  await expect(page.getByText('Windows', { exact: false })).toHaveCount(0)
+  expect(pageErrors).toEqual([])
+})

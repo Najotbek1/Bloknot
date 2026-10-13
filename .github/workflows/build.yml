@@ -133,11 +133,34 @@ jobs:
           if-no-files-found: error
 
   desktop:
-    name: Build Windows app
+    name: Build ${{ matrix.name }} app
     needs: web
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            targets: --win nsis
+            artifact: maqsad-windows
+            files: desktop/release/*.exe
+          - name: Linux
+            os: ubuntu-latest
+            targets: --linux AppImage deb
+            artifact: maqsad-linux
+            files: |
+              desktop/release/*.AppImage
+              desktop/release/*.deb
+          - name: macOS
+            os: macos-latest
+            # Intel and Apple Silicon Macs each get their own .dmg.
+            targets: --mac dmg --x64 --arm64
+            artifact: maqsad-mac
+            files: desktop/release/*.dmg
+    runs-on: ${{ matrix.os }}
     env:
-      # No code-signing certificate: build an unsigned installer (Windows shows a SmartScreen note).
+      # No paid certificates: Windows gets an unsigned installer (SmartScreen note), the Mac app an
+      # ad-hoc signature (Apple Silicon refuses fully unsigned apps; the first open needs "Open Anyway").
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
     defaults:
       run:
@@ -163,11 +186,11 @@ jobs:
         working-directory: desktop
         run: |
           VERSION="$(node -p "require('../package.json').version")"
-          npx electron-builder --win nsis --publish never -c.extraMetadata.version="$VERSION"
+          npx electron-builder ${{ matrix.targets }} --publish never -c.extraMetadata.version="$VERSION"
       - uses: actions/upload-artifact@v4
         with:
-          name: maqsad-windows
-          path: desktop/release/*.exe
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.files }}
           if-no-files-found: error
 
   deploy-pages:

@@ -166,7 +166,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
      - oynalar ekran o'rtasida ochiladi, «+» tugma yozuvli; `Ctrl+N` — yangi reja/yozuv, `Ctrl+1…5` — bo'limlar;
      - Windows ilovasida ⏰ uyg'otgich tugmasi yo'q. Telefon ko'rinishi o'zgarmadi.
      - 0.8.1: «Windows bilan birga ochilish» tugmasi doim «o'chiq» ko'rinardi (Windows yozuvi `--hidden` argumenti bilan solishtiriladi) — tuzatildi; yangi «Yopganda tepsida qolsin» sozlamasi (o'chirilsa, oyna yopilganda ilova to'liq yopiladi); kompyuterda «Kompyuter tili» va «Kompyuter bo'yicha» yozuvlari.
-   - Keyin xohlasa: Linux (AppImage) va macOS uchun ham yig'ish (bir xil kod, faqat build sozlamasi).
+14. **Linux va Mac ilovalari.** ✅ (0.9.0) Windows ilovasining o'zi, GitHub Actions'da uchala tizim uchun yig'iladi: `maqsad-linux` (AppImage + .deb), `maqsad-mac` (Intel va Apple Silicon uchun .dmg), `maqsad-windows`.
+   - Mac ilovasi Apple imzosisiz (ad-hoc): birinchi ochishda «Baribir ochish» kerak. Imzo va notarizatsiya uchun Apple Developer hisobi (99 $/yil) kerak.
+   - Autostart: Windows/Mac — tizim API'si, Linux — `~/.config/autostart/maqsad.desktop`. Mac'da tahrir menyusi (Cmd+C/V/Q) bor, Dock ikonkasi oynani ochadi.
+15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)
 - `npm test`: mantiqiy testlar (sinxronlash, takrorlanish, statistika).

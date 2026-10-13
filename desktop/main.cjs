@@ -1,6 +1,6 @@
-// Maqsad for Windows: the same web app (built into ./web) in an Electron window, plus what a
-// browser cannot do — notifications while the window is closed (the app stays in the tray) and
-// starting with Windows. All data stays in the app's own IndexedDB, as on the phone.
+// Maqsad for Windows, macOS and Linux: the same web app (built into ./web) in an Electron window,
+// plus what a browser cannot do — notifications while the window is closed (the app stays in the
+// tray / menu bar) and starting with the computer. All data stays in the app's own IndexedDB.
 const { app, BrowserWindow, ipcMain, Menu, Notification, Tray, net, protocol, shell, nativeImage } = require('electron')
 const http = require('node:http')
 const os = require('node:os')
@@ -17,6 +17,8 @@ const TICK_MS = 15 * 1000
  * setting must pass the same ones — without them it always read "off" while the entry stayed on.
  */
 const LOGIN_ARGS = ['--hidden']
+const IS_MAC = process.platform === 'darwin'
+const IS_LINUX = process.platform === 'linux'
 /** Notifications missed by more than this (the PC was off or asleep) are dropped, not shown late. */
 const LATE_LIMIT_MS = 10 * 60 * 1000
 
@@ -64,13 +66,22 @@ if (!app.requestSingleInstanceLock()) {
   app.quit()
 } else {
   app.on('second-instance', () => showWindow())
+  // macOS: clicking the Dock icon brings the window back.
+  app.on('activate', () => showWindow())
   app.whenReady().then(start)
 }
 
 function start() {
   app.setAppUserModelId(APP_ID)
   loadPrefs()
-  Menu.setApplicationMenu(null)
+  // Windows and Linux need no menu bar. On a Mac the app menu is where Cmd+C/V/Q live, so it stays.
+  if (IS_MAC) {
+    Menu.setApplicationMenu(
+      Menu.buildFromTemplate([{ role: 'appMenu' }, { role: 'editMenu' }, { role: 'windowMenu' }]),
+    )
+  } else {
+    Menu.setApplicationMenu(null)
+  }
   protocol.handle('app', (request) => {
     const pathname = decodeURIComponent(new URL(request.url).pathname)
     const file = path.normalize(path.join(WEB_DIR, pathname === '/' ? 'index.html' : pathname))
@@ -101,7 +112,7 @@ function createWindow() {
   })
   void win.loadURL(APP_URL)
   // Started with Windows: stay in the tray until the user opens it.
-  if (!process.argv.includes('--hidden')) win.once('ready-to-show', () => win.show())
+  if (!startedHidden()) win.once('ready-to-show', () => win.show())
 
   // Links (contact email, privacy policy) open in the system's apps, never inside the window.
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -133,7 +144,9 @@ function showWindow() {
 }
 
 function createTray() {
-  tray = new Tray(nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 }))
+  // Sizes the system expects: Windows tray 16px, the Mac menu bar 18px, Linux panels 22px.
+  const size = IS_MAC ? 18 : IS_LINUX ? 22 : 16
+  tray = new Tray(nativeImage.createFromPath(ICON).resize({ width: size, height: size }))
   tray.on('click', showWindow)
   updateTray()
 }
@@ -192,10 +205,46 @@ ipcMain.handle('labels:set', (_event, next) => {
   updateTray()
 })
 
-ipcMain.handle('autostart:get', () => app.getLoginItemSettings({ args: LOGIN_ARGS }).openAtLogin)
+// --- Start with the computer ---
+// Windows and macOS have a login-item API; Linux desktops read ~/.config/autostart/*.desktop.
+
+function linuxAutostartFile() {
+  return path.join(app.getPath('home'), '.config', 'autostart', 'maqsad.desktop')
+}
+
+/** Started by the system at login: stay in the tray until the user opens the window. */
+function startedHidden() {
+  if (process.argv.includes('--hidden')) return true
+  return IS_MAC && app.getLoginItemSettings().wasOpenedAtLogin === true
+}
+
+function getAutoStart() {
+  if (IS_LINUX) return fs.existsSync(linuxAutostartFile())
+  if (IS_MAC) return app.getLoginItemSettings().openAtLogin
+  return app.getLoginItemSettings({ args: LOGIN_ARGS }).openAtLogin
+}
+
+function setAutoStart(enabled) {
+  if (IS_LINUX) {
+    const file = linuxAutostartFile()
+    if (!enabled) return fs.rmSync(file, { force: true })
+    // An AppImage runs from a temporary mount; APPIMAGE is the file the user keeps.
+    const exec = process.env.APPIMAGE || process.execPath
+    fs.mkdirSync(path.dirname(file), { recursive: true })
+    fs.writeFileSync(
+      file,
+      ['[Desktop Entry]', 'Type=Application', 'Name=Maqsad', `Exec="${exec}" --hidden`, 'X-GNOME-Autostart-enabled=true', ''].join('\n'),
+    )
+    return
+  }
+  if (IS_MAC) return app.setLoginItemSettings({ openAtLogin: enabled })
+  app.setLoginItemSettings({ openAtLogin: enabled, args: LOGIN_ARGS })
+}
+
+ipcMain.handle('autostart:get', () => getAutoStart())
 
 ipcMain.handle('autostart:set', (_event, enabled) => {
-  app.setLoginItemSettings({ openAtLogin: Boolean(enabled), args: LOGIN_ARGS })
+  setAutoStart(Boolean(enabled))
 })
 
 ipcMain.handle('tray:get', () => prefs.closeToTray)
