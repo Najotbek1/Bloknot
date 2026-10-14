@@ -185,6 +185,10 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Uyg'otgich bo'limida ruxsat yoqilmagan bo'lsa ogohlantirish va «Sozlamalarni ochish» tugmasi.
 16.7. **Umumiy versiya 0.7.0.** Egasi barcha platformalar (Android, Windows, Linux, Mac, sayt) uchun versiyani 0.7.0 deb belgiladi; Android yangilanishi `versionCode` bo'yicha, shuning uchun 0.13.0 ustidan ham o'rnatiladi.
 16.8. **Yangi versiya haqida xabar** (versiya 0.7.0 da qoldi, egasining qarori). APK'dan o'rnatilgan Android ilova saytdagi `version.json` ni tekshiradi va Telegram botga yo'llaydi; do'kon, sayt va kompyuter versiyalari o'zi yangilanadi.
+16.9. **Android do'konlari (AdMob cheklovini olish uchun).**
+   - Samsung Galaxy Store: hisob ochildi (2026-10-14), lekin Android ilovani faqat **korporativ sotuvchi** joylay oladi. Reja: Dun & Bradstreet'dan **DUNS raqami** olishga urinish (tekin, bir necha hafta), keyin Seller Portal → Profile → «Request Corporate Commercial Seller». Egasi DUNS bo'yicha natijani 2026-10-17 atrofida aytadi.
+   - Navbatda: Xiaomi GetApps, OPPO App Market, vivo App Store (AdMob qo'llaydi). Huawei AppGallery — AdMob qo'llamaydi.
+   - APK 16 KB sahifa talabiga mos (CI `scripts/check-16kb.sh` tekshiradi).
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)
