@@ -174,6 +174,7 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Fokus taymer (Pomodoro): reja oynasidagi «Fokus taymer» → 15/25/45/60 daqiqa, pauza, to'xtatish; tugaganda bildirishnoma (ilova yopiq bo'lsa ham), «Bajarildi» yoki 5 daqiqa tanaffus. Taymer ishlab turganda pastda kichik tugma.
    - **Kelajak (egasi relizdan keyin eslatadi):** reja ichida kichik ro'yxat (bandlar) — mukammalroq ko'rinishda, yangilanish sifatida.
 16. **Microsoft Store.** ✅ tayyorgarlik (0.11.0); joylash — egasi (`docs/msstore/PUBLISH.md`).
+   - 2026-10-14: 0.7.0 Partner Center'ga yuborildi (8 tilda sahifa, runFullTrust izohi bilan); tekshiruv kutilmoqda.
    - CI Windows qatorida `.appx` paketi: Partner Center'dagi uchta identity qiymati GitHub Variables'da (`MSSTORE_IDENTITY_NAME`, `MSSTORE_PUBLISHER`, `MSSTORE_PUBLISHER_NAME`) bo'lsa `maqsad-msstore` artefakti; bo'lmasa sinov qiymatlari bilan yig'ib tekshiradi, yuklamaydi. Tile ikonkalari: `node scripts/render-store.mjs` → `desktop/build/appx/`.
    - Store versiyasi (`process.windowsStore`) o'zini autostartga qo'sha olmaydi — Sozlamalarda Windows «Startup» yo'li ko'rsatiladi. Sahifa matnlari va 1366×768 skrinshotlar `docs/msstore/`.
 16.5. **Belgilash sozlamasi va izohlar.** ✅ (0.12.0)
