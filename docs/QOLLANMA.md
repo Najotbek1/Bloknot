@@ -56,11 +56,11 @@ Ishlamasa:
 - Har doim zaxira yo'li bor: fayl orqali Eksport/Import.
 
 ## 1b. Telegram'dagilarga yangi versiya haqida xabar
-Telegram botdan (`https://t.me/OmniViobot`) o'rnatilgan ilova bir necha soatda bir marta saytdagi `version.json` faylini tekshiradi. U yerdagi versiya yangiroq bo'lsa, «Bugun» ekranida **«Yangi versiya chiqdi — Yuklab olish»** yozuvi chiqadi, tugma botni ochadi. Do'kondan (Play, Samsung, Xiaomi…) o'rnatilganlarga bu yozuv chiqmaydi, ularni do'konning o'zi yangilaydi.
+Telegram botdan (`https://t.me/OmniViobot`) o'rnatilgan ilova — telefon (APK) ham, kompyuter (Windows o'rnatuvchisi, Mac, Linux) ham — bir necha soatda bir marta saytdagi `version.json` faylini tekshiradi. U yerdagi versiya yangiroq bo'lsa, «Bugun» ekranida **«Yangi versiya chiqdi — Yuklab olish»** yozuvi chiqadi, tugma botni ochadi. Do'kondan (Play, Samsung, Xiaomi, Microsoft Store…) o'rnatilganlarga bu yozuv chiqmaydi, ularni do'konning o'zi yangilaydi.
 
 Yangi versiya chiqarish tartibi:
 1. Claude `package.json` dagi versiyani oshiradi (masalan 0.7.0 → 0.8.0). Xabar faqat versiya raqami oshganda chiqadi.
-2. PR'dagi build tugagach `maqsad-release` ichidagi yangi `.apk` ni **avval botga** qo'yasiz.
+2. PR'dagi build tugagach yangi fayllarni **avval botga** qo'yasiz: `maqsad-release` dagi `.apk`, `maqsad-windows`, `maqsad-mac`, `maqsad-linux`.
 3. **Keyin** PR'ni birlashtirasiz: sayt yangilanadi va foydalanuvchilarga xabar boradi.
 
 ## 1c. Foydali imkoniyatlar

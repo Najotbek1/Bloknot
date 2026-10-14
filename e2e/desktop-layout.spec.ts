@@ -141,3 +141,35 @@ test('the Microsoft Store version explains where Windows sets start-up', async (
   await expect(page.getByRole('switch', { name: /Yopganda tepsida qolsin/ })).toBeVisible()
   expect(pageErrors).toEqual([])
 })
+
+test('the computer app from the installer announces a new version; the Store version does not', async ({
+  page,
+  pageErrors,
+}) => {
+  await page.route('https://najotbek1.github.io/Bloknot/version.json', (route) =>
+    route.fulfill({ status: 200, body: '{"version":"99.0.0"}', headers: { 'access-control-allow-origin': '*' } }),
+  )
+  await page.addInitScript(fakeWindowsApp)
+  await page.goto('/')
+  const card = page.locator('.update-notice')
+  await expect(card).toContainText('99.0.0')
+  await expect(card.getByRole('link', { name: 'Yuklab olish' })).toHaveAttribute('href', 'https://t.me/OmniViobot')
+  // «Later» hides it, also after a restart.
+  await card.getByRole('button', { name: 'Keyinroq' }).click()
+  await expect(card).toHaveCount(0)
+  await page.reload()
+  await expect(page.locator('.screen__title')).toBeVisible()
+  await expect(page.locator('.update-notice')).toHaveCount(0)
+
+  // The Microsoft Store updates its own install: no card there.
+  await page.evaluate(() => localStorage.clear())
+  await page.addInitScript(() => {
+    ;(window as unknown as { maqsadDesktop: { isStore: () => Promise<boolean> } }).maqsadDesktop.isStore = async () =>
+      true
+  })
+  await page.reload()
+  await expect(page.locator('.screen__title')).toBeVisible()
+  await page.waitForTimeout(500)
+  await expect(page.locator('.update-notice')).toHaveCount(0)
+  expect(pageErrors).toEqual([])
+})
