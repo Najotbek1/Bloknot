@@ -145,6 +145,9 @@ export const ar: Messages = {
   'reminder.sameDay': 'في اليوم نفسه',
   'reminder.daysBefore': 'قبل {days, plural, zero {# يوم} one {يوم واحد} two {يومين} few {# أيام} many {# يومًا} other {# يوم}}',
   'today.enableNotifications': 'فعّل الإشعارات لتصلك التذكيرات',
+  'update.available': 'صدر إصدار جديد من Maqsad: {version}. حدّث التطبيق للحصول على ميزات وإصلاحات جديدة.',
+  'update.download': 'تنزيل',
+  'update.later': 'لاحقًا',
   'task.recurringStatusNote': 'خطة متكررة: تُحدَّد الحالة لكل يوم على حدة.',
 
   'kind.daily': 'يومية',

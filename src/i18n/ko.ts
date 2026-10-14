@@ -145,6 +145,9 @@ export const ko: Messages = {
   'reminder.sameDay': '당일',
   'reminder.daysBefore': '{days}일 전',
   'today.enableNotifications': '알림을 받으려면 알림을 켜 주세요',
+  'update.available': 'Maqsad 새 버전 {version}이(가) 나왔어요. 새 기능과 수정 사항을 받으려면 업데이트하세요.',
+  'update.download': '다운로드',
+  'update.later': '나중에',
   'task.recurringStatusNote': '반복 계획: 상태는 날마다 따로 표시돼요.',
 
   'kind.daily': '일간',

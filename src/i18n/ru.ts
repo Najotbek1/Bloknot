@@ -145,6 +145,9 @@ export const ru: Messages = {
   'reminder.sameDay': 'В тот же день',
   'reminder.daysBefore': 'За {days, plural, one {# день} few {# дня} many {# дней} other {# дня}}',
   'today.enableNotifications': 'Включи уведомления, чтобы получать напоминания',
+  'update.available': 'Вышла новая версия Maqsad: {version}. Обнови, чтобы получить новые функции и исправления.',
+  'update.download': 'Скачать',
+  'update.later': 'Позже',
   'task.recurringStatusNote': 'Повторяющийся план: статус отмечается отдельно для каждого дня.',
 
   'kind.daily': 'На день',

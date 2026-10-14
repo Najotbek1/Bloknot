@@ -145,6 +145,9 @@ export const ja: Messages = {
   'reminder.sameDay': '当日',
   'reminder.daysBefore': '{days}日前',
   'today.enableNotifications': 'リマインダーを受け取るには通知をオンにしてください',
+  'update.available': 'Maqsad の新しいバージョン {version} が公開されました。新機能と修正のために更新してください。',
+  'update.download': 'ダウンロード',
+  'update.later': '後で',
   'task.recurringStatusNote': '繰り返しの予定：状態は日ごとに個別に記録されます。',
 
   'kind.daily': '毎日',

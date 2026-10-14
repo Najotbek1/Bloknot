@@ -145,6 +145,9 @@ export const en: Messages = {
   'reminder.sameDay': 'On the day',
   'reminder.daysBefore': '{days, plural, one {# day} other {# days}} before',
   'today.enableNotifications': 'Turn on notifications to get reminders',
+  'update.available': 'A new version of Maqsad is out: {version}. Update for new features and fixes.',
+  'update.download': 'Download',
+  'update.later': 'Later',
   'task.recurringStatusNote': 'Repeating plan: the status is set separately for each day.',
 
   'kind.daily': 'Daily',

@@ -145,6 +145,9 @@ export const hi: Messages = {
   'reminder.sameDay': 'उसी दिन',
   'reminder.daysBefore': '{days} दिन पहले',
   'today.enableNotifications': 'रिमाइंडर पाने के लिए नोटिफ़िकेशन चालू करें',
+  'update.available': 'Maqsad का नया संस्करण {version} आ गया है। नई सुविधाओं और सुधारों के लिए अपडेट करें।',
+  'update.download': 'डाउनलोड करें',
+  'update.later': 'बाद में',
   'task.recurringStatusNote': 'दोहराई जाने वाली योजना: स्थिति हर दिन के लिए अलग से चुनी जाती है।',
 
   'kind.daily': 'रोज़ाना',

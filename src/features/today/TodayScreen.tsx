@@ -15,6 +15,7 @@ import { DayReminders } from '../reminders/DayReminders'
 import { useTaskEditor } from '../tasks/editorContext'
 import { agendaRows, taskRows } from '../tasks/rows'
 import { TaskRows } from '../tasks/TaskRows'
+import { UpdateNotice } from '../update/UpdateNotice'
 
 export function TodayScreen() {
   const [showAlarms, setShowAlarms] = useState(false)
@@ -45,6 +46,8 @@ function TodayMain({ onOpenAlarms }: { onOpenAlarms: () => void }) {
         {/* The alarm rings only on the phone. */}
         {!isDesktop && <NextAlarmButton onClick={onOpenAlarms} />}
       </header>
+
+      <UpdateNotice />
 
       {permission === 'prompt' && (
         <div className="notice">
