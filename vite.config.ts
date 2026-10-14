@@ -4,7 +4,16 @@ import pkg from './package.json' with { type: 'json' }
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      // Read by APK installs to announce a new version (src/core/update/update.ts); served by GitHub Pages.
+      name: 'version-file',
+      generateBundle() {
+        this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ version: pkg.version }) })
+      },
+    },
+  ],
   // Relative paths so the same build works on GitHub Pages (/Bloknot/) and inside the Capacitor APK.
   base: './',
   // All eight languages are bundled (the app works offline); the bundle is loaded from disk, not the network.

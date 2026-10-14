@@ -143,6 +143,9 @@ export const uz = {
   'reminder.sameDay': 'O‘sha kuni',
   'reminder.daysBefore': '{days} kun oldin',
   'today.enableNotifications': 'Eslatmalar kelishi uchun bildirishnomalarni yoqing',
+  'update.available': 'Maqsad\'ning yangi versiyasi chiqdi: {version}. Yangi imkoniyatlar va tuzatishlar uchun yangilang.',
+  'update.download': 'Yuklab olish',
+  'update.later': 'Keyinroq',
   'task.recurringStatusNote': 'Takrorlanuvchi reja: holat har kun uchun alohida belgilanadi.',
 
   'kind.daily': 'Kunlik',

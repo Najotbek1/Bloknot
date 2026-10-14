@@ -184,6 +184,7 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - Android tepaga surish imo-ishorasini bloklatmaydi. Shuning uchun chiqib ketilsa: «Boshqa ilovalar ustidan ko'rsatish» ruxsati bor bo'lsa — uyg'otgich ekrani 1–2 soniyada o'zi qaytadi; yo'q bo'lsa — tepada «Uyg'otgich hali chalinmoqda» bildirishnomasi tushadi (har 30 s qayta), musiqa to'xtamaydi.
    - Uyg'otgich bo'limida ruxsat yoqilmagan bo'lsa ogohlantirish va «Sozlamalarni ochish» tugmasi.
 16.7. **Umumiy versiya 0.7.0.** Egasi barcha platformalar (Android, Windows, Linux, Mac, sayt) uchun versiyani 0.7.0 deb belgiladi; Android yangilanishi `versionCode` bo'yicha, shuning uchun 0.13.0 ustidan ham o'rnatiladi.
+16.8. **Yangi versiya haqida xabar** (versiya 0.7.0 da qoldi, egasining qarori). APK'dan o'rnatilgan Android ilova saytdagi `version.json` ni tekshiradi va Telegram botga yo'llaydi; do'kon, sayt va kompyuter versiyalari o'zi yangilanadi.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)

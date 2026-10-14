@@ -9,8 +9,8 @@ Bu qo‘llanma ilovani Claude yordamisiz ham boshqarish uchun yozilgan. Hamma na
 
 | Fayl | Nima uchun |
 |---|---|
-| `maqsad-apk` | Telefonda sinash uchun. Eski versiya ustiga o‘rnatiladi, ma'lumotlar saqlanadi. |
-| `maqsad-release` | Google Play uchun `.aab` fayl va imzolangan `.apk`. |
+| `maqsad-apk` | Faqat o‘zingiz sinash uchun (ochiq «dev» kalit). Boshqalarga tarqatmang. |
+| `maqsad-release` | Google Play uchun `.aab` va **Telegram'da tarqatish uchun** imzolangan `.apk`. |
 
 Artefaktlar 90 kun saqlanadi. Muddati o‘tsa, **Re-run all jobs** bosib yangisini yig‘dirasiz.
 
@@ -55,6 +55,14 @@ Ishlamasa:
 - «QR skaner yuklanmoqda» — Google Play xizmatlari skanerni birinchi marta yuklayapti, bir daqiqadan keyin qayta urining.
 - Har doim zaxira yo'li bor: fayl orqali Eksport/Import.
 
+## 1b. Telegram'dagilarga yangi versiya haqida xabar
+Telegram botdan (`https://t.me/OmniViobot`) o'rnatilgan ilova bir necha soatda bir marta saytdagi `version.json` faylini tekshiradi. U yerdagi versiya yangiroq bo'lsa, «Bugun» ekranida **«Yangi versiya chiqdi — Yuklab olish»** yozuvi chiqadi, tugma botni ochadi. Do'kondan (Play, Samsung, Xiaomi…) o'rnatilganlarga bu yozuv chiqmaydi, ularni do'konning o'zi yangilaydi.
+
+Yangi versiya chiqarish tartibi:
+1. Claude `package.json` dagi versiyani oshiradi (masalan 0.7.0 → 0.8.0). Xabar faqat versiya raqami oshganda chiqadi.
+2. PR'dagi build tugagach `maqsad-release` ichidagi yangi `.apk` ni **avval botga** qo'yasiz.
+3. **Keyin** PR'ni birlashtirasiz: sayt yangilanadi va foydalanuvchilarga xabar boradi.
+
 ## 1c. Foydali imkoniyatlar
 - **Tartiblash:** reja qatoridagi ⋮⋮ belgini bosib turib yuqoriga yoki pastga suring.
 - **Fokus taymer:** rejani oching → **Fokus taymer** → vaqtni tanlang → **Boshlash**. Ekranni yopsangiz ham taymer ishlaydi, tugaganda bildirishnoma keladi.
@@ -98,6 +106,7 @@ Cheklovlar:
 ## 6. Maxfiy kalit (juda muhim)
 - `maqsad-release.jks` va `release-secrets.txt` fayllari Play'ga yangilanish yuklash uchun kerak. Ularni ikki joyda saqlang va hech kimga bermang.
 - Ular GitHub **Secrets**'da ham turibdi (`RELEASE_*`). Secrets'ni o‘chirmang.
+- Play'da ilova imzosi uchun ham shu kalit ishlatiladi (`docs/play/PUBLISH.md`, 2-bosqich). Yo‘qolsa Google ham tiklab bera olmaydi va ilovani yangilab bo‘lmaydi.
 
 ## 7. Keyin Claude bilan davom etish
 Loyihaning butun konteksti repozitoriyada saqlangan:
