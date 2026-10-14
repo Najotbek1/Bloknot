@@ -67,6 +67,8 @@ jobs:
           ./gradlew assembleDebug --no-daemon
           mkdir -p ../apk
           cp app/build/outputs/apk/debug/app-debug.apk "../apk/maqsad-${BLOKNOT_VERSION_NAME}-build${BLOKNOT_VERSION_CODE}.apk"
+      - name: Check 16 KB page size support (Play and Galaxy Store)
+        run: scripts/check-16kb.sh apk/*.apk
       - uses: actions/upload-artifact@v4
         with:
           name: maqsad-apk
