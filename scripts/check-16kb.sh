@@ -10,9 +10,12 @@ work="$(mktemp -d)"
 unzip -q "$apk" 'lib/*.so' -d "$work" 2>/dev/null || { echo "No native libraries: nothing else to check."; exit 0; }
 bad=0
 while IFS= read -r so; do
+  name="${so#"$work"/}"
   for align in $(objdump -p "$so" | awk '/LOAD/ { print $NF }'); do
-    exp="${align#2**}"
-    if [ "$exp" -lt 14 ]; then echo "::error::${so#"$work"/}: LOAD segment aligned to $align (needs 2**14)"; bad=1; fi
+    exp="${align#2\*\*}"
+    if ! [[ "$exp" =~ ^[0-9]+$ ]]; then echo "::error::$name: cannot read LOAD alignment '$align'"; bad=1
+    elif [ "$exp" -lt 14 ]; then echo "::error::$name: LOAD segment aligned to $align (needs 2**14)"; bad=1
+    else echo "ok  $name  $align"; fi
   done
 done < <(find "$work" -name '*.so')
 [ "$bad" -eq 0 ] && echo "All native libraries are 16 KB aligned."
