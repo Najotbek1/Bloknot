@@ -118,7 +118,7 @@ Maqsad помогает упорядочить планы и выполнять 
 - ru: `Первый выпуск: планы, напоминания, блокноты, таймер фокуса, статистика и синхронизация с телефоном по Wi-Fi.`
 
 ## Qolgan 5 til (paket 8 tilni qo'llaydi, Partner Center har biri uchun sahifa so'raydi)
-Skrinshot sifatida `screenshots/en/` dagi rasmlar ishlatiladi.
+Skrinshotlar: `screenshots/de|ja|ko|hi|ar/` (har tilda 4 ta, yorug').
 
 ### Deutsch (de-de)
 **Short description:**
