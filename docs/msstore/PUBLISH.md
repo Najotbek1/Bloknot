@@ -29,7 +29,7 @@ Partner Center → ilova → **Start your submission**:
 2. **Properties:** Category — **Productivity**; Privacy policy URL — `https://najotbek1.github.io/Bloknot/privacy.html`; Support contact — `contact.najotbek@gmail.com`. «Does your product access, collect or transmit personal information?» — **No** (ma'lumotlar faqat kompyuterda; Wi-Fi sinxron faqat foydalanuvchining o'z telefoni bilan).
 3. **Age ratings:** IARC so'rovnomasi — hammasiga «Yo'q» (zo'ravonlik, chat, xarid yo'q) → odatda **3+ / Everyone**.
 4. **Packages:** `maqsad-msstore` ichidagi `.appx` faylni sudrab tashlang. Device family: **Desktop** belgilangan bo'lsin.
-5. **Store listings:** tillarni qo'shing (o'zbek bo'lmasa — English asosiy, Русский qo'shimcha). Matnlar: `docs/msstore/LISTING.md`. Skrinshotlar: `docs/msstore/screenshots/` (1366×768, kamida bittasi). Logo: `docs/play/icon-512.png` (300×300 dan katta bo'lishi kifoya).
+5. **Store listings:** tillarni qo'shing (o'zbek bo'lmasa — English asosiy, Русский qo'shimcha). Matnlar: `docs/msstore/LISTING.md`. Skrinshotlar: `docs/msstore/screenshots/uz|en|ru/` — har til o'z papkasidan (1366×768, kamida bittasi). Logo: `docs/play/icon-512.png` (300×300 dan katta bo'lishi kifoya).
 6. **Submit to the Store.** Tekshiruv odatda **1–3 kun**. Natija emailga keladi.
 
 ## 5. Keyingi yangilanishlar

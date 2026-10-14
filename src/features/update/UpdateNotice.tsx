@@ -11,9 +11,23 @@ import {
 } from '../../core/update/update'
 import { t } from '../../i18n'
 import { getInstaller } from '../../platform/appInfo'
+import { desktop } from '../../platform/desktop'
 
-/** Only the Android app installed from an APK announces updates; stores, the website and the computer update themselves. */
-const supported = Capacitor.getPlatform() === 'android'
+/**
+ * The Android app installed from an APK and the computer app installed from its installer (both
+ * shared through the Telegram bot) announce updates; store installs and the website update themselves.
+ */
+const isAndroid = Capacitor.getPlatform() === 'android'
+const supported = isAndroid || desktop !== undefined
+
+async function updatedByStore(): Promise<boolean> {
+  if (isAndroid) return isStoreInstall(await getInstaller())
+  try {
+    return (await desktop?.isStore()) ?? true
+  } catch {
+    return true
+  }
+}
 const STORAGE_KEY = 'maqsad.update'
 
 interface Saved {
@@ -55,7 +69,7 @@ async function check(): Promise<Saved> {
   }
 }
 
-/** "A new version is out" card for APK installs, with a link to the Telegram bot. */
+/** "A new version is out" card for APK and installer installs, with a link to the Telegram bot. */
 export function UpdateNotice() {
   const [version, setVersion] = useState<string | null>(null)
 
@@ -63,7 +77,7 @@ export function UpdateNotice() {
     if (!supported) return
     let active = true
     const refresh = async () => {
-      if (isStoreInstall(await getInstaller())) return
+      if (await updatedByStore()) return
       const saved = await check()
       if (active) {
         setVersion(
