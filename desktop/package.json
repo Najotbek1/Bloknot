@@ -26,6 +26,9 @@
       "output": "release",
       "buildResources": "build"
     },
+    "toolsets": {
+      "appimage": "1.0.3"
+    },
     "files": [
       "main.cjs",
       "preload.cjs",

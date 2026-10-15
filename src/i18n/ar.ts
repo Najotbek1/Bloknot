@@ -346,6 +346,8 @@ export const ar: Messages = {
   'ads.status.shown': 'تم العرض',
   'ads.status.skipped': 'لم يعرض هذه المرة',
   'ads.status.error': 'خطأ: {message}',
+  'ads.bannerError': 'لم يتم تحميل الإعلان الشريطي ({message})',
+  'ads.appOpenError': 'لم يتم تحميل إعلان الفتح ({message})',
   'ads.privacy': 'إعدادات خصوصية الإعلانات',
   'backup.title': 'البيانات',
   'backup.intro': 'للنقل بين الهاتف والحاسوب أو لحفظ نسخة احتياطية. الاستيراد لا يحذف البيانات، بل يدمج التغييرات من الجهتين.',

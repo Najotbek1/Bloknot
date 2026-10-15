@@ -346,6 +346,8 @@ export const ru: Messages = {
   'ads.status.shown': 'показана',
   'ads.status.skipped': 'в этот раз не показана',
   'ads.status.error': 'ошибка: {message}',
+  'ads.bannerError': 'Баннер не загрузился ({message})',
+  'ads.appOpenError': 'Реклама при открытии не загрузилась ({message})',
   'ads.privacy': 'Настройки конфиденциальности рекламы',
   'backup.title': 'Данные',
   'backup.intro': 'Для переноса между телефоном и компьютером или для резервной копии. Импорт ничего не удаляет — изменения с обеих сторон объединяются.',

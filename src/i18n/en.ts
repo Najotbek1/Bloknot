@@ -346,6 +346,8 @@ export const en: Messages = {
   'ads.status.shown': 'shown',
   'ads.status.skipped': 'not shown this time',
   'ads.status.error': 'error: {message}',
+  'ads.bannerError': 'The banner ad did not load ({message})',
+  'ads.appOpenError': 'The opening ad did not load ({message})',
   'ads.privacy': 'Ad privacy settings',
   'backup.title': 'Data',
   'backup.intro': 'To move data between phone and computer, or to keep a backup. Importing doesn’t delete anything: changes from both sides are merged.',

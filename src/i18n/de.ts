@@ -346,6 +346,8 @@ export const de: Messages = {
   'ads.status.shown': 'angezeigt',
   'ads.status.skipped': 'diesmal nicht angezeigt',
   'ads.status.error': 'Fehler: {message}',
+  'ads.bannerError': 'Das Werbebanner wurde nicht geladen ({message})',
+  'ads.appOpenError': 'Die Werbung beim Öffnen wurde nicht geladen ({message})',
   'ads.privacy': 'Datenschutz für Werbung',
   'backup.title': 'Daten',
   'backup.intro': 'Zum Übertragen zwischen Handy und Computer oder als Sicherung. Der Import löscht nichts – Änderungen beider Seiten werden zusammengeführt.',

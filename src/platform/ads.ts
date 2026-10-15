@@ -24,6 +24,23 @@ function safeAreaBottom(): number {
   return Math.round(inset)
 }
 
+/** Why the last banner request failed (code and message from AdMob), for Settings → Reklama. */
+let bannerError: string | null = null
+const bannerErrorListeners = new Set<(error: string | null) => void>()
+
+function setBannerError(error: string | null) {
+  bannerError = error
+  for (const listener of bannerErrorListeners) listener(error)
+}
+
+export function onBannerError(listener: (error: string | null) => void): () => void {
+  bannerErrorListeners.add(listener)
+  listener(bannerError)
+  return () => {
+    bannerErrorListeners.delete(listener)
+  }
+}
+
 let ready: Promise<boolean> | null = null
 let privacyOptionsRequired = false
 let shown = false
@@ -38,6 +55,10 @@ export function initAds(): Promise<boolean> {
   ready ??= (async () => {
     try {
       await AdMob.initialize({ initializeForTesting: adConfig.useTestAds })
+      void AdMob.addListener(BannerAdPluginEvents.FailedToLoad, (error) =>
+        setBannerError(`${error.code}: ${error.message}`),
+      )
+      void AdMob.addListener(BannerAdPluginEvents.Loaded, () => setBannerError(null))
       let consent = await AdMob.requestConsentInfo()
       if (!consent.canRequestAds && consent.isConsentFormAvailable) consent = await AdMob.showConsentForm()
       // The package does not export this enum; its value is the string 'REQUIRED'.

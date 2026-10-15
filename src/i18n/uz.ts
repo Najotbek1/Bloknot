@@ -344,6 +344,8 @@ export const uz = {
   'ads.status.shown': 'ko‘rsatildi',
   'ads.status.skipped': 'bu safar ko‘rsatilmadi',
   'ads.status.error': 'xato: {message}',
+  'ads.bannerError': 'Banner reklama yuklanmadi ({message})',
+  'ads.appOpenError': 'Ochilish reklamasi yuklanmadi ({message})',
   'ads.privacy': 'Reklama maxfiylik sozlamalari',
   'backup.title': 'Ma’lumotlar',
   'backup.intro': 'Telefon va kompyuter o‘rtasida ko‘chirish yoki zaxira nusxa uchun. Import ma’lumotlarni o‘chirmaydi — ikkala tomondagi o‘zgarishlar birlashtiriladi.',

@@ -41,7 +41,7 @@ Store versiyasida «xavfli ilova» ogohlantirishi bo'lmaydi va yangilanishlar o'
 ### Linux
 1. **Artifacts** → `maqsad-linux`: `.AppImage` (hamma distributivlar) va `.deb` (Ubuntu, Debian, Mint).
 2. `.deb`: ikki marta bosing va «O'rnatish»; yoki terminalda `sudo apt install ./Maqsad-….deb`.
-3. `.AppImage`: fayl ustida o'ng tugma → **Properties → Permissions → «Allow executing file as program»** (yoki `chmod +x Maqsad-….AppImage`), keyin ikki marta bosing. Ubuntu 22.04+ da ishlamasa: `sudo apt install libfuse2`.
+3. `.AppImage`: fayl ustida o'ng tugma → **Properties → Permissions → «Allow executing file as program»** (yoki `chmod +x Maqsad-….AppImage`), keyin ikki marta bosing. `libfuse2` o'rnatish shart emas: AppImage o'z FUSE'i bilan keladi (`toolsets.appimage` 1.0.3, statik runtime).
 4. GNOME'da tepsi belgisi ko'rinmasa, «AppIndicator» kengaytmasini yoqing.
 
 ### Telefon va kompyuterni Wi-Fi orqali sinxronlash

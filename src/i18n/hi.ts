@@ -346,6 +346,8 @@ export const hi: Messages = {
   'ads.status.shown': 'दिखाया गया',
   'ads.status.skipped': 'इस बार नहीं दिखाया गया',
   'ads.status.error': 'त्रुटि: {message}',
+  'ads.bannerError': 'बैनर विज्ञापन लोड नहीं हुआ ({message})',
+  'ads.appOpenError': 'खुलने वाला विज्ञापन लोड नहीं हुआ ({message})',
   'ads.privacy': 'विज्ञापन की प्राइवेसी सेटिंग्स',
   'backup.title': 'डेटा',
   'backup.intro': 'फ़ोन और कंप्यूटर के बीच डेटा ले जाने या बैकअप के लिए। इम्पोर्ट कुछ नहीं मिटाता — दोनों तरफ़ के बदलाव जोड़ दिए जाते हैं।',

@@ -346,6 +346,8 @@ export const ja: Messages = {
   'ads.status.shown': '表示済み',
   'ads.status.skipped': '今回は表示されませんでした',
   'ads.status.error': 'エラー：{message}',
+  'ads.bannerError': 'バナー広告を読み込めませんでした（{message}）',
+  'ads.appOpenError': '起動時の広告を読み込めませんでした（{message}）',
   'ads.privacy': '広告のプライバシー設定',
   'backup.title': 'データ',
   'backup.intro': 'スマホとパソコンの間での移行やバックアップに使えます。インポートしてもデータは削除されず、両方の変更が統合されます。',

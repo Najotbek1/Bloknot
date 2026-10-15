@@ -5,6 +5,7 @@ import {
   adPrivacyOptionsAvailable,
   adsSupported,
   onAppOpenStatus,
+  onBannerError,
   showAdPrivacyOptions,
   type AppOpenStatus,
 } from '../../platform/ads'
@@ -13,14 +14,17 @@ import {
 export function AdSettings() {
   const [privacyAvailable, setPrivacyAvailable] = useState(false)
   const [appOpen, setAppOpen] = useState<AppOpenStatus>({ state: 'idle' })
+  const [bannerError, setBannerError] = useState<string | null>(null)
 
   useEffect(() => {
     let active = true
     void adPrivacyOptionsAvailable().then((available) => active && setPrivacyAvailable(available))
     const stopStatus = onAppOpenStatus(setAppOpen)
+    const stopBannerError = onBannerError(setBannerError)
     return () => {
       active = false
       stopStatus()
+      stopBannerError()
     }
   }, [])
 
@@ -42,6 +46,15 @@ export function AdSettings() {
                   : t(`ads.status.${appOpen.state}`),
             })}
           </p>
+        )}
+        {/* With real ads a failure is otherwise invisible: show AdMob's reason so the owner can act. */}
+        {bannerError && (
+          <p className="field__hint" data-testid="banner-error">
+            {t('ads.bannerError', { message: bannerError })}
+          </p>
+        )}
+        {!adConfig.appOpenTest && appOpen.state === 'error' && (
+          <p className="field__hint">{t('ads.appOpenError', { message: appOpen.message })}</p>
         )}
         {privacyAvailable && (
           <button type="button" className="btn" onClick={() => void showAdPrivacyOptions()}>

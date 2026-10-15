@@ -61,6 +61,14 @@ Bu ID'lar sir emas, ular baribir ilova ichida bo‘ladi. Shuning uchun ular Secr
 ## 6. `app-ads.txt`
 Ilova Play'ga chiqqach, AdMob **app-ads.txt** faylini so‘raydi. Qadamlar `docs/play/PUBLISH.md` ning 7-bandida.
 
+## Reklama chiqmayapti?
+1. **Ochilish reklamasi** ilova o'rnatilgandan keyingi dastlabki **3 kunda** umuman chiqmaydi. Bu xato emas, shunday cheklangan.
+2. **Banner** chiqmasa, **Sozlamalar → Reklama** bo'limini oching. U yerda AdMob aytgan sabab yoziladi, masalan «Banner reklama yuklanmadi (3: No fill)»:
+   - `3` / «No fill» — reklama bor, lekin hozircha berilmadi. Yangi ilova va yangi bloklarda bir necha soatdan bir necha kungacha shunday bo'ladi. Ilova AdMob'da **«Requires review»** (ko'rib chiqish kerak) holatida turgan bo'lsa ham reklama cheklanadi: AdMob → Apps → ilova → **App settings**da do'kon havolasini ulash va ko'rib chiqishni kutish kerak.
+   - `0` / «Internal error» yoki `1` / «Invalid request» — ID noto'g'ri yozilgan bo'lishi mumkin (GitHub Variables'ni tekshiring).
+   - `2` / «Network error» — internet yo'q.
+3. AdMob'da **Policy center** bo'limida cheklov yozilgan bo'lsa, o'shani bajaring.
+
 ## Muhim ogohlantirishlar
 - **O‘z reklamangizni hech qachon bosmang.** Tanishlaringizdan ham bostirmang. AdMob buni firibgarlik deb biladi va hisobni butunlay yopadi.
 - Haqiqiy ID qo‘yilgan ilovani o‘z telefoningizda sinayotganda reklamaga qaramang, bosmang. Iloji bo‘lsa, AdMob → **Settings → Test devices** bo‘limiga telefoningizni qo‘shing.

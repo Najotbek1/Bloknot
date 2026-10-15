@@ -346,6 +346,8 @@ export const ko: Messages = {
   'ads.status.shown': '표시됨',
   'ads.status.skipped': '이번에는 표시되지 않음',
   'ads.status.error': '오류: {message}',
+  'ads.bannerError': '배너 광고를 불러오지 못했습니다 ({message})',
+  'ads.appOpenError': '시작 광고를 불러오지 못했습니다 ({message})',
   'ads.privacy': '광고 개인정보 설정',
   'backup.title': '데이터',
   'backup.intro': '휴대폰과 컴퓨터 사이에서 옮기거나 백업할 때 사용해요. 가져오기는 데이터를 지우지 않고 양쪽의 변경 사항을 합쳐요.',
