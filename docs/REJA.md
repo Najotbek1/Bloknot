@@ -191,6 +191,14 @@ Har bir bosqich oxirida: kod push qilinadi, GitHub Actions APK yig'adi, siz tele
    - **Qaror (2026-10-17):** YaTT hozircha pullik, YaTT'siz DUNS berilmaydi. Shuning uchun avval **Google Play** (shaxsiy hisob, 25 $, 12 sinovchi × 14 kun yopiq test). AdMob uchun bitta do'kon yetadi: Play'ga ulangach ilova «Ready» bo'ladi va reklama Telegram APK'da ham chiqadi. Samsung/Xiaomi — YaTT ochilgach.
    - Navbatda: Xiaomi GetApps, OPPO App Market, vivo App Store (AdMob qo'llaydi). Huawei AppGallery — AdMob qo'llamaydi.
    - APK 16 KB sahifa talabiga mos (CI `scripts/check-16kb.sh` tekshiradi).
+17. **Ilova taymeri (vaqt limiti va blok)** — g'oya 2026-10-23, Google Play'ga chiqqandan keyin. Hozircha kod yo'q.
+   - **Maqsad:** tanlangan ilova (masalan Instagram — 40 daqiqa) uchun kunlik limit. Limit tugagach ilova ertangi kun 00:00 gacha bloklanadi; kuniga faqat 1 marta «+15 daqiqa». Ruxsat boshida foydalanuvchining o'zidan so'raladi («qattiq qo'llik», o'z-o'ziga va'da).
+   - **Android (birinchi):** vaqt `UsageStatsManager` («Foydalanish ma'lumotlariga kirish» ruxsati) bilan hisoblanadi; blok — `SYSTEM_ALERT_WINDOW` overlay ustidan Maqsad ekrani (uyg'otgichdagi kabi), doimiy bildirishnomali foreground xizmat («Instagram — 12 daqiqa qoldi»). Accessibility xizmati ishlatilmaydi (Play qattiq tekshiradi). Batareya cheklovini olib tashlashni so'rash (Xiaomi/Samsung). Play'da ruxsatlar deklaratsiyasi.
+   - **Hech qachon bloklanmaydi:** telefon, SMS, favqulodda qo'ng'iroq, Maqsad'ning o'zi. Blok ekrani ustida reklama chiqmaydi (App Open ham). Ma'lumot telefondan chiqmaydi (maxfiylik siyosatiga yoziladi).
+   - **Halollik:** 100% buzib bo'lmaydigan blok yo'q — foydalanuvchi ruxsatni o'chirishi yoki ilovani o'chirishi mumkin; Android sozlamalarini bloklash Play qoidalariga zid, qilinmaydi.
+   - **MVP:** ilova tanlash + kunlik limit, ertangacha blok, kuniga 1 × «+15 daqiqa», «Bugun» ekranida «Instagram 32/40 daqiqa». Keyin: vaqt oralig'i bo'yicha blok (22:00–07:00), haftalik statistika, coach/mas'uliyat bahosiga ta'siri.
+   - **Kompyuter (Android'dan keyin):** Electron main jarayoni har 1–2 s oldingi oynani tekshiradi (dastur nomi + oyna sarlavhasi; saytlar sarlavha orqali taniladi, ~90% aniq), limit tugasa ustiga butun ekranli Maqsad oynasi. Tartib: Windows (Store versiyasi ham) → Mac (sarlavha uchun «Screen Recording» ruxsati) → Linux faqat X11 (Wayland boshqa oynalarni ko'rsatmaydi). Trayda «Chiqish» oldidan ogohlantirish. Limitlar Wi-Fi sinxronlash orqali umumiy, sarflangan vaqt har qurilmada alohida.
+   - Sinov: Java faqat CI'da kompilyatsiya qilinadi, egasi telefonda sinaydi.
 15. **iPhone** — keyingi, Apple Developer hisobi ochilgach: Capacitor iOS loyihasi, bildirishnomalar, AdMob iOS, QR skaner (iOS ham qo'llaydi); uyg'otgich iOS qoidalariga ko'ra AlarmKit (iOS 26+) bilan qayta yoziladi. iPhone'ga o'rnatish faqat TestFlight yoki App Store orqali.
 
 ## Tekshirish (har bosqichda)
